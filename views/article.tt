@@ -1,0 +1,4 @@
+<article>
+[% article.content %]
+<footer>Updated <time>[% article.schema.core.updated %]</time></footer>
+</article>
