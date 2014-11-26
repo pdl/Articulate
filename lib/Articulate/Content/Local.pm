@@ -1,7 +1,7 @@
 package Articulate::Content::Local;
 use Dancer ':syntax';
 use Exporter::Declare;
-default_exports qw(get_content set_content get_meta set_meta);
+default_exports qw(get_content set_content get_meta set_meta get_settings);
 
 use YAML;
 use File::Path;
@@ -14,7 +14,7 @@ Articulate::Content::Local - store your content locally
 
 my $content_base = config->{appdir}.'/content/';
 
-sub ensure_exists { 
+sub ensure_exists {
 	my $true_location_full = shift // return undef;
 	my $true_location = $true_location_full =~ s~[^/]+\.[^/]+$~~r;
 	unless (-d $true_location) {
@@ -38,7 +38,7 @@ sub true_location {
 
 	get_meta 'zone/public/article/hello-world'
 
-Retrieves the metadata for the content at that location. 
+Retrieves the metadata for the content at that location.
 
 =cut
 
@@ -54,7 +54,7 @@ sub get_meta {
 
 	set_meta 'zone/public/article/hello-world', {...}
 
-Sets the metadata for the content at that location. 
+Sets the metadata for the content at that location.
 
 =cut
 
@@ -66,11 +66,45 @@ sub set_meta {
 	return YAML::DumpFile($fn, $data);
 }
 
+=head3 get_settings
+
+get_settings 'zone/public/article/hello-world'
+
+Retrieves the settings for the content at that location.
+
+=cut
+
+sub get_settings {
+	my $location = shift;
+	die "Bad location $location" unless good_location $location;
+	my @paths = split /\//, $location;
+	my $current_path = true_location '/';
+	my $settings = {};
+	foreach my $p (@paths) {
+		my $fn = $current_path . 'settings.yml';
+		my $lvl_settings = {};
+		$lvl_settings =	YAML::LoadFile($fn) if -e $fn;
+		$settings = merge_settings ($settings, $lvl_settings)
+	}
+	return $settings;
+}
+
+=head3 merge_settings
+
+	my $merged = merge_settings ($parent, $child);
+
+=cut
+
+sub merge_settings {
+	my ($parent, $child) = @_;
+	return {%$parent, %$child}; # todo: more
+}
+
 =head3 get_content
 
 	get_content 'zone/public/article/hello-world'
 
-Retrieves the content at that location. 
+Retrieves the content at that location.
 
 =cut
 
@@ -86,7 +120,7 @@ sub get_content {
 
 	set_content 'zone/public/article/hello-world', $blob;
 
-Places content at that location. 
+Places content at that location.
 
 =cut
 
