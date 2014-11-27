@@ -23,8 +23,41 @@ sub ensure_exists {
 	return -d $true_location ? $true_location_full : die;
 }
 
+# This generates re_location, a regular expression for all possible locations
+
+my $re_location;
+my $s_slug  = '[a-zA-Z](?:|[a-zA-Z0-9\-]*[a-zA-Z0-9])';
+my $re_slug = qr~$s_slug~;
+{
+	my $path_schema = {
+		zone => {
+			article => {
+				# ...
+			},
+		},
+		user => {},
+	};
+	my $_descend;
+	$_descend = sub {
+		my ($current, $stack) = @_;
+		my $paths = [$stack];
+		foreach my $key (keys %$current) {
+			push @$paths, @{ $_descend->( $current->{$key}, [@$stack, $key] ) };
+		}
+		$paths;
+	};
+	my $s_location = '';
+	foreach my $path ( @{ $_descend->( $path_schema, [] ) } ) {
+		$s_location .= '|';
+		foreach my $step (@$path) {
+			$s_location .= $step.'/'.$s_slug;
+		}
+	}
+	$s_location =~ s~^\|~~;
+	$re_location = qr/^$s_location/;
+}
+
 sub good_location {
-	my $re_slug   = qr~[a-zA-Z](?:|[a-zA-Z0-9\-]*[a-zA-Z0-9])~;
 	my $location  = shift;
 	return undef unless $location =~ m~^zone/$re_slug/article/$re_slug$~;
 	return $location;

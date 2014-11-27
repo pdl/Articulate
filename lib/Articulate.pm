@@ -16,7 +16,6 @@ sub has_write_permissions {1}
 
 sub has_read_permissions  {1}
 
-
 get '/' => sub {
     template 'index';
 };
@@ -73,5 +72,31 @@ post '/zone/:zone_id/article/:article_id' => sub {
 		die '403';
 	}
 };
+
+# TODO: Farm these out to a SecurityModel package
+
+sub password_salt_and_hash {
+	return sha512_base64 (
+	shift . (
+	config->{password_salt} # don't allow the admin not to set a salt
+	|| "If you haven't already, try powdered vegetable bouillon"
+	)
+	);
+}
+
+sub login {
+	my ($user_id, $plaintext_password) = @_;
+	my $real_encrypted_password = get_meta ("/users/$user_id")->{encrypted_password};
+	return undef unless $real_encrypted_password;
+	return $real_encrypted_password eq password_salt_and_hash ($plaintext_password);
+}
+
+sub set_password {
+	my ($user_id, $plaintext_password) = @_;
+	patch_meta ( "/user/$user_id", {
+		encrypted_password => password_salt_and_hash ($plaintext_password),
+	} );
+}
+
 
 1;
