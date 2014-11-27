@@ -12,7 +12,12 @@ Articulate::Content::Local - store your content locally
 
 =cut
 
-my $content_base = config->{appdir}.'/content/';
+my $content_base = config->{content_base} // config->{appdir}.'/content/';
+
+unless (-d $content_base) {
+	File::Path::make_path $content_base;
+	die ('Could not initialise content base') unless (-d $content_base);
+}
 
 sub ensure_exists {
 	my $true_location_full = shift // return undef;
@@ -98,6 +103,27 @@ sub set_meta {
 	my $fn = ensure_exists true_location $location . '/meta.yml';
 	return YAML::DumpFile($fn, $data);
 }
+
+=head3 patch_meta
+
+	patch_meta 'zone/public/article/hello-world', {...}
+
+Alters the metadata for the content at that location. Existing keys are retained.
+
+CURRENTLY this affects top-level keys only, but a descent algorigthm is planned.
+
+=cut
+
+sub patch_meta {
+	my $location = shift;
+	my $data = shift;
+	die "Bad location $location" unless good_location $location;
+	my $fn = ensure_exists true_location $location . '/meta.yml';
+	my $old_data = {};
+	$old_data = YAML::LoadFile($fn) if -e $fn;
+	return YAML::DumpFile($fn, merge_settings($old_data, $data));
+}
+
 
 =head3 get_settings
 

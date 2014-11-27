@@ -26,6 +26,6 @@ show_errors: 1
 # OR TINY KITTENS SHALL DIE WITH LOTS OF SUFFERING
 auto_reload: 0
 
-content_location: content
+content_location: t/content
 
 session: "YAML"
