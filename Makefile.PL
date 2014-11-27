@@ -9,7 +9,7 @@ $eumm_version =~ s/_//;
 
 WriteMakefile(
     NAME                => 'Articulate',
-    AUTHOR              => q{YOUR NAME <youremail@example.com>},
+    AUTHOR              => q{Daniel Perrett <perrettdl@googlemail.com>},
     VERSION_FROM        => 'lib/Articulate.pm',
     ABSTRACT            => 'YOUR APPLICATION ABSTRACT',
     ($eumm_version >= 6.3001
@@ -17,9 +17,12 @@ WriteMakefile(
       : ()),
     PL_FILES            => {},
     PREREQ_PM => {
-        'Test::More' => 0,
-        'YAML'       => 0,
-        'Dancer'     => 1.3118,
+        'Test::More'        => 0,
+        'YAML'              => 0,
+        'Dancer'            => 1.3118,
+        'File::Payh'        => 0,
+        'Digest::SHA'       => 0,
+        'Exporter::Declare' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Articulate-*' },
