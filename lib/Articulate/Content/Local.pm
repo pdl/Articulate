@@ -1,7 +1,7 @@
 package Articulate::Content::Local;
 use Dancer ':syntax';
 use Exporter::Declare;
-default_exports qw(get_content set_content get_meta set_meta get_settings);
+default_exports qw(get_content set_content get_meta set_meta get_settings patch_meta);
 
 use YAML;
 use File::Path;

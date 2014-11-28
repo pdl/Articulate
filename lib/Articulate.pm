@@ -120,6 +120,8 @@ sub verify_password {
 	return ( $real_encrypted_password eq password_salt_and_hash ($plaintext_password) );
 }
 
+# note: currently this implicitly creates a user. Should set/patch create new content, or just edit it?
+# maybe a create verb - but is is this going to be compatible with kvp stores? How will this work when you have content and meta and settings all to be created?
 sub set_password {
 	my ($user_id, $plaintext_password) = @_;
 	return undef unless $plaintext_password; # as empty passwords will only cause trouble.
