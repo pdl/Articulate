@@ -12,11 +12,17 @@ Articulate::Content::Local - store your content locally
 
 =cut
 
-my $content_base = config->{content_base} // config->{appdir}.'/content/';
+my $content_base;
 
-unless (-d $content_base) {
-	File::Path::make_path $content_base;
-	die ('Could not initialise content base') unless (-d $content_base);
+sub content_base {
+	$content_base
+	//= config->{content_base}
+	// ( config->{appdir} // die ('appdir not set') ).'/content/';
+	unless (-d $content_base) {
+		File::Path::make_path $content_base;
+		die ('Could not initialise content base') unless (-d $content_base);
+	}
+	return $content_base;
 }
 
 sub ensure_exists {
@@ -69,7 +75,7 @@ sub good_location {
 }
 
 sub true_location {
-	return $content_base . shift;
+	return content_base . shift;
 }
 
 =head3 get_meta
