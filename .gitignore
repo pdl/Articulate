@@ -18,3 +18,5 @@ MYMETA.*
 .Trashes
 .fseventsd
 content/
+t/content/
+sessions/
