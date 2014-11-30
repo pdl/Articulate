@@ -1,4 +1,24 @@
-<article>
-[% article.content %]
-<footer>Updated <time>[% article.schema.core.updated %]</time></footer>
+<article
+  itemscope="itemscope"
+  itemtype="http://schema.org/Article"
+>
+<header>
+  <h1
+    class="article-title"
+    itemprop="name"
+  >
+    [% article.schema.core.title | html %]
+  </h1>
+</header>
+<section
+  class="article-summary"
+  itemprop="dateModified"
+>
+  [% article.content %]
+</section>
+<footer>
+  <div class="article-meta-updated">
+    Updated <time itemprop="dateModified">[% article.schema.core.updated | html %]</time>
+  </div>
+</footer>
 </article>

@@ -58,3 +58,4 @@ As a user, I would like to list all content from a given user (provided I have v
 As a user, I would like to list all content from a given zone (provided I have view permissions on it).
 
 ???Wear hats?
+Site and zone-level schemas, navigation components, etc.
