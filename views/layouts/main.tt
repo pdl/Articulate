@@ -19,6 +19,9 @@
 [% content %]
 <footer>
   <p>
+    Served at <time>[% page.served | html %]</time>
+  </p>
+  <p>
     Powered by <a href="http://perldancer.org/">Dancer</a> [% dancer_version %]
   </p>
 </footer>

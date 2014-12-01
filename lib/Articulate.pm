@@ -9,7 +9,22 @@ sub now {
 }
 
 sub respond {
-	template @_;
+	my ($response_type, $response_data) = @_;
+	$response_data //= {};
+	if (0) { # API
+		return $response_data;
+	}
+	else {
+		return template $response_type => {
+			%$response_data,
+			page => {
+				served => now,
+			},
+			session => {
+				user_id => session('user_id'),
+			},
+		};
+	}
 }
 
 sub has_write_permissions {1}
