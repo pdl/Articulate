@@ -9,9 +9,9 @@ It should be easy to add an Articulate component to a project with other functio
 
 Each page component is loaded
 
-GET zone/foo/article/foo/section/2 # retrieval from index
+GET zone/foo/article/foo/section/2 # retrieval from cache
 
-GET zone/foo/article/foo/section/2/edit # retrieval from source
+GET zone/foo/article/foo/section/2/edit # retrieval from source. Once done, void cache.
 
 GET zone/foo/article/foo/comments/add/
 
@@ -59,6 +59,45 @@ Each section has a type.
 Groups could be on a zone basis, e.g. public/authors (roles?)
 
 What about Groups of groups, e.g. "developer" across projects
+
+### Implementation
+
+Create a content interpreter which gets meta and content together, and does things like run the XSLT. For this we really need the content retrieval to be OO.
+
+The intepreter should be configured with a list of converters.
+
+It will take the content and determine if it can convert the contents into HTML using the tools it has. If it cannot, it will offer a file location for download.
+
+### Components
+
+How are components (sections, comments, etc.) stored, loaded, configured, etc?
+
+Does this include metadata extractors?
+
+Problem: If you load a section, you need to run all the interpreters
+
+Before the response is passed to the template, the components are loaded in order.
+
+$component->process( $response ); # the response is mutated in-place
+
+
+### Architecture summary
+
+- Plack Middleware
+- Templating
+- Route handlers
+- Service handlers
+- Components
+- Interpreters
+- Content Storage
+- DB/FS
+
+Service handlers are the fulcrum of the application and should not need to be changed.
+The route handlers and templating can be rewritten at will. Components down through content storage are configured like plugins.
+
+### Caching and indexing
+
+The Content component is responsible for caching content, meta, etc, and also clearing the cache when edits are made. This is a low-priority issue to implement.
 
 ---
 
