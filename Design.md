@@ -92,12 +92,73 @@ $component->process( $response ); # the response is mutated in-place
 - Content Storage
 - DB/FS
 
+### Architecture detail
+
+- Plack Middleware
+- Templating
+- Route handlers
+- authentication
+- Service handlers - these provide all the API features, including making calls to the authentication layer, components, intperpreters, content storage. Methods are largely like content storage.
+  - get_content_raw
+- Components - these are called in series and are effectively several layers
+  - process ($response, $context); # where context is stuff like session, params, etc.
+- Interpreters - these are called in parallel, i.e. no more than one on a given piece of content
+  - can_interpret ($content_type, $target_type // 'html')
+  - intepret ($content_type, $content, $meta, $target_type // 'html')
+- Content Storage - must provide:
+  - get_item
+  - get_item_cached
+  - set_item
+  - create_item
+  - get_content
+  - get_content_cached
+  - set_content
+  - get_meta
+  - get_meta_cached
+  - set_meta
+    patch_meta
+  - get_settings
+  - get_settings_cached
+  - set_settings
+  - empty_content
+  - and indexes??
+  - Delete zone? Cascade delete?
+- DB/FS
+
 Service handlers are the fulcrum of the application and should not need to be changed.
 The route handlers and templating can be rewritten at will. Components down through content storage are configured like plugins.
 
 ### Caching and indexing
 
 The Content component is responsible for caching content, meta, etc, and also clearing the cache when edits are made. This is a low-priority issue to implement.
+
+What about indexing things post-component? e.g. do some metadata extraction to get datesdates, then search? I wonder if indexes need to be maintained separately from content, especially to avoid contamination by non-UGC.
+
+What about indexing with a separate service, e.g. store content locally but hive off document search to a solr instance?
+
+### Versioning
+
+Can this be done with a component?
+
+### Content locking
+
+lock_item ($user, $endtime)
+
+
+### Setup
+
+Like `dancer -a`
+
+articulate -a --preset=empty
+
+  bin
+  lib
+  content
+  indexes
+  public
+  t
+
+Other presets can be defined like webservice, blog, issue tracker, wiki.
 
 ---
 

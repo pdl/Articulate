@@ -1,7 +1,20 @@
 package Articulate::Content::Local;
+
 use Dancer ':syntax';
 use Exporter::Declare;
-default_exports qw(get_content set_content get_meta set_meta get_settings patch_meta);
+
+default_exports qw(
+	get_content
+	get_content_cached
+	set_content
+	get_meta
+	get_meta_cached
+	set_meta
+	patch_meta
+	get_settings
+	create_item
+	item_exists
+);
 
 use YAML;
 use File::Path;
@@ -9,6 +22,17 @@ use File::Path;
 =head1 NAME
 
 Articulate::Content::Local - store your content locally
+
+=cut
+=head1 DESCRIPTION
+
+This content storage interface works by placing content and metadata in folder structure.
+
+For a given location, metadata is stored in C<meta.yml>, content in C<content.blob>.
+
+Set C<content_base> in your config to specify where to place the content.
+
+Caching is not implemented: get_content_cached simpy calls get_content.
 
 =cut
 
@@ -143,7 +167,7 @@ sub get_settings {
 	my $location = shift;
 	die "Bad location $location" unless good_location $location;
 	my @paths = split /\//, $location;
-	my $current_path = true_location '/';
+	my $current_path = true_location . '/';
 	my $settings = {};
 	foreach my $p (@paths) {
 		my $fn = $current_path . 'settings.yml';
@@ -201,6 +225,80 @@ sub set_content {
 	return $location;
 }
 
+=head3 create_item
+
+	create_item 'zone/public/article/hello-world', $meta, $blob;
+
+Places meta and content at that location.
+
+=cut
+
+
+sub create_item {
+	my $location = shift;
+	my $meta = shift;
+	my $data = shift;
+	die "Bad location $location" unless good_location $location;
+	{
+		my $fn = ensure_exists true_location $location . '/content.blob';
+		open my $fh, '>', $fn or return undef;
+		print $fh $data;
+		close $fh;
+	}
+	{
+		my $fn = ensure_exists true_location $location . '/meta.yml';
+		return YAML::DumpFile($fn, $meta);
+	}
+}
+
+=head3 item_exists
+
+	if (item_exists 'zone/public/article/hello-world') {
+		...
+	}
+
+Determines if the item has been created (only the C<meta.yml> is tested).
+
+=cut
+
+
+sub item_exists {
+	my $location = shift;
+	die "Bad location $location" unless good_location $location;
+	return -e true_location $location . '/meta.yml';
+}
+
+=head3 list_items
+
+	list_items ('/zone/public'); # 'hello-world', 'second-item'
+
+Returns a list of items in the.
+
+=cut
+
+
+sub list_items {
+	my $location = shift;
+	die "Bad location $location" unless good_location $location;
+	my $true_location = true_location $location;
+	my @contents;
+	return @contents unless -d $true_location;
+	opendir (my $dh, $true_location) or die ('Could not open '.$true_location);
+	while (readdir $dh) {
+		my $child_dn = $true_location.'/'.$_;
+		next unless -d $child_dn;
+		push @contents, $_ if good_location $location.'/'.$_ and item_exists $location.'/'.$_;
+	}
+	return @contents;
+}
+
+sub get_content_cached {
+	get_content @_;
+}
+
+sub get_meta_cached {
+	get_meta @_;
+}
 
 
 1;
