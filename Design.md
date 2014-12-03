@@ -160,6 +160,38 @@ articulate -a --preset=empty
 
 Other presets can be defined like webservice, blog, issue tracker, wiki.
 
+### Error throwing
+
+NotFound => 404
+
+- Case a) NoRoute: no route defined
+- Case b) NoResource: a route is defined but one of the ids is wrong
+- Case c) NoResult: a search has been performed and there were no results
+
+InputError => 400
+
+  Case a) InputTypeError: a parameter was empty, of the wrong type, etc. and it is not possible to be more specific.
+  Case b) InputParsingError: a request has been refused because the content appears broken
+  Case c) InputValidationError: A parameter was present, but does not fit with a defined schema.
+
+Conflict => 409
+
+  Case a) The requested action could not be completed because of its effects on other resources
+  Case b) The server has decided that requested action should not be completed because it appears that the underlying data has changed since the user last saw the data.
+
+ContentError => 409?
+
+  Case a) There is content on the server which is missing or of the wrong type
+  Case b) There is content on the server which is inconsistent
+  Case c) There is content on the server which the server does not know how to serve
+
+ServerError => 500
+
+  Case a) An outer layer has sent values that an inner layer cannot understand.
+  Case b) An inner layer has sent values that an outer layer cannot understand.
+  Case c) A critical layer, component, etc. has actively determined that it is not working and cannot respond to requests meaningfully. .
+
+
 ---
 
 permissions:
