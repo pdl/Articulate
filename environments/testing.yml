@@ -29,3 +29,7 @@ auto_reload: 0
 content_location: t/content
 
 session: "YAML"
+
+plugins:
+  Articulate::Storage:
+    storage_class: Articulate::Storage::Local
