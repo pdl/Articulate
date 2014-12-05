@@ -1,3 +1,7 @@
+# Articulate - Design
+
+## Synopsis
+
 Articulate is an expression of the idea that a CMS is foremost an API:
 
 - it should not place arbitrary restrictions on the front end
@@ -6,6 +10,8 @@ Articulate is an expression of the idea that a CMS is foremost an API:
 - it should not force you into a url schema you don't want.
 
 It should be easy to add an Articulate component to a project with other functions.
+
+## Notes
 
 Each page component is loaded
 
@@ -60,6 +66,8 @@ Groups could be on a zone basis, e.g. public/authors (roles?)
 
 What about Groups of groups, e.g. "developer" across projects
 
+## Technical Specification
+
 ### Implementation
 
 Create a content interpreter which gets meta and content together, and does things like run the XSLT. For this we really need the content retrieval to be OO.
@@ -79,6 +87,17 @@ Problem: If you load a section, you need to run all the interpreters
 Before the response is passed to the template, the components are loaded in order.
 
 $component->process( $response ); # the response is mutated in-place
+
+Components also need to register routes. Do they do so in a separate package? How about a method which modifies the route map?
+
+### User Access Control
+
+- Authentication
+  - Articulate::Authenticator # finds the user hash and sends it to the authenticator
+  - Articulate::Authenticator::Default
+  - Articulate::Authenticator::Default->new()->authenticate({user_id=>..., password=>... pw_hash => ... });
+- Access Control
+  - has_permission ({permission => ?, user => ?, location => ?})
 
 ### Architecture summary
 
