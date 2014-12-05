@@ -80,7 +80,6 @@ Before the response is passed to the template, the components are loaded in orde
 
 $component->process( $response ); # the response is mutated in-place
 
-
 ### Architecture summary
 
 - Plack Middleware

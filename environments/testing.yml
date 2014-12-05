@@ -33,3 +33,7 @@ session: "YAML"
 plugins:
   Articulate::Storage:
     storage_class: Articulate::Storage::Local
+  Articulate::Interpreter:
+    default: markdown
+    file_types:
+      markdown: Articulate::Interpreter::Markdown

@@ -1,6 +1,7 @@
 package Articulate;
 use Dancer ':syntax';
 use Articulate::Storage;
+use Articulate::Interpreter;
 our $VERSION = '0.1';
 use DateTime;
 
@@ -43,15 +44,17 @@ get '/zone/:zone_id/article/:article_id' => sub {
 	my $user       = session ('user');
 
 	my $location   = "zone/$zone_id/article/$article_id";
-	my $meta       = $storage->get_meta     ($location) or die; # or throw
-	my $settings   = $storage->get_settings ($location) or die; # or throw
-	my $content    = $storage->get_content  ($location) or die; # or throw
+	my $meta       = $storage->get_meta_cached     ($location) or die; # or throw
+	my $settings   = $storage->get_settings        ($location) or die; # or throw
+	my $content    = $storage->get_content_cached  ($location) or die; # or throw
+
+	my $interpreted_content = interpreter->interpret ($meta, $content) or die; # or throw
 
 	if ( has_read_permissions ($user, $settings) ) {
 	  respond article => {
 			article => {
 				schema  => $meta->{schema},
-				content => $content,
+				content => $interpreted_content,
 			},
 		};
 	}
