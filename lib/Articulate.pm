@@ -2,6 +2,7 @@ package Articulate;
 use Dancer ':syntax';
 use Articulate::Storage;
 use Articulate::Interpreter;
+use Articulate::Components;
 our $VERSION = '0.1';
 use DateTime;
 
@@ -49,6 +50,7 @@ get '/zone/:zone_id/article/:article_id' => sub {
 	my $content    = $storage->get_content_cached  ($location) or die; # or throw
 
 	my $interpreted_content = interpreter->interpret ($meta, $content) or die; # or throw
+	my $final_content       = components->process    ($meta, $content) or die; # or throw
 
 	if ( has_read_permissions ($user, $settings) ) {
 	  respond article => {
