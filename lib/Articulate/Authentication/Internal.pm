@@ -4,7 +4,25 @@ use Digest::SHA;
 use Articulate::Storage;
 use Time::Hires; # overrides time()
 
-sub login {
+=head1 NAME
+
+Articulate::Authentication::Internal
+
+=cut
+
+=head1 METHODS
+
+=cut
+
+=head3 authenticate
+
+  $self->authenticate( $user_id, $password );
+
+Returns the user id if the password matches. Returns undef otherwise.
+
+=cut
+
+sub authenticate {
   my $self     = shift;
   my $user_id  = shift;
   my $password = shift;
@@ -36,6 +54,17 @@ sub _generate_salt {
   );
 }
 
+=head3 verify_password
+
+  $self->verify_password( $user_id, $password );
+
+Hashes the password provided with the user's salt and checks to see if the string matches the encrypted password in the user's meta..
+
+Returns the result of C<eq>.
+
+=cut
+
+
 sub verify_password {
   my ($self, $user_id, $plaintext_password) = @_;
 
@@ -51,6 +80,16 @@ sub verify_password {
     $self->_password_salt_and_hash ($plaintext_password, $salt)
   );
 }
+
+=head3 set_password
+
+  $self->set_password( $user_id, $password );
+
+Creates a new pseudorandom salt and uses it to hash the password provided.
+
+Amends the C<encrypted_password> and C<salt> fields of the user's meta.
+
+=cut
 
 # note: currently this implicitly creates a user. Should set/patch create new content, or just edit it?
 # maybe a create verb - but is is this going to be compatible with kvp stores? How will this work when you have content and meta and settings all to be created?
