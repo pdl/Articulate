@@ -5,6 +5,30 @@ use Dancer ':syntax';
 use Dancer::Plugin;
 use Module::Load ();
 
+=head1 NAME
+
+Articulate::Authorisation
+
+=cut
+
+=head1 CONFIGURATION
+
+  plugins:
+    Articulate::Authorisation:
+      rules:
+      - Articulate::Authorisation::OwnerOverride
+      - Articulate::Authorisation::AlwaysAllow
+
+=head1 FUNCTION
+
+=head3 authorisation
+
+Returns a new instance of this object.
+
+B<Warning: In the future this might return a singleton.>
+
+=cut
+
 register authorisation => sub {
   __PACKAGE__->new(plugin_setting);
 };
@@ -12,6 +36,16 @@ register authorisation => sub {
 has rules =>
   is      => 'rw',
   default => sub { [] };
+
+=head3 permitted
+
+  $self->permitted( $user_id, $permission, $location );
+
+Asks each of the rules in turn whether the user has the specified permission for that location.
+
+If so, returns the role under which they have that permission. Otherwise, returns undef. (Each provider should do likewise)
+
+=cut
 
 sub permitted {
   my $self       = shift;
