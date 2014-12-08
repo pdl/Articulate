@@ -31,6 +31,13 @@ content_location: t/content
 session: "YAML"
 
 plugins:
+  Articulate::Authentication:
+    providers:
+      - Articulate::Authentication::Internal
+  Articulate::Authorisation:
+    rules:
+      - Articulate::Authorisation::OwnerOverride
+      - Articulate::Authorisation::AlwaysAllow
   Articulate::Components: {}
   Articulate::Storage:
     storage_class: Articulate::Storage::Local
