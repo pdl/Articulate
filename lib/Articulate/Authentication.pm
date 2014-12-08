@@ -21,7 +21,7 @@ sub login {
     Module::Load::load $provider_class;
     my $provider = $provider_class->new;
     if (
-      defined ($provider->permitted( $user_id, $password ) )
+      defined ($provider->authenticate( $user_id, $password ) )
     ) {
       return ($user_id);
     }
