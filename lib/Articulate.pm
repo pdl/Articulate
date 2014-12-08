@@ -104,7 +104,7 @@ post '/login' => sub {
 	my $password = param('password');
 	my $redirect = param('redirect') // '/';
 	if ( defined $user_id ) {
-		if ( login_as ($user_id, $password) ) {
+		if ( authentication->login ($user_id, $password) ) {
 			redirect $redirect; # do we accept ajax here, and do we do sth different?
 		} # Can we handle all the exceptions with 403s?
 		die '403';
