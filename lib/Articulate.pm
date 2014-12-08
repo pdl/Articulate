@@ -99,9 +99,6 @@ post '/zone/:zone_id/article/:article_id' => sub {
 	}
 };
 
-# TODO: Farm these out to a SecurityModel package
-use Digest::SHA;
-
 post '/login' => sub {
 	my $user_id  = param('user_id');
 	my $password = param('password');
@@ -118,43 +115,6 @@ post '/login' => sub {
 	}
 };
 
-sub login_as {
-	my ($user_id, $plaintext_password) = @_;
-	if ( verify_password ( $user_id, $plaintext_password ) ) {
-		session user_id => $user_id;
-		return $user_id;
-	}
-	# if we ever need to know if the user does not exist, now is the time to ask,
-	# but we do not externally expose the difference between
-	# "user not found" and "password doesn't match"
-	return undef;
-}
-
-sub password_salt_and_hash {
-	return Digest::SHA::sha512_base64 (
-		shift . (
-			config->{password_salt} # don't allow the admin not to set a salt
-			|| "If you haven't already, try powdered vegetable bouillon"
-		)
-	);
-}
-
-sub verify_password {
-	my ($user_id, $plaintext_password) = @_;
-	my $real_encrypted_password = get_meta ("/users/$user_id")->{encrypted_password};
-	return undef unless $real_encrypted_password;
-	return ( $real_encrypted_password eq password_salt_and_hash ($plaintext_password) );
-}
-
-# note: currently this implicitly creates a user. Should set/patch create new content, or just edit it?
-# maybe a create verb - but is is this going to be compatible with kvp stores? How will this work when you have content and meta and settings all to be created?
-sub set_password {
-	my ($user_id, $plaintext_password) = @_;
-	return undef unless $plaintext_password; # as empty passwords will only cause trouble.
-	patch_meta ( "/user/$user_id", {
-		encrypted_password => password_salt_and_hash ($plaintext_password),
-	} ) and verify_password(@_);
-}
 
 
 1;
