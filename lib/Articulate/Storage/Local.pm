@@ -3,8 +3,9 @@ use Articulate::Storage::Common;
 use Dancer ':syntax';
 use Dancer::Plugin;
 use Moo;
-use YAML;
 use File::Path;
+use IO::All;
+use YAML;
 
 # register storage => sub {
 # 	__PACKAGE__->new(@_);
@@ -260,6 +261,10 @@ sub get_content_cached {
 sub get_meta_cached {
 	my $self = shift;
 	$self->get_meta(@_);
+}
+
+sub empty_content {
+	File::Path::remove_tree( $content_base, {keep_root => 1} );
 }
 
 register_plugin();
