@@ -97,10 +97,24 @@ sub set_password {
   my ($self, $user_id, $plaintext_password) = @_;
   return undef unless $plaintext_password; # as empty passwords will only cause trouble.
   my $new_salt = $self->_generate_salt;
-  patch_meta ( "/user/$user_id", {
+  storage->patch_meta ( "/user/$user_id", {
     encrypted_password => $self->_password_salt_and_hash ($plaintext_password, $new_salt),
     salt               => $new_salt
   } );
+}
+
+=head3 create_user
+
+  $self->create_user( $user_id, $password );
+
+Creates a new user and sets the  C<encrypted_password> and C<salt> fields of the user's meta.
+
+=cut
+
+sub create_user {
+  my ( $self, $user_id, $plaintext_password ) = @_;
+  storage->create("/user/$user_id");
+  storage->set_password( $user_id, $plaintext_password );
 }
 
 1;

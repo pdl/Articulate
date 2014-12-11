@@ -21,13 +21,30 @@ sub login {
     Module::Load::load $provider_class;
     my $provider = $provider_class->new;
     if (
-      defined ($provider->authenticate( $user_id, $password ) )
+      defined ( $provider->authenticate( $user_id, $password ) )
     ) {
       return ($user_id);
     }
   }
   return (undef);
 }
+
+sub create_user {
+  my $self       = shift;
+  my $user_id    = shift;
+  my $password   = shift;
+  foreach my $provider_class ( @{ $self->providers } ) {
+    Module::Load::load $provider_class;
+    my $provider = $provider_class->new;
+    if (
+      defined ( $provider->create_user( $user_id, $password ) )
+    ) {
+      return ($user_id);
+    }
+  }
+  return (undef);
+}
+
 
 register_plugin();
 
