@@ -5,6 +5,7 @@ use Articulate::Authentication;
 use Articulate::Authorisation;
 use Articulate::Interpreter;
 use Articulate::Components;
+use Articulate::Validation;
 our $VERSION = '0.1';
 use DateTime;
 
@@ -83,6 +84,8 @@ post '/zone/:zone_id/article/:article_id' => sub {
 				}
 			}
 		};
+
+		validation->validate  ($meta, $content)     or die; # or throw
 
 		$storage->set_meta    ($location, $meta)    or die; # or throw
 		$storage->set_content ($location, $content) or die; # or throw
