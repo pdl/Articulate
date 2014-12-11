@@ -45,6 +45,7 @@ sub validate {
   my $meta    = shift;
   my $content = shift;
   foreach my $validator_class (@{ $self->validators }) {
+    Module::Load::load $validator_class;
     my $result = $validator_class->new->validate($meta, $content);
     return $result unless $result;
   }
