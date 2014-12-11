@@ -2,7 +2,9 @@
 
 ## Synopsis
 
-Articulate is an expression of the idea that a CMS is foremost an API:
+Articulate is a Content Management Framework. It provides a service which forms the backbone of your content management solution. Wherever possible the 'moving parts' are replaceable using plugins. It is intended to increase the 'whipuptitude' of the Dancer ecosystem without sacrificing the flexibility you have when writing dancer routes.
+
+Articulate is an expression of the idea that your content management solution is foremost an API:
 
 - it should not place arbitrary restrictions on the front end
 - it should not place arbitrary restrictions on role of the content (blog, issue tracker, wiki)
@@ -90,6 +92,16 @@ $component->process( $response ); # the response is mutated in-place
 
 Components also need to register routes. Do they do so in a separate package? How about a method which modifies the route map?
 
+### Events
+
+An event is when something is done. It is not a hook: there is no possibility of interrupting the event.
+
+### Hooks
+
+A hook is during an execution. It MAY be able to interrupt the action.
+
+hooks->add before_write => sub{ check_permissions }
+
 ### User Access Control
 
 - Authentication
@@ -162,6 +174,21 @@ Can this be done with a component?
 
 lock_item ($user, $endtime)
 
+### Integrated services
+
+It should be possible to define route handlers, possibly within zones, which are available to only certain users and that perfoem operations, e.g. authors can access a service which turns markdown into html for previews. Login might be one of these services?
+
+Does this need to be a formal component or can it be just plugged directly into the Authorisation/Authentication?
+
+### Irems
+
+Replace the separate meta, content with an item, or even request/response? Can/should we put a barrier to AAD? Not sure I want the validator to care about the user or the action, for instance.
+
+- Item has meta, content, item_type (article, user), location. Flag to say whether content is a string or a filehandle? Or handle the latter in meta? Temp locations for files?
+
+### Location Object
+
+A glorified array. Let Redist do zone.public and local do zone/public. Avoid having to deal with initial slashes.
 
 ### Setup
 
@@ -177,6 +204,15 @@ articulate -a --preset=empty
   t
 
 Other presets can be defined like webservice, blog, issue tracker, wiki.
+
+#### Presets
+
+##### Perl Blog Engine "Plain Speaking"
+
+##### Perl Issue Tracker "Pipe Up"
+
+##### Perl Issue Tracker ""
+
 
 ### Error throwing
 
