@@ -7,10 +7,6 @@ use File::Path;
 use IO::All;
 use YAML;
 
-# register storage => sub {
-# 	__PACKAGE__->new(@_);
-# };
-
 =head1 NAME
 
 Articulate::Content::Local - store your content locally
@@ -65,6 +61,25 @@ sub true_location {
 	return $self->content_base . shift;
 }
 
+
+=head3 get_item
+
+$storage->get_item( 'zone/public/article/hello-world' )
+
+Retrieves the metadata for the content at that location.
+
+=cut
+
+sub get_item {
+	my $self     = shift;
+	my $item     = shift;
+	my $location = $item->location;
+	die "Bad location $location" unless good_location $location;
+	$item->meta    ( $self->get_meta($item) );
+	$item->content ( $self->get_content($item) );
+	return $item;
+}
+
 =head3 get_meta
 
 	$storage->get_meta( 'zone/public/article/hello-world' )
@@ -74,8 +89,9 @@ Retrieves the metadata for the content at that location.
 =cut
 
 sub get_meta {
-	my $self = shift;
-	my $location = shift;
+	my $self     = shift;
+	my $item     = shift;
+	my $location = $item->location;
 	die "Bad location $location" unless good_location $location;
 	my $fn = $self->true_location ( $location . '/meta.yml' );
 	return YAML::LoadFile($fn) if -e $fn;
@@ -91,12 +107,13 @@ Sets the metadata for the content at that location.
 =cut
 
 sub set_meta {
-	my $self = shift;
-	my $location = shift;
-	my $data = shift;
-	die "Bad location $location" unless good_location $location;
+	my $self     = shift;
+	my $item     = shift;
+	my $location = $item->location;
+	die "Bad location ".$location unless good_location $location;
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml' ) );
-	return YAML::DumpFile($fn, $data);
+	YAML::DumpFile($fn, $item->meta) or die;
+	return $item;
 }
 
 =head3 patch_meta
@@ -110,14 +127,14 @@ CURRENTLY this affects top-level keys only, but a descent algorigthm is planned.
 =cut
 
 sub patch_meta {
-	my $self = shift;
-	my $location = shift;
-	my $data = shift;
-	die "Bad location $location" unless good_location $location;
+	my $self     = shift;
+	my $item     = shift;
+	my $location = $item->location;
+	die "Bad location ".$location unless good_location $location;
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml') );
 	my $old_data = {};
 	$old_data = YAML::LoadFile($fn) if -e $fn;
-	return YAML::DumpFile($fn, merge_settings($old_data, $data));
+	return YAML::DumpFile($fn, merge_settings($old_data, $item->meta));
 }
 
 
@@ -130,8 +147,8 @@ Retrieves the settings for the content at that location.
 =cut
 
 sub get_settings {
-	my $self = shift;
-	my $location = shift;
+	my $self     = shift;
+	my $location = shift->location;
 	die "Bad location $location" unless good_location $location;
 	my @paths = split /\//, $location;
 	my $current_path = $self->true_location( '' ).'/';
@@ -173,12 +190,12 @@ Places content at that location.
 
 sub set_content {
 	my $self = shift;
-	my $location = shift;
-	my $data = shift;
+	my $item = shift;
+	my $location = $item->location;
 	die "Bad location $location" unless good_location $location;
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/content.blob' ) );
 	open my $fh, '>', $fn or return undef;
-	print $fh $data;
+	print $fh $item->content;
 	close $fh;
 	return $location;
 }
@@ -194,20 +211,20 @@ Places meta and content at that location.
 
 sub create_item {
 	my $self = shift;
-	my $location = shift;
-	my $meta = shift;
-	my $data = shift;
-	die "Bad location $location" unless good_location $location;
+	my $item = shift;
+	my $location = $item->location;
+	die "Bad location ".$location unless good_location $location;
 	{
 		my $fn = ensure_exists true_location( $location . '/content.blob' );
 		open my $fh, '>', $fn or return undef;
-		print $fh $data;
+		print $fh $item->content;
 		close $fh;
 	}
 	{
 		my $fn = ensure_exists true_location( $location . '/meta.yml' );
-		return YAML::DumpFile($fn, $meta);
+		$self->set_meta($item);
 	}
+	return $item;
 }
 
 =head3 item_exists
@@ -223,7 +240,7 @@ Determines if the item has been created (only the C<meta.yml> is tested).
 
 sub item_exists {
 	my $self = shift;
-	my $location = shift;
+	my $location = shift->location;
 	die "Bad location $location" unless good_location $location;
 	return -e $self->true_location( $location . '/meta.yml' );
 }
@@ -239,7 +256,7 @@ Returns a list of items in the.
 
 sub list_items {
 	my $self = shift;
-	my $location = shift;
+	my $location = shift->location;
 	die "Bad location $location" unless good_location $location;
 	my $true_location = $self->true_location( $location );
 	my @contents;

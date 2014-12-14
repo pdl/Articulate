@@ -4,6 +4,8 @@ use Articulate::Storage;
 use Articulate::Authentication;
 use Articulate::Authorisation;
 use Articulate::Interpreter;
+use Articulate::Location;
+use Articulate::Item;
 use Articulate::Components;
 use Articulate::Validation;
 our $VERSION = '0.1';
@@ -45,12 +47,12 @@ get '/zone/:zone_id/article/:article_id' => sub {
 
 	my $location   = "zone/$zone_id/article/$article_id";
 
-	my $settings   = $storage->get_settings($location) or die; # or throw
+	my $settings   = $storage->get_settings(loc $location) or die; # or throw
 
 	if ( authorisation->permitted ( $user, read => $location ) ) {
 
-		my $meta       = $storage->get_meta_cached    ($location) or die; # or throw
-		my $content    = $storage->get_content_cached ($location) or die; # or throw
+		my $meta       = $storage->get_meta_cached    (loc $location) or die; # or throw
+		my $content    = $storage->get_content_cached (loc $location) or die; # or throw
 
 		my $interpreted_content = interpreter->interpret ($meta, $content) or die; # or throw
 		my $final_content       = components->process    ($meta, $content) or die; # or throw
@@ -74,26 +76,30 @@ post '/zone/:zone_id/article/:article_id' => sub {
 	my $now        = now;
 	my $user       = session ('user');
 	my $location   = "zone/$zone_id/article/$article_id";
-	my $settings   = $storage->get_settings ($location) or die; # or throw
+	my $settings   = $storage->get_settings (loc $location) or die; # or throw
 
 	if ( authorisation->permitted ( $user, write => $location ) ) {
-		my $meta = {
-			schema => {
-				core => {
-					updated => "$now" # ought to stringify
-				}
-			}
-		};
+		my $item = Articulate::Item->new(
+			meta => {
+				schema => {
+					core => {
+						updated => "$now" # ought to stringify
+					}
+				},
+			},
+			content => $content,
+			location => $location,
+		);
 
-		validation->validate  ($meta, $content)     or die; # or throw
+		validation->validate  ($item->meta, $item->content)     or die; # or throw
 
-		$storage->set_meta    ($location, $meta)    or die; # or throw
-		$storage->set_content ($location, $content) or die; # or throw
+		$storage->set_meta    ($item) or die; # or throw
+		$storage->set_content ($item) or die; # or throw
 
 	  respond 'article', {
 			article => {
-				schema  => $meta->{schema},
-				content => $content,
+				schema  => $item->meta->{schema},
+				content => $item->content,
 			},
 		};
 	}
