@@ -16,9 +16,9 @@ has augmentations =>
 sub augment {
   my $self = shift;
   my $item = shift;
-  foreach my $component_class (@{ $self->augmentations }) {
-    Module::Load::load $component_class;
-    $item = $component_class->new->augment($item);
+  foreach my $aug_class (@{ $self->augmentations }) {
+    Module::Load::load $aug_class;
+    $item = $aug_class->new->augment($item);
   }
   return $item;
 }
