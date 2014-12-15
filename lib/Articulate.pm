@@ -6,7 +6,7 @@ use Articulate::Authorisation;
 use Articulate::Interpreter;
 use Articulate::Location;
 use Articulate::Item;
-use Articulate::Components;
+use Articulate::Augmentation;
 use Articulate::Validation;
 our $VERSION = '0.1';
 use DateTime;
@@ -57,7 +57,7 @@ get '/zone/:zone_id/article/:article_id' => sub {
 		);
 
 		interpreter->interpret ($item) or die; # or throw
-		components->process    ($item) or die; # or throw
+		augmentation->augment  ($item) or die; # or throw
 
 	  respond article => {
 			article => {
@@ -99,7 +99,7 @@ post '/zone/:zone_id/article/:article_id' => sub {
 		$storage->set_content ($item) or die; # or throw
 
 		interpreter->interpret ($item) or die; # or throw
-		components->process    ($item) or die; # or throw
+		augmentation->augment  ($item) or die; # or throw
 
 	  respond 'article', {
 			article => {

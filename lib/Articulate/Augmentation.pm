@@ -1,23 +1,23 @@
-package Articulate::Components;
+package Articulate::Augmentation;
 
 use Moo;
 use Dancer ':syntax';
 use Dancer::Plugin;
 use Module::Load ();
 
-register components => sub {
+register augmentation => sub {
   __PACKAGE__->new(plugin_setting);
 };
 
-has all_components =>
+has augmentations =>
   is      => 'rw',
   default => sub { [] };
 
-sub process {
+sub augment {
   my $self = shift;
   my $item = shift;
-  foreach my $component_class (@{ $self->all_components }) {
-    $item = $component_class->new->process($item);
+  foreach my $component_class (@{ $self->augmentations }) {
+    $item = $component_class->new->augment($item);
   }
   return $item;
 }
