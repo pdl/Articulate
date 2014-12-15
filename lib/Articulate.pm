@@ -6,6 +6,7 @@ use Articulate::Authorisation;
 use Articulate::Interpreter;
 use Articulate::Location;
 use Articulate::Item;
+use Articulate::Error;
 use Articulate::Augmentation;
 use Articulate::Validation;
 our $VERSION = '0.1';
@@ -47,7 +48,7 @@ get '/zone/:zone_id/article/:article_id' => sub {
 
 	my $location   = loc "zone/$zone_id/article/$article_id";
 
-	my $settings   = $storage->get_settings(loc $location) or die; # or throw
+	my $settings   = $storage->get_settings(loc $location) or throw_error Internal => 'Could not retrieve settings'; # or throw
 
 	if ( authorisation->permitted ( $user, read => $location ) ) {
 		my $item = Articulate::Item->new(
@@ -56,8 +57,8 @@ get '/zone/:zone_id/article/:article_id' => sub {
 			location => $location,
 		);
 
-		interpreter->interpret ($item) or die; # or throw
-		augmentation->augment  ($item) or die; # or throw
+		interpreter->interpret ($item) or throw_error; # or throw
+		augmentation->augment  ($item) or throw_error; # or throw
 
 	  respond article => {
 			article => {
@@ -67,7 +68,7 @@ get '/zone/:zone_id/article/:article_id' => sub {
 		};
 	}
 	else {
-		return die '403';
+		return throw_error 'NotPermitted';
 	}
 };
 
@@ -78,7 +79,7 @@ post '/zone/:zone_id/article/:article_id' => sub {
 	my $now        = now;
 	my $user       = session ('user');
 	my $location   = "zone/$zone_id/article/$article_id";
-	my $settings   = $storage->get_settings (loc $location) or die; # or throw
+	my $settings   = $storage->get_settings (loc $location) or throw_error Internal => 'Cannot retrieve settings'; # or throw
 
 	if ( authorisation->permitted ( $user, write => $location ) ) {
 		my $item = Articulate::Item->new(
@@ -93,13 +94,13 @@ post '/zone/:zone_id/article/:article_id' => sub {
 			location => $location,
 		);
 
-		validation->validate  ($item->meta, $item->content)     or die; # or throw
+		validation->validate  ($item->meta, $item->content) or throw_error 'The content did not validate'; # or throw
 
-		$storage->set_meta    ($item) or die; # or throw
-		$storage->set_content ($item) or die; # or throw
+		$storage->set_meta    ($item) or throw_error 'Internal'; # or throw
+		$storage->set_content ($item) or throw_error 'Internal'; # or throw
 
-		interpreter->interpret ($item) or die; # or throw
-		augmentation->augment  ($item) or die; # or throw
+		interpreter->interpret ($item) or throw_error 'Internal'; # or throw
+		augmentation->augment  ($item) or throw_error 'Internal'; # or throw
 
 	  respond 'article', {
 			article => {
@@ -109,7 +110,7 @@ post '/zone/:zone_id/article/:article_id' => sub {
 		};
 	}
 	else {
-		die '403';
+		throw_error 'Forbidden';
 	}
 };
 
@@ -121,11 +122,11 @@ post '/login' => sub {
 		if ( authentication->login ($user_id, $password) ) {
 			redirect $redirect; # do we accept ajax here, and do we do sth different?
 		} # Can we handle all the exceptions with 403s?
-		die '403';
+		throw_error 'Forbidden';
 	}
 	else {
 		# todo: see if we have email and try to identify a user and verify with that
-		die '403';
+		throw_error 'Forbidden';
 	}
 };
 

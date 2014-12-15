@@ -6,6 +6,8 @@ use Moo;
 use File::Path;
 use IO::All;
 use YAML;
+use Articulate::Error;
+
 
 =head1 NAME
 
@@ -37,11 +39,11 @@ sub content_base { # todo: make this an attribute
 		config->{content_base}
 		// (
 			config->{appdir}
-			// die ('appdir not set')
+			// throw_error ( Internal => 'appdir not set')
 		).'/content/';
 	unless (-d $content_base) {
 		File::Path::make_path $content_base;
-		die ('Could not initialise content base') unless (-d $content_base);
+		throw_error (Internal => 'Could not initialise content base') unless (-d $content_base);
 	}
 	return $content_base;
 }
@@ -53,7 +55,7 @@ sub ensure_exists {
 	unless (-d $true_location) {
 		File::Path::make_path $true_location;
 	}
-	return -d $true_location ? $true_location_full : die ('Does not exist');
+	return -d $true_location ? $true_location_full : throw_error ('NotFound');
 }
 
 sub true_location {
@@ -74,7 +76,7 @@ sub get_item {
 	my $self     = shift;
 	my $item     = shift;
 	my $location = $item->location;
-	die "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless good_location $location;
 	$item->meta    ( $self->get_meta($item) );
 	$item->content ( $self->get_content($item) );
 	return $item;
@@ -92,7 +94,7 @@ sub get_meta {
 	my $self     = shift;
 	my $item     = shift;
 	my $location = $item->location;
-	die "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless good_location $location;
 	my $fn = $self->true_location ( $location . '/meta.yml' );
 	return YAML::LoadFile($fn) if -e $fn;
 	return {};
@@ -110,9 +112,9 @@ sub set_meta {
 	my $self     = shift;
 	my $item     = shift;
 	my $location = $item->location;
-	die "Bad location ".$location unless good_location $location;
+	throw_error Internal => "Bad location ".$location unless good_location $location;
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml' ) );
-	YAML::DumpFile($fn, $item->meta) or die;
+	YAML::DumpFile($fn, $item->meta);
 	return $item;
 }
 
@@ -130,7 +132,7 @@ sub patch_meta {
 	my $self     = shift;
 	my $item     = shift;
 	my $location = $item->location;
-	die "Bad location ".$location unless good_location $location;
+	throw_error Internal => "Bad location ".$location unless good_location $location;
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml') );
 	my $old_data = {};
 	$old_data = YAML::LoadFile($fn) if -e $fn;
@@ -149,7 +151,7 @@ Retrieves the settings for the content at that location.
 sub get_settings {
 	my $self     = shift;
 	my $location = shift->location;
-	die "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless good_location $location;
 	my @paths = split /\//, $location;
 	my $current_path = $self->true_location( '' ).'/';
 	my $settings = {};
@@ -173,7 +175,7 @@ Retrieves the content at that location.
 sub get_content {
 	my $self = shift;
 	my $location = shift;
-	die "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless good_location $location;
 	my $fn = $self->true_location( $location . '/content.blob' );
 	open my $fh, '<', $fn or return undef;
 	return join '', <$fh>;
@@ -192,7 +194,7 @@ sub set_content {
 	my $self = shift;
 	my $item = shift;
 	my $location = $item->location;
-	die "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless good_location $location;
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/content.blob' ) );
 	open my $fh, '>', $fn or return undef;
 	print $fh $item->content;
@@ -213,7 +215,7 @@ sub create_item {
 	my $self = shift;
 	my $item = shift;
 	my $location = $item->location;
-	die "Bad location ".$location unless good_location $location;
+	throw_error Internal => "Bad location ".$location unless good_location $location;
 	{
 		my $fn = ensure_exists true_location( $location . '/content.blob' );
 		open my $fh, '>', $fn or return undef;
@@ -241,7 +243,7 @@ Determines if the item has been created (only the C<meta.yml> is tested).
 sub item_exists {
 	my $self = shift;
 	my $location = shift->location;
-	die "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless good_location $location;
 	return -e $self->true_location( $location . '/meta.yml' );
 }
 
@@ -257,11 +259,11 @@ Returns a list of items in the.
 sub list_items {
 	my $self = shift;
 	my $location = shift->location;
-	die "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless good_location $location;
 	my $true_location = $self->true_location( $location );
 	my @contents;
 	return @contents unless -d $true_location;
-	opendir (my $dh, $true_location) or die ('Could not open '.$true_location);
+	opendir (my $dh, $true_location) or throw_error NotFound => ('Could not open '.$true_location);
 	while (readdir $dh) {
 		my $child_dn = $true_location.'/'.$_;
 		next unless -d $child_dn;
