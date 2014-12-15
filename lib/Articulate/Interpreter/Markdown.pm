@@ -11,14 +11,11 @@ has markdown_parser =>
 
 sub interpret {
   my $self = shift;
-  my $meta = shift;
-  my $content = shift;
-
-  return (
-    $meta, #"<h4>Yeah, we'll get to this later...</h4>"
-    $self->markdown_parser->markdown($content)
+  my $item = shift;
+  $item->content (
+    $self->markdown_parser->markdown($item->content)
   );
-
+  return $item;
 }
 
 1;

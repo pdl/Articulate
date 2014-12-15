@@ -45,22 +45,24 @@ get '/zone/:zone_id/article/:article_id' => sub {
 	my $article_id = param ('article_id');
 	my $user       = session ('user_id');
 
-	my $location   = "zone/$zone_id/article/$article_id";
+	my $location   = loc "zone/$zone_id/article/$article_id";
 
 	my $settings   = $storage->get_settings(loc $location) or die; # or throw
 
 	if ( authorisation->permitted ( $user, read => $location ) ) {
+		my $item = Articulate::Item->new(
+			meta     => $storage->get_meta_cached    ($location),
+			content  => $storage->get_content_cached ($location),
+			location => $location,
+		);
 
-		my $meta       = $storage->get_meta_cached    (loc $location) or die; # or throw
-		my $content    = $storage->get_content_cached (loc $location) or die; # or throw
-
-		my $interpreted_content = interpreter->interpret ($meta, $content) or die; # or throw
-		my $final_content       = components->process    ($meta, $content) or die; # or throw
+		interpreter->interpret ($item) or die; # or throw
+		components->process    ($item) or die; # or throw
 
 	  respond article => {
 			article => {
-				schema  => $meta->{schema},
-				content => $interpreted_content,
+				schema  => $item->meta->{schema},
+				content => $item->content,
 			},
 		};
 	}
@@ -95,6 +97,9 @@ post '/zone/:zone_id/article/:article_id' => sub {
 
 		$storage->set_meta    ($item) or die; # or throw
 		$storage->set_content ($item) or die; # or throw
+
+		interpreter->interpret ($item) or die; # or throw
+		components->process    ($item) or die; # or throw
 
 	  respond 'article', {
 			article => {

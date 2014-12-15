@@ -15,12 +15,11 @@ has all_components =>
 
 sub process {
   my $self = shift;
-  my $meta = shift;
-  my $content = shift;
+  my $item = shift;
   foreach my $component_class (@{ $self->all_components }) {
-    ($meta, $content) = $component_class->new->process($meta, $content);
+    $item = $component_class->new->process($item);
   }
-  return ($meta, $content);
+  return $item;
 }
 
 register_plugin();

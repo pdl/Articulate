@@ -18,11 +18,10 @@ has file_types =>
 
 sub interpret {
   my $self = shift;
-  my $meta = shift;
-  my $content = shift;
+  my $item = shift;
   my $interpreter_class = $self->file_types->{ $self->default };
   Module::Load::load $interpreter_class;
-  $interpreter_class->new->interpret( $meta, $content ); # todo: determine the content type and pick the right intepreter
+  $interpreter_class->new->interpret( $item ); # todo: determine the content type and pick the right intepreter
 }
 
 register_plugin();
