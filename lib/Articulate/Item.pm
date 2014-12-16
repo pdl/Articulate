@@ -3,16 +3,44 @@ use Moo;
 use Dancer ':syntax';
 use Dancer::Plugin;
 
+=head1 NAME
+
+Articulate::Item - represent an item
+
+=cut
+
+=head1 METHODS
+
+=head3 location
+
+Returns the location of the item, as a location object. Coerces into a location.
+
+=cut
+
+
 has location => (
   is      => 'rw',
   default => sub { Articulate::Location->new; },
   coerce  => sub { Articulate::Location::loc(shift); }
 );
 
+=head3 meta
+
+Returns the item's metadata, as a hash.
+
+=cut
+
 has meta => (
   is      => 'rw',
   default => sub { {} },
 );
+
+=head3 content
+
+Returns the item's content.
+
+=cut
+
 
 has content => (
   is      => 'rw',
