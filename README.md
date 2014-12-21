@@ -5,6 +5,8 @@
 > This is alpha-quality software and important things WILL change.
 >
 > Currently the interface is not written (one level of abstraction remains) so examples would be premature.
+>
+> For the same reason, it isn't on CPAN yet.
 
 Articulate is intended to provide a flexible and lightweight core for content management which can be customised using plugins.
 
