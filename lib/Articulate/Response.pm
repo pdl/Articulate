@@ -2,6 +2,7 @@ package Articulate::Response;
 
 use Moo;
 use Dancer::Plugin;
+use Articulate::Serialisation ();
 
 register response => sub {
   __PACKAGE__->new( {
@@ -23,6 +24,10 @@ has type =>
 has data =>
   is      => 'rw',
   default => sub { { } };
+
+sub serialise { # this is convenient as it is probably the next thing which will always be done.
+  Articulate::Serialisation::serialisation->serialise (shift);
+}
 
 register_plugin();
 

@@ -48,3 +48,7 @@ plugins:
   Articulate::Validation:
     validators: []
 #      - Articulate::Validation::NoScript
+  Articulate::Serialisation:
+    serialisers:
+      - Articulate::Serialisation::StatusSetter
+      - Articulate::Serialisation::TemplateToolkit
