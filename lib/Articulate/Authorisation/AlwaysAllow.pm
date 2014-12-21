@@ -1,6 +1,7 @@
 package Articulate::Authorisation::AlwaysAllow;
 
 use Moo;
+with 'MooX::Singleton';
 
 sub permitted {
   my $self = shift;

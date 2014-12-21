@@ -10,6 +10,7 @@ use Articulate::Request;
 use Articulate::Response;
 
 use Moo;
+with 'MooX::Singleton';
 with 'Articulate::Role::Service';
 use Try::Tiny;
 use Scalar::Util qw(blessed);

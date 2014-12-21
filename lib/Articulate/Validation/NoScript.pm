@@ -1,5 +1,6 @@
 package Articulate::Validation::NoScript;
 use Moo;
+with 'MooX::Singleton';
 
 =head1 NAME
 

@@ -3,6 +3,7 @@ use Articulate::Storage::Common;
 use Dancer ':syntax';
 use Dancer::Plugin;
 use Moo;
+with 'MooX::Singleton';
 use File::Path;
 use IO::All;
 use YAML;
