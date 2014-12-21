@@ -1,6 +1,7 @@
 package Articulate::Authorisation;
 
 use Moo;
+with 'MooX::Singleton';
 use Dancer ':syntax';
 use Dancer::Plugin;
 use Module::Load ();
@@ -30,7 +31,7 @@ B<Warning: In the future this might return a singleton.>
 =cut
 
 register authorisation => sub {
-  __PACKAGE__->new(plugin_setting);
+  __PACKAGE__->instance(plugin_setting);
 };
 
 has rules =>

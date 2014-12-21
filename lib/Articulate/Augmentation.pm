@@ -1,12 +1,13 @@
 package Articulate::Augmentation;
 
 use Moo;
+with 'MooX::Singleton';
 use Dancer ':syntax';
 use Dancer::Plugin;
 use Module::Load ();
 
 register augmentation => sub {
-  __PACKAGE__->new(plugin_setting);
+  __PACKAGE__->instance(plugin_setting);
 };
 
 has augmentations =>

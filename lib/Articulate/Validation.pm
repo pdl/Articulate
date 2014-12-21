@@ -1,6 +1,7 @@
 package Articulate::Validation;
 
 use Moo;
+with 'MooX::Singleton';
 use Dancer ':syntax';
 use Dancer::Plugin;
 use Module::Load ();
@@ -25,7 +26,7 @@ This is a functional constructor: it returns an Articulate::Validation object.
 =cut
 
 register validation => sub {
-  __PACKAGE__->new(plugin_setting);
+  __PACKAGE__->instance(plugin_setting);
 };
 
 =head1 METHODS
