@@ -1,4 +1,4 @@
-use Test::More tests => 2;
+use Test::More skip_all => 'Not part of the core';
 use strict;
 use warnings;
 
@@ -8,3 +8,5 @@ use Dancer::Test;
 
 route_exists [GET => '/'], 'a route handler is defined for /';
 response_status_is ['GET' => '/'], 200, 'response status is 200 for /';
+
+done_testing;

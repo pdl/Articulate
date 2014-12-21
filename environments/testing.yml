@@ -46,5 +46,5 @@ plugins:
     file_types:
       markdown: Articulate::Interpreter::Markdown
   Articulate::Validation:
-    validators:
-      - Articulate::Validation::NoScript
+    validators: []
+#      - Articulate::Validation::NoScript

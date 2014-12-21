@@ -39,7 +39,7 @@ Dancer::Plugin::register loc => sub {
       return __PACKAGE__->new;
     }
     elsif ( !ref $_[0] ) {
-      return __PACKAGE__->new({ path => [ map { $_ ne '' } split /\//, $_[0] ] });
+      return __PACKAGE__->new({ path => [ grep { $_ ne '' } split /\//, $_[0] ] });
     }
     elsif ( ref $_[0] eq 'HASH' ) {
       return __PACKAGE__->new($_[0]);

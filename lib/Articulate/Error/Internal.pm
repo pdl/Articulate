@@ -1,4 +1,4 @@
-package Articulate::Error::Unauthorised;
+package Articulate::Error::Internal;
 
 use Moo;
 extends 'Articulate::Error';

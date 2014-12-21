@@ -44,7 +44,7 @@ Returns the item's content.
 
 has content => (
   is      => 'rw',
-  default => sub { undef },
+  default => sub { '' },
 );
 
 1;

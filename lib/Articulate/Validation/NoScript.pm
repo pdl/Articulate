@@ -23,9 +23,8 @@ It does not look at the meta to determine content type so might behave unexpecte
 
 sub validate {
   my $self    = shift;
-  my $meta    = shift;
-  my $content = shift;
-  return ( $content !~ /<script/i );
+  my $item    = shift;
+  return ( $item->content !~ /<script/i );
 }
 
 1;

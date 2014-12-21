@@ -130,8 +130,10 @@ hooks->add before_write => sub{ check_permissions }
 - authentication
 - Service handlers - these provide all the API features, including making calls to the authentication layer, components, intperpreters, content storage. Methods are largely like content storage.
   - get_content_raw
-- Components - these are called in series and are effectively several layers
-  - process ($response, $context); # where context is stuff like session, params, etc.
+- Validation - these are called in series and reject incoming data if invalid. Is authorisation another form of request validation?
+- Preservation - these are called in series and are effectively several layers (incoming), adding things like date of deposition
+- Augmentation - these are called in series and are effectively several layers (outgoing)
+  - augment ($response, $context); # where context is stuff like session, params, etc.
 - Interpreters - these are called in parallel, i.e. no more than one on a given piece of content
   - can_interpret ($content_type, $target_type // 'html')
   - intepret ($content_type, $content, $meta, $target_type // 'html')
@@ -168,7 +170,9 @@ What about indexing with a separate service, e.g. store content locally but hive
 
 ### Versioning
 
-Can this be done with a component?
+Can this be done with a augmentation?
+
+There's currently no incoming equivalent to an augmentation - hook or coercion.
 
 ### Content locking
 

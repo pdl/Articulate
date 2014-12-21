@@ -22,15 +22,20 @@ has http_code =>
   default => 500,
   coerce  => sub { 0+shift };
 
+has caller =>
+  is      => 'rw',
+  default => sub{ ( [caller(0)]->[0] =~ m/Throwable/) ? ['hmm',caller(2)] : [caller(1)] };
+
 register_plugin();
 
 # This needs to go at the end, because of Class::XSAccessor stuff
 
 Module::Load::load (__PACKAGE__.'::'.$_) for qw(
-  NotFound
   BadRequest
-  Unauthorised
   Forbidden
+  Internal
+  NotFound
+  Unauthorised
 );
 
 1;

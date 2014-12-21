@@ -174,11 +174,11 @@ Retrieves the content at that location.
 
 sub get_content {
 	my $self = shift;
-	my $location = shift;
+	my $location = shift->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
 	my $fn = $self->true_location( $location . '/content.blob' );
-	open my $fh, '<', $fn or return undef;
-	return join '', <$fh>;
+	open my $fh, '<', $fn or throw_error Internal => "Cannot open file $fn to read";
+	return '' . (join '', <$fh>);
 }
 
 =head3 set_content
@@ -196,7 +196,7 @@ sub set_content {
 	my $location = $item->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/content.blob' ) );
-	open my $fh, '>', $fn or return undef;
+	open my $fh, '>', $fn or throw_error Internal => "Cannot open file $fn to write";
 	print $fh $item->content;
 	close $fh;
 	return $location;
@@ -218,7 +218,7 @@ sub create_item {
 	throw_error Internal => "Bad location ".$location unless good_location $location;
 	{
 		my $fn = ensure_exists true_location( $location . '/content.blob' );
-		open my $fh, '>', $fn or return undef;
+		open my $fh, '>', $fn or throw_error Internal => "Cannot open file $fn to write";
 		print $fh $item->content;
 		close $fh;
 	}
