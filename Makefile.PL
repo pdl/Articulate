@@ -21,6 +21,7 @@ WriteMakefile(
         'YAML'              => 0,
         'Dancer'            => 1.3118,
         'File::Path'        => 0,
+        'Module::Load'      => 0,
         'IO::All'           => 0,
         'Digest::SHA'       => 0,
         'Exporter::Declare' => 0,
