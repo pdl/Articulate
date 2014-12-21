@@ -1,5 +1,7 @@
 package Articulate::Authentication::Internal;
 use Moo;
+with 'MooX::Singleton';
+
 use Digest::SHA;
 use Articulate::Storage;
 use Time::Hires; # overrides time()

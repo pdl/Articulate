@@ -1,6 +1,7 @@
 package Articulate::Interpreter::Markdown;
 use Text::Markdown;
 use Moo;
+with 'MooX::Singleton';
 
 has markdown_parser =>
   is => 'rw',

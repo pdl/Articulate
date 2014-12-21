@@ -14,6 +14,8 @@ use Articulate::Response;
 
 use Moo;
 with 'Articulate::Role::Service';
+with 'MooX::Singleton';
+
 use Try::Tiny;
 use Scalar::Util qw(blessed);
 use Dancer qw(:syntax); # we only want session, but we need to import Dancer in a way which doesn't mess with the appdir. Todo: create Articulate::FrameworkAdapter
