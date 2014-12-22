@@ -4,7 +4,7 @@ use Moo;
 with 'MooX::Singleton';
 use Dancer qw(:syntax);
 use Dancer::Plugin;
-use Module::Load;
+use Module::Load ();
 
 register serialisation => sub {
   __PACKAGE__->instance( plugin_setting() );
