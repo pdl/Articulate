@@ -1,8 +1,25 @@
 package Articulate::Error;
 
+=head1 NAME
+
+Articulate::Error - represent an error or exception in processing a request
+
+=cut
+
 use Dancer::Plugin;
 use Module::Load;
-use overload '""' => sub { shift->simple_message };
+use overload '""' => sub { my $self = shift; $self->http_code() . ' ' . $self->simple_message };
+
+=head1 FUNCTIONS
+
+=head3 throw_error
+
+  throw_error 'Forbidden';
+  throw_error NotFound => "I don't want to alarm you, but it seems to be missiong";
+
+This creates an error of the type provided and throws it immediately. These are things like C<Articulate::Error::Forbidden>.
+
+=cut
 
 register throw_error => sub {
   my ( $type, $message ) = @_;
@@ -12,6 +29,36 @@ register throw_error => sub {
 
 use Moo;
 with 'Throwable';
+
+=head1 METHODS
+
+=head3 new
+
+An ordinary Moo constructor.
+
+=head3 throw
+
+Implements the C<Throwable> role - basically C<< die __PACKAGE__->new(@_) >>.
+
+=head1 ATTRIBUTES
+
+=head3 simple_message
+
+Be kind and let the user know what happened, in summary. Default is 'An unknown error has occurred'.
+
+That said, do consider whether this is the right place to put potentially sensitive diagnostic information.
+
+=head3 http_code
+
+The equivalent status code.
+
+Defaults to 500, always an integer.
+
+=head3 caller
+
+Tries to take a sensible guess at where in your code this was actually thrown from. This may vary, don't rely on it!
+
+=cut
 
 has simple_message =>
   is      => 'rw',

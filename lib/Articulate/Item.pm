@@ -26,7 +26,7 @@ has location => (
 
 =head3 meta
 
-Returns the item's metadata, as a hash.
+Returns the item's metadata, as a hashref.
 
 =cut
 
@@ -37,7 +37,7 @@ has meta => (
 
 =head3 content
 
-Returns the item's content.
+Returns the item's content. What it might look like depends entirely on the content. 
 
 =cut
 
