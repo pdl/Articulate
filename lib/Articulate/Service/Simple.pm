@@ -57,10 +57,9 @@ sub _create {
 
   if ( $self->authorisation->permitted ( $user, write => $location ) ) {
 
-    $self->validation->validate  ($item) or throw_error 'The content did not validate'; # or throw
+    $self->validation->validate   ($item) or throw_error BadRequest => 'The content did not validate'; # or throw
 
-    $self->storage->set_meta    ($item) or throw_error 'Internal'; # or throw
-    $self->storage->set_content ($item) or throw_error 'Internal'; # or throw
+    $self->storage->create_item   ($item) or throw_error 'Internal'; # or throw
 
     $self->interpreter->interpret ($item) or throw_error 'Internal'; # or throw
     $self->augmentation->augment  ($item) or throw_error 'Internal'; # or throw
@@ -103,7 +102,71 @@ sub _read {
     };
   }
   else {
-    return throw_error 'NotPermitted';
+    return throw_error 'Forbidden';
   }
 }
+
+sub _update {
+  my $self    = shift;
+  my $request = shift;
+  my $now     = now;
+
+  my $item = blessed $request->data ? $request->data : Articulate::Item->new(
+  meta => {
+    schema => {
+      core => {
+        updated => "$now" # ought to stringify # todo: move into item or request
+      }
+    },
+  },
+  (%{$request->data} ? %{$request->data} : ()),
+  );
+  my $location = $item->location;
+
+  my $user       = session ('user');
+
+  if ( $self->authorisation->permitted ( $user, write => $location ) ) {
+
+    $self->validation->validate  ($item) or throw_error BadRequest => 'The content did not validate'; # or throw
+
+    $self->storage->set_meta    ($item) or throw_error 'Internal'; # or throw
+    $self->storage->set_content ($item) or throw_error 'Internal'; # or throw
+
+    $self->interpreter->interpret ($item) or throw_error 'Internal'; # or throw
+    $self->augmentation->augment  ($item) or throw_error 'Internal'; # or throw
+
+    return response 'article', {
+      article => {
+        schema   => $item->meta->{schema},
+        content  => $item->content,
+        location => $item->location, # as string or arrayref?
+      },
+    };
+  }
+  else {
+    throw_error 'Forbidden';
+  }
+
+}
+
+sub _delete {
+  my $self    = shift;
+  my $request = shift;
+  my $now     = now;
+
+  my $item = $request->data;
+  my $location = $item->location;
+
+  my $user       = session ('user');
+
+  if ( $self->authorisation->permitted ( $user, write => $location ) ) {
+    $self->storage->delete_item ($location) or throw_error 'Internal'; # or throw
+    return response 'success', { };
+  }
+  else {
+    throw_error 'Forbidden';
+  }
+
+}
+
 1;

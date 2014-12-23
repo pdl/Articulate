@@ -56,7 +56,7 @@ sub ensure_exists {
 	unless (-d $true_location) {
 		File::Path::make_path $true_location;
 	}
-	return -d $true_location ? $true_location_full : throw_error ('NotFound');
+	return -d $true_location ? $true_location_full : throw_error ('Internal' => 'Could not create directory for location');
 }
 
 sub true_location {
@@ -218,13 +218,13 @@ sub create_item {
 	my $location = $item->location;
 	throw_error Internal => "Bad location ".$location unless good_location $location;
 	{
-		my $fn = ensure_exists true_location( $location . '/content.blob' );
+		my $fn = $self->ensure_exists( $self->true_location( $location . '/content.blob' ) );
 		open my $fh, '>', $fn or throw_error Internal => "Cannot open file $fn to write";
 		print $fh $item->content;
 		close $fh;
 	}
 	{
-		my $fn = ensure_exists true_location( $location . '/meta.yml' );
+		my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml' ) );
 		$self->set_meta($item);
 	}
 	return $item;
