@@ -5,6 +5,18 @@ with 'MooX::Singleton';
 
 use Dancer qw(:syntax); # for status
 
+=head1 NAME
+
+Articulate::Serialisation::StatusSetter - send the right HTTP status response
+
+=head1 METHODS
+
+=head3 serialise
+
+Sets the status of the Dancer response you're going to be sending to match the status of the Articulate Response.
+
+=cut
+
 sub serialise {
   my $self     = shift;
   my $response = shift;

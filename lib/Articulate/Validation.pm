@@ -37,6 +37,14 @@ Iterates through the validators. Returns false if any has a false result. Return
 
 =cut
 
+=head1 ATTTRIBUTES
+
+=head3 validators
+
+An arrayref of the classes which provide a validate function, in the order in which they will be asked to validate items.
+
+=cut
+
 has validators =>
   is      => 'rw',
   default => sub { [] };
