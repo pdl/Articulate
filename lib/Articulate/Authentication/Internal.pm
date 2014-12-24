@@ -1,10 +1,11 @@
 package Articulate::Authentication::Internal;
 use Moo;
 with 'MooX::Singleton';
+use Dancer qw(:syntax !after !before);
 
 use Digest::SHA;
 use Articulate::Storage;
-use Time::Hires; # overrides time()
+use Time::HiRes; # overrides time()
 
 =head1 NAME
 
@@ -29,7 +30,7 @@ sub authenticate {
   my $user_id  = shift;
   my $password = shift;
 
-  if ( $self->verify_password ( $user_id, $plaintext_password ) ) {
+  if ( $self->verify_password ( $user_id, $password ) ) {
     return $user_id;
   }
   # if we ever need to know if the user does not exist, now is the time to ask,
