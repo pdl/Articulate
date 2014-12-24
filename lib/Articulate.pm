@@ -1,66 +1,36 @@
 package Articulate;
-use Dancer ':syntax';
+use Dancer::Plugin;
 use Articulate::Service;
-use Articulate::Error;
-our $VERSION = '0.1';
-use DateTime;
+use Module::Load ();
+our $VERSION = '0.001';
 
-sub now {
-	DateTime->now;
+use Moo;
+
+register articulate_app => sub {
+	__PACKAGE__->new(plugin_setting);
+};
+
+sub enable {
+	my $self = shift;
+	foreach my $route_class (@{ $self->routes }){
+		Module::Load::load($route_class);
+		$route_class->new()->enable;
+	}
+	$self->enabled(1);
 }
 
-my $service = articulate_service;
+has enabled =>
+	is      => 'rw',
+	default => sub { 0 };
 
-get '/zone/:zone_id/article/:article_id' => sub {
-	my $zone_id    = param ('zone_id');
-	my $article_id = param ('article_id');
-	$service->process_request(
-		read => {
-			location => "zone/$zone_id/article/$article_id",
-		}
-	)->serialise;
-};
+has routes =>
+	is      => 'rw',
+	default => sub { [] };
 
-post '/zone/:zone_id/article/:article_id' => sub {
-	my $zone_id    = param ('zone_id');
-	my $article_id = param ('article_id');
-	my $content    = param ('content');
-	$service->process_request(
-		create => {
-			location =>"zone/$zone_id/article/$article_id",
-			content  => $content,
-		}
-	)->serialise;
-};
+has service =>
+	is      => 'rw',
+	default => sub { articulate_service };
 
-post '/zone/:zone_id/article/:article_id/edit' => sub {
-	my $zone_id    = param ('zone_id');
-	my $article_id = param ('article_id');
-	my $content    = param ('content');
-	$service->process_request(
-		edit => {
-			location =>"zone/$zone_id/article/$article_id",
-			content  => $content,
-		}
-	)->serialise;
-};
-
-post '/login' => sub {
-	my $user_id  = param('user_id');
-	my $password = param('password');
-	my $redirect = param('redirect') // '/';
-	if ( defined $user_id ) {
-		if ( $service->authentication->login ($user_id, $password) ) {
-			redirect $redirect; # do we accept ajax here, and do we do sth different?
-		} # Can we handle all the exceptions with 403s?
-		throw_error 'Forbidden';
-	}
-	else {
-		# todo: see if we have email and try to identify a user and verify with that
-		throw_error 'Forbidden';
-	}
-};
-
-
+register_plugin;
 
 1;

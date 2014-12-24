@@ -3,6 +3,8 @@ package Articulate::Service::Simple;
 use strict;
 use warnings;
 
+use Dancer qw(:syntax !after !before); # we only want session, but we need to import Dancer in a way which doesn't mess with the appdir. Todo: create Articulate::FrameworkAdapter
+
 use Dancer::Plugin;
 
 # The following provide objects which must be created on a per-request basis
@@ -18,7 +20,6 @@ with 'MooX::Singleton';
 
 use Try::Tiny;
 use Scalar::Util qw(blessed);
-use Dancer qw(:syntax); # we only want session, but we need to import Dancer in a way which doesn't mess with the appdir. Todo: create Articulate::FrameworkAdapter
 
 use DateTime;
 

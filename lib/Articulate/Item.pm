@@ -1,6 +1,6 @@
 package Articulate::Item;
 use Moo;
-use Dancer ':syntax';
+use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
 
 =head1 NAME
@@ -37,7 +37,7 @@ has meta => (
 
 =head3 content
 
-Returns the item's content. What it might look like depends entirely on the content. 
+Returns the item's content. What it might look like depends entirely on the content.
 
 =cut
 

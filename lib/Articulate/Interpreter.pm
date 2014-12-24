@@ -1,6 +1,6 @@
 package Articulate::Interpreter;
 
-use Dancer ':syntax';
+use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
 use Module::Load ();
 use Moo;

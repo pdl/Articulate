@@ -31,6 +31,9 @@ content_location: t/content
 session: "YAML"
 
 plugins:
+  Articulate:
+    routes:
+      - Articulate::Routes::Transparent
   Articulate::Authentication:
     providers:
       - Articulate::Authentication::Internal
