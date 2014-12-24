@@ -49,7 +49,7 @@ sub content_base { # todo: make this an attribute
 	return $content_base;
 }
 
-sub ensure_exists {
+sub ensure_exists { # internal method
 	my $self = shift;
 	my $true_location_full = shift // return undef;
 	my $true_location = $true_location_full =~ s~[^/]+\.[^/]+$~~r;
@@ -151,6 +151,42 @@ Retrieves the settings for the content at that location.
 
 sub get_settings {
 	my $self     = shift;
+	my $item     = shift;
+	my $location = $item->location;
+	throw_error Internal => "Bad location $location" unless good_location $location;
+	my $fn = $self->true_location ( $location . '/settings.yml' );
+	return YAML::LoadFile($fn) if -e $fn;
+	return {};
+}
+
+=head3 set_settings
+
+	$storage->set_settings('zone/public/article/hello-world', $amended_settings)
+
+Retrieves the settings for the content at that location.
+
+=cut
+
+sub set_settings {
+	my $self     = shift;
+	my $location = shift->location;
+	my $settings = shift;
+	throw_error Internal => "Bad location $location" unless good_location $location;
+	my $fn = $self->ensure_exists( $self->true_location( $location . '/settings.yml' ) );
+	YAML::DumpFile($fn, $settings);
+	return $settings;
+}
+
+=head3 get_settings_complete
+
+	$storage->get_settings_complete('zone/public/article/hello-world')
+
+Retrieves the settings for the content at that location.
+
+=cut
+
+sub get_settings_complete {
+	my $self     = shift;
 	my $location = shift->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
 	my @paths = split /\//, $location;
@@ -164,6 +200,7 @@ sub get_settings {
 	}
 	return $settings;
 }
+
 
 =head3 get_content
 
@@ -283,8 +320,28 @@ sub get_meta_cached {
 	$self->get_meta(@_);
 }
 
-sub empty_content {
+sub empty_all_content {
+	my $self          = shift;
+	my $true_location = $self->content_base;
+
+	throw_error Internal => "Won't empty all content, this looks too dangerous" if (
+		-d "$true_location/.git"
+		or
+		-f "$true_location/Makefile.PL"
+	);
+
 	File::Path::remove_tree( $content_base, {keep_root => 1} );
+}
+
+sub delete_item {
+	my $self = shift;
+	my $location = shift->location;
+
+	throw_error Internal => "Use empty_all_content instead to delete the root" if $location eq '/';
+	throw_error Internal => "Bad location $location" unless good_location $location;
+
+	my $true_location = $self->true_location( $location );
+	File::Path::remove_tree( $true_location );
 }
 
 register_plugin();
