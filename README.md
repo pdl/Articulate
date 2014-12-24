@@ -4,7 +4,7 @@
 >
 > This is alpha-quality software and important things WILL change.
 >
-> Currently the interface is not written (one level of abstraction remains) so examples would be premature.
+> Currently the interface is not final so examples would be premature.
 >
 > For the same reason, it isn't on CPAN yet.
 
