@@ -1,5 +1,9 @@
 # Articulate - Design
 
+This document may be a bit cryptic! It's not a spec and it's not documentation (in the sense of a published interface) but a notepad of design ideas and aspirations, not all of which may come to fruitition.
+
+Some of it is more formal, other bits are more stream-of consciousness.
+
 ## Synopsis
 
 Articulate is a Content Management Framework. It provides a service which forms the backbone of your content management solution. Wherever possible the 'moving parts' are replaceable using plugins. It is intended to increase the 'whipuptitude' of the Dancer ecosystem without sacrificing the flexibility you have when writing dancer routes.
@@ -12,31 +16,6 @@ Articulate is an expression of the idea that your content management solution is
 - it should not force you into a url schema you don't want.
 
 It should be easy to add an Articulate component to a project with other functions.
-
-## Notes
-
-Each page component is loaded
-
-GET zone/foo/article/foo/section/2 # retrieval from cache
-
-GET zone/foo/article/foo/section/2/edit # retrieval from source. Once done, void cache.
-
-GET zone/foo/article/foo/comments/add/
-
-POST article
-
-A document looks in
-
-GET /permalink/slug
-
-IN FOLDER /content/
-
-The application can always retrieve a meta.yml file
-
-todo: write a slug sorter
-
-
-?? Content requests are always JSON except that /article/foo calls unless they ask for JSON will default to the full HTML template plus
 
 ## Qs
 
@@ -102,6 +81,8 @@ A hook is during an execution. It MAY be able to interrupt the action.
 
 hooks->add before_write => sub{ check_permissions }
 
+Do we need hooks when everything is a plugin? What about Using things like `around`?
+
 ### User Access Control
 
 - Authentication
@@ -150,14 +131,15 @@ hooks->add before_write => sub{ check_permissions }
   - set_meta
     patch_meta
   - get_settings
-  - get_settings_cached
+  - get_settings_cached ???
   - set_settings
   - empty_content
   - and indexes??
   - Delete zone? Cascade delete?
 - DB/FS
 
-Service handlers are the fulcrum of the application and should not need to be changed.
+Service handlers are the fulcrum of the application and should not need to be changed much.
+
 The route handlers and templating can be rewritten at will. Components down through content storage are configured like plugins.
 
 ### Caching and indexing
@@ -184,7 +166,7 @@ It should be possible to define route handlers, possibly within zones, which are
 
 Does this need to be a formal component or can it be just plugged directly into the Authorisation/Authentication?
 
-### Irems
+### Items
 
 Replace the separate meta, content with an item, or even request/response? Can/should we put a barrier to AAD? Not sure I want the validator to care about the user or the action, for instance.
 
@@ -192,7 +174,7 @@ Replace the separate meta, content with an item, or even request/response? Can/s
 
 ### Location Object
 
-A glorified array. Let Redist do zone.public and local do zone/public. Avoid having to deal with initial slashes.
+A glorified array. Let Redis do zone.public and local do zone/public. Avoid having to deal with initial slashes.
 
 ### Setup
 
