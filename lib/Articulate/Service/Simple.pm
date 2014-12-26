@@ -58,6 +58,8 @@ sub _create {
 
   if ( $self->authorisation->permitted ( $user, write => $location ) ) {
 
+    throw_error 'AlreadyExists' if $self->storage->item_exists($location);
+
     $self->validation->validate   ($item) or throw_error BadRequest => 'The content did not validate'; # or throw
 
     $self->storage->create_item   ($item) or throw_error 'Internal'; # or throw
@@ -86,6 +88,7 @@ sub _read {
   my $user     = session ('user_id');
   #my $settings   = $self->storage->get_settings(loc $location) or throw_error Internal => 'Could not retrieve settings'; # or throw
   if ( $self->authorisation->permitted ( $user, read => $location ) ) {
+    throw_error 'NotFound' unless $self->storage->item_exists($location);
     my $item = Articulate::Item->new(
     meta     => $self->storage->get_meta_cached    ($location),
     content  => $self->storage->get_content_cached ($location),
@@ -128,6 +131,8 @@ sub _update {
 
   if ( $self->authorisation->permitted ( $user, write => $location ) ) {
 
+    throw_error 'NotFound' unless $self->storage->item_exists($location);
+
     $self->validation->validate  ($item) or throw_error BadRequest => 'The content did not validate'; # or throw
 
     $self->storage->set_meta    ($item) or throw_error 'Internal'; # or throw
@@ -161,6 +166,7 @@ sub _delete {
   my $user       = session ('user');
 
   if ( $self->authorisation->permitted ( $user, write => $location ) ) {
+    throw_error 'NotFound' unless $self->storage->item_exists($location);
     $self->storage->delete_item ($location) or throw_error 'Internal'; # or throw
     return response 'success', { };
   }
