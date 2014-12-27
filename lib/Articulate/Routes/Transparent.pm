@@ -36,7 +36,7 @@ post '/zone/:zone_id/article/:article_id/edit' => sub {
   my $article_id = param ('article_id');
   my $content    = param ('content');
   $service->process_request(
-  edit => {
+  update => {
     location =>"zone/$zone_id/article/$article_id",
     content  => $content,
   }
