@@ -24,8 +24,12 @@ Articulate is intended to provide a flexible and lightweight core for content ma
 
 Articulate uses modern Perl and tries to avoid huge dependencies, while making use of really good bits of CPAN like Moo, Module::Load and IO::All.
 
-- Write some Proof of Concept Applications
-- 
+High-level milestones:
+
+- Write some Proof of Concept applications in order to test out the core interface
+- Finalise the interfaces as far as possible and provide sufficient documentation and test coverage for a CPAN release
+- Flesh out the default plugin infrastructure, develop some recommendations for writing plugins
+- Refactor out the framework interactions so as to support Dancer2, maybe another framework or even standalone use.
 
 Right now it runs atop Dancer1, but the intention is to ensure it also supports Dancer2 and maybe some other frameworks if there is demand.
 
