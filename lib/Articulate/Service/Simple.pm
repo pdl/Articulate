@@ -32,7 +32,7 @@ use Moo;
 sub process_request {
   my $self    = shift;
   my $request = shift;
-  $request->verb eq $_ ? return $self->${\"_$_"}($request) : 0 for qw(create read);
+  $request->verb eq $_ ? return $self->${\"_$_"}($request) : 0 for qw(create read update delete);
   return undef; # whatever else the user wants, we can't provide it
 }
 
