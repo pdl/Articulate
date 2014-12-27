@@ -21,7 +21,15 @@ use Dancer qw(:syntax);
 sub serialise {
   my $self     = shift;
   my $response = shift;
-  template $response->type, $response->data;
+  my $view = $response->type . '.tt';
+  my $template_engine = Dancer::Template->engine;
+  #if ( $template_engine->view_exists( $template_engine->view($view) ) ) {
+    template $view, $response->data;
+  #}
+  #else {
+  #  status 500;
+  #  template error => { error => { simple_message => "View $view not found", http_status => 500} };
+  #}
 }
 
 1;

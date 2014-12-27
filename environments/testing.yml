@@ -34,6 +34,11 @@ plugins:
   Articulate:
     routes:
       - Articulate::Routes::Transparent
+      - Articulate::Routes::TransparentForms
+  Articulate::Service:
+    providers:
+      - Articulate::Service::Simple
+      - Articulate::Service::SimpleForms
   Articulate::Authentication:
     providers:
       - Articulate::Authentication::Internal
