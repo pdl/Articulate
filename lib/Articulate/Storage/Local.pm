@@ -75,9 +75,9 @@ Retrieves the metadata for the content at that location.
 
 sub get_item {
 	my $self     = shift;
-	my $item     = shift;
-	my $location = $item->location;
+	my $location = shift->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
+	my $item = Articulate::Item->new( { location => $location } );
 	$item->meta    ( $self->get_meta($item) );
 	$item->content ( $self->get_content($item) );
 	return $item;
