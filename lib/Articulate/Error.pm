@@ -83,6 +83,7 @@ Module::Load::load (__PACKAGE__.'::'.$_) for qw(
   Internal
   NotFound
   Unauthorised
+  AlreadyExists
 );
 
 1;
