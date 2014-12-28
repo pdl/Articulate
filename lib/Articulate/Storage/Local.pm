@@ -337,7 +337,7 @@ sub delete_item {
 	my $self = shift;
 	my $location = shift->location;
 
-	throw_error Internal => "Use empty_all_content instead to delete the root" if $location eq '/';
+	throw_error Internal => "Use empty_all_content instead to delete the root" if "$location" eq '/';
 	throw_error Internal => "Bad location $location" unless good_location $location;
 
 	my $true_location = $self->true_location( $location );
