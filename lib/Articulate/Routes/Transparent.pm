@@ -43,20 +43,4 @@ post '/zone/:zone_id/article/:article_id/edit' => sub {
   )->serialise;
 };
 
-post '/login' => sub {
-  my $user_id  = param('user_id');
-  my $password = param('password');
-  my $redirect = param('redirect') // '/';
-  if ( defined $user_id ) {
-    if ( $service->authentication->login ($user_id, $password) ) {
-      redirect $redirect; # do we accept ajax here, and do we do sth different?
-    } # Can we handle all the exceptions with 403s?
-    throw_error 'Forbidden';
-  }
-  else {
-    # todo: see if we have email and try to identify a user and verify with that
-    throw_error 'Forbidden';
-  }
-};
-
 1;
