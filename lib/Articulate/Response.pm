@@ -4,6 +4,7 @@ use Moo;
 use Dancer::Plugin;
 use Articulate::Serialisation ();
 
+use Scalar::Util qw(blessed);
 
 =head1 NAME
 
@@ -23,10 +24,28 @@ Creates a new response, using the type and data supplied as the respective argum
 =cut
 
 register response => sub {
-  __PACKAGE__->new( {
-    type => $_[0],
-    data => $_[1],
-    http_code => ($_[0] eq 'error' ? 500 : 200),
+  my ($type, $data) = @_;
+  my $http_code =
+    $type eq 'error'
+    ? 500
+    : 200;
+  return __PACKAGE__->new( {
+    type => $type,
+    http_code => $http_code,
+  } ) unless defined $data;
+  if (ref $data eq ref {}) {
+    if (
+      defined $data->{$type}
+      and blessed $data->{$type}
+      and $data->{$type}->can('http_code')
+    ) {
+      $http_code = $data->{$type}->http_code;
+    }
+  }
+  return __PACKAGE__->new( {
+    type      => $type,
+    data      => $data,
+    http_code => $http_code,
   } );
 };
 
