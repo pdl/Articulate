@@ -11,6 +11,9 @@ use Articulate;
 
 articulate_app->enable;
 
+use Articulate::Storage;
+storage->empty_all_content;
+
 #use YAML;
 
 #die Dump config;
