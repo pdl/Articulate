@@ -64,6 +64,7 @@ ok ( !$storage->item_exists( $item->location ), 'delete_item deletes the item' )
 
 isa_ok ( $storage->create_item($item), 'Articulate::Item', 'create_item recreates the item' );
 ok ( $storage->item_exists( $item->location ), 'create_item results in the item existing (again)' );
+throws_ok ( sub { $storage->create_item($new_item->()) }, 'Articulate::Error::AlreadyExists', "Calling create_item when item already exists should die");
 $storage->empty_all_content;
 ok ( !$storage->item_exists( $item->location ), 'empty_all_content deletes the item' );
 

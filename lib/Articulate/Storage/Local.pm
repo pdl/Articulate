@@ -263,6 +263,7 @@ sub create_item {
 	my $item = shift;
 	my $location = $item->location;
 	throw_error Internal => "Bad location ".$location unless good_location $location;
+	throw_error AlreadyExists => "Cannot create: item already exists at ".$location if $self->item_exists($location);
 	{
 		my $fn = $self->ensure_exists( $self->true_location( $location . '/content.blob' ) );
 		open my $fh, '>', $fn or throw_error Internal => "Cannot open file $fn to write";
