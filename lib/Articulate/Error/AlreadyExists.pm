@@ -4,9 +4,9 @@ use Moo;
 extends 'Articulate::Error';
 
 has '+simple_message' =>
-default => 'Already exists';
+  default => 'Already exists';
 
 has '+http_code' =>
-default => 409;
+  default => 409;
 
 1;
