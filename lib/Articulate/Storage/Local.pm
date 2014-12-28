@@ -77,6 +77,7 @@ sub get_item {
 	my $self     = shift;
 	my $location = shift->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $item = Articulate::Item->new( { location => $location } );
 	$item->meta    ( $self->get_meta($item) );
 	$item->content ( $self->get_content($item) );
@@ -96,6 +97,7 @@ sub get_meta {
 	my $item     = shift;
 	my $location = $item->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->true_location ( $location . '/meta.yml' );
 	return YAML::LoadFile($fn) if -e $fn;
 	return {};
@@ -114,6 +116,7 @@ sub set_meta {
 	my $item     = shift;
 	my $location = $item->location;
 	throw_error Internal => "Bad location ".$location unless good_location $location;
+	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml' ) );
 	YAML::DumpFile($fn, $item->meta);
 	return $item;
@@ -134,6 +137,7 @@ sub patch_meta {
 	my $item     = shift;
 	my $location = $item->location;
 	throw_error Internal => "Bad location ".$location unless good_location $location;
+	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml') );
 	my $old_data = {};
 	$old_data = YAML::LoadFile($fn) if -e $fn;
@@ -154,6 +158,7 @@ sub get_settings {
 	my $item     = shift;
 	my $location = $item->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->true_location ( $location . '/settings.yml' );
 	return YAML::LoadFile($fn) if -e $fn;
 	return {};
@@ -172,6 +177,7 @@ sub set_settings {
 	my $location = shift->location;
 	my $settings = shift;
 	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/settings.yml' ) );
 	YAML::DumpFile($fn, $settings);
 	return $settings;
@@ -189,6 +195,7 @@ sub get_settings_complete {
 	my $self     = shift;
 	my $location = shift->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my @paths = split /\//, $location;
 	my $current_path = $self->true_location( '' ).'/';
 	my $settings = {};
@@ -214,6 +221,7 @@ sub get_content {
 	my $self = shift;
 	my $location = shift->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->true_location( $location . '/content.blob' );
 	open my $fh, '<', $fn or throw_error Internal => "Cannot open file $fn to read";
 	return '' . (join '', <$fh>);
@@ -233,6 +241,7 @@ sub set_content {
 	my $item = shift;
 	my $location = $item->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/content.blob' ) );
 	open my $fh, '>', $fn or throw_error Internal => "Cannot open file $fn to write";
 	print $fh $item->content;
@@ -262,7 +271,7 @@ sub create_item {
 	}
 	{
 		my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml' ) );
-		$self->set_meta($item);
+		YAML::DumpFile($fn, $item->meta);
 	}
 	return $item;
 }
@@ -339,6 +348,7 @@ sub delete_item {
 
 	throw_error Internal => "Use empty_all_content instead to delete the root" if "$location" eq '/';
 	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 
 	my $true_location = $self->true_location( $location );
 	File::Path::remove_tree( $true_location );
