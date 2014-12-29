@@ -54,7 +54,6 @@ sub _create {
   my $location = $item->location;
 
   my $user       = session ('user');
-  my $settings   = $self->storage->get_settings ($location) or throw_error Internal => 'Cannot retrieve settings'; # or throw
 
   if ( $self->authorisation->permitted ( $user, write => $location ) ) {
 
@@ -86,7 +85,7 @@ sub _read {
   my $request  = shift;
   my $location = loc $request->data->{location};
   my $user     = session ('user_id');
-  #my $settings   = $self->storage->get_settings(loc $location) or throw_error Internal => 'Could not retrieve settings'; # or throw
+
   if ( $self->authorisation->permitted ( $user, read => $location ) ) {
     throw_error 'NotFound' unless $self->storage->item_exists($location);
     my $item = Articulate::Item->new(

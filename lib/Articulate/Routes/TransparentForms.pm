@@ -20,7 +20,7 @@ get '/zone/:zone_id/create' => sub {
 
 post '/zone/:zone_id/create' => sub {
   my $zone_id    = param ('zone_id');
-  my $article_id = param ('article_id');
+  my $article_id = param ('article_id') // throw_error BadRequest => "article_id must be specified"; # todo: capture and serialise
   my $content    = param ('content');
   $service->process_request(
   create => {

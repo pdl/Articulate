@@ -195,7 +195,6 @@ sub get_settings_complete {
 	my $self     = shift;
 	my $location = shift->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
-	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my @paths = split /\//, $location;
 	my $current_path = $self->true_location( '' ).'/';
 	my $settings = {};
