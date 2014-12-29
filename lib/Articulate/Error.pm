@@ -29,6 +29,7 @@ register throw_error => sub {
 
 use Moo;
 with 'Throwable';
+with 'StackTrace::Auto';
 
 =head1 METHODS
 
