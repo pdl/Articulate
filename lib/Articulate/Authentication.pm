@@ -4,7 +4,7 @@ use Moo;
 with 'MooX::Singleton';
 use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
-use Module::Load ();
+use Articulate::Syntax qw(instantiate_array);
 
 register authentication => sub {
   __PACKAGE__->instance(plugin_setting);
@@ -12,15 +12,15 @@ register authentication => sub {
 
 has rules =>
   is      => 'rw',
-  default => sub { [] };
+  default => sub { [] },
+  coerce  => sub { instantiate_array(@_) };
 
 sub login {
   my $self       = shift;
   my $user_id    = shift;
   my $password   = shift;
-  foreach my $provider_class ( @{ $self->providers } ) {
-    Module::Load::load $provider_class;
-    my $provider = $provider_class->new;
+  foreach my $provider ( @{ $self->providers } ) {
+    my $provider = $provider->new;
     if (
       defined ( $provider->authenticate( $user_id, $password ) )
     ) {
@@ -34,9 +34,7 @@ sub create_user {
   my $self       = shift;
   my $user_id    = shift;
   my $password   = shift;
-  foreach my $provider_class ( @{ $self->providers } ) {
-    Module::Load::load $provider_class;
-    my $provider = $provider_class->new;
+  foreach my $provider ( @{ $self->providers } ) {
     if (
       defined ( $provider->create_user( $user_id, $password ) )
     ) {

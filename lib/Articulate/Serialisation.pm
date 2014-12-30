@@ -4,7 +4,7 @@ use Moo;
 with 'MooX::Singleton';
 use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
-use Module::Load ();
+use Articulate::Syntax qw(instantiate_array);
 
 =head1 NAME
 
@@ -42,6 +42,7 @@ This is an arrayref of serialisers, each of whom should provide serialise functi
 has serialisers => (
   is      => 'rw',
   default => sub{ [] },
+  coerce  => sub { instantiate_array (@_) },
 );
 
 =head1 FUNCTION
@@ -58,9 +59,8 @@ sub serialise {
   my $self     = shift;
   my $response = shift;
   my $text;
-  foreach my $serialiser_class (@{ $self->serialisers }) {
-    Module::Load::load ($serialiser_class);
-    return $text if defined ( $text = $serialiser_class->new->serialise($response) );
+  foreach my $serialiser (@{ $self->serialisers }) {
+    return $text if defined ( $text = $serialiser->serialise($response) );
   }
   return undef;
 }

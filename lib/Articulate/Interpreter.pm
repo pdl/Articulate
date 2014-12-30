@@ -4,6 +4,7 @@ use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
 use Module::Load ();
 use Moo;
+use Articulate::Syntax qw(instantiate_array);
 
 register interpreter => sub {
   __PACKAGE__->new(plugin_setting);
@@ -12,16 +13,17 @@ register interpreter => sub {
 has default =>
   is => 'rw';
 
-has file_types =>
+has interpreters =>
   is      => 'rw',
-  default => sub { {} };
+  default => sub { [] },
+  coerce  => sub { instantiate_array(@_) };
 
 sub interpret {
   my $self = shift;
   my $item = shift;
-  my $interpreter_class = $self->file_types->{ $self->default };
-  Module::Load::load $interpreter_class;
-  $interpreter_class->new->interpret( $item ); # todo: determine the content type and pick the right intepreter
+  foreach my $interpreter ( @{ $self->interpreters } ) {
+    $interpreter->interpret( $item ); # todo: determine the content type and pick the right intepreter
+  }
 }
 
 register_plugin();

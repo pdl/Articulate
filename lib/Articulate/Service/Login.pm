@@ -7,6 +7,9 @@ use Dancer qw(:syntax !after !before); # we only want session, but we need to im
 
 use Dancer::Plugin;
 
+
+use Articulate::Service;
+
 # The following provide objects which must be created on a per-request basis
 use Articulate::Location;
 use Articulate::Item;
@@ -45,9 +48,9 @@ sub _login {
   my $password = $request->data->{password};
 
   if ( defined $user_id ) {
-    if ( $service->authentication->login ($user_id, $password) ) {
+    if ( service->authentication->login ($user_id, $password) ) {
       session user_id => $user_id;
-      respond success => { user_id => $user_id };
+      response success => { user_id => $user_id };
     } # Can we handle all the exceptions with 403s?
     throw_error 'Forbidden';
   }
@@ -64,7 +67,7 @@ sub _logout {
   my $now      = now;
   my $user_id  = session('user_id');
   session->destroy();
-  respond success => { user_id => $user_id };
+  response success => { user_id => $user_id };
 }
 
 

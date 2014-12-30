@@ -59,12 +59,12 @@ sub _create {
 
     throw_error 'AlreadyExists' if $self->storage->item_exists($location);
 
-    $self->validation->validate   ($item) or throw_error BadRequest => 'The content did not validate'; # or throw
+    $self->validation->validate   ($item) or throw_error BadRequest => 'The content did not validate';
 
-    $self->storage->create_item   ($item) or throw_error 'Internal'; # or throw
+    $self->storage->create_item   ($item); # this will throw if it fails
 
-    $self->interpreter->interpret ($item) or throw_error 'Internal'; # or throw
-    $self->augmentation->augment  ($item) or throw_error 'Internal'; # or throw
+    $self->interpreter->interpret ($item); # this will throw if it fails
+    $self->augmentation->augment  ($item); # this will throw if it fails
 
     return response 'article', {
       article => {
@@ -94,8 +94,8 @@ sub _read {
     location => $location,
     );
 
-    $self->interpreter->interpret ($item) or throw_error; # or throw
-    $self->augmentation->augment  ($item) or throw_error; # or throw
+    $self->interpreter->interpret ($item); # or throw
+    $self->augmentation->augment  ($item); # or throw
 
     return response article => {
       article => {

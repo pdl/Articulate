@@ -4,7 +4,7 @@ use Moo;
 with 'MooX::Singleton';
 use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
-use Module::Load ();
+use Articulate::Syntax qw(instantiate_array);
 
 =head1 NAME
 
@@ -41,7 +41,8 @@ An array of the augmentation classes which will be used.
 
 has augmentations =>
   is      => 'rw',
-  default => sub { [] };
+  default => sub { [] },
+  coerce  => sub { instantiate_array(@_) };
 
 =head1 METHODS
 
@@ -54,9 +55,8 @@ Passes the response object to a series of augmentation objects, and returns the 
 sub augment {
   my $self = shift;
   my $item = shift;
-  foreach my $aug_class (@{ $self->augmentations }) {
-    Module::Load::load $aug_class;
-    $item = $aug_class->new->augment($item);
+  foreach my $aug ( @{ $self->augmentations } ) {
+    $item = $aug->augment($item);
   }
   return $item;
 }

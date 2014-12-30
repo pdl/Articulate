@@ -4,7 +4,7 @@ use Moo;
 with 'MooX::Singleton';
 use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
-use Module::Load ();
+use Articulate::Syntax qw(instantiate_array);
 
 =head1 NAME
 
@@ -47,15 +47,15 @@ An arrayref of the classes which provide a validate function, in the order in wh
 
 has validators =>
   is      => 'rw',
-  default => sub { [] };
+  default => sub { [] },
+  coerce  => sub { instantiate_array @_ };
 
 sub validate {
   my $self    = shift;
   my $meta    = shift;
   my $content = shift;
-  foreach my $validator_class (@{ $self->validators }) {
-    Module::Load::load $validator_class;
-    my $result = $validator_class->new->validate($meta, $content);
+  foreach my $validator (@{ $self->validators }) {
+    my $result = $validator->validate($meta, $content);
     return $result unless $result;
   }
   return 1;

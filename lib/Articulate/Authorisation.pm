@@ -5,6 +5,7 @@ with 'MooX::Singleton';
 use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
 use Module::Load ();
+use Articulate::Syntax qw(instantiate_array);
 
 =head1 NAME
 
@@ -36,7 +37,8 @@ register authorisation => sub {
 
 has rules =>
   is      => 'rw',
-  default => sub { [] };
+  default => sub { [] },
+  coerce  => sub { instantiate_array(@_) };
 
 =head3 permitted
 
@@ -53,9 +55,7 @@ sub permitted {
   my $user_id    = shift;
   my $permission = shift;
   my $location   = shift;
-  foreach my $rule_class ( @{ $self->rules } ) {
-    Module::Load::load $rule_class;
-    my $rule = $rule_class->new;
+  foreach my $rule ( @{ $self->rules } ) {
     my $authed_role;
     if (
       defined ($authed_role = $rule->permitted( $user_id, $permission, $location ) )

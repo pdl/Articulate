@@ -15,7 +15,7 @@ with 'MooX::Singleton';
 with 'Articulate::Role::Service';
 use Try::Tiny;
 use Scalar::Util qw(blessed);
-use Module::Load ();
+use Articulate::Syntax qw(instantiate_array);
 
 use DateTime;
 
@@ -50,7 +50,8 @@ register articulate_service => sub {
 
 has providers => (
   is      => 'rw',
-  default => sub { [] }
+  default => sub { [] },
+  coerce  => sub { instantiate_array(@_) },
 );
 
 =head3 process_request
@@ -84,11 +85,9 @@ sub process_request {
     else { # or accept $verb => $data
       $request = articulate_request (@underscore);
     }
-    foreach my $provider_class (
+    foreach my $provider (
       @{ $self->providers }
     ) {
-      Module::Load::load($provider_class);
-      my $provider = $provider_class->new;
       my $resp = $provider->process_request($request);
       if (defined $resp) {
         $response = $resp;
