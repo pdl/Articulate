@@ -2,7 +2,8 @@ package Articulate::Storage;
 
 use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
-use Module::Load ();
+use Moo;
+use Articulate::Syntax qw(instantiate);
 
 =head1 NAME
 
@@ -23,9 +24,7 @@ Returns an instance of the storage class defined in your C<config.yml>.
 =cut
 
 register storage => sub {
-  my $storage_class = plugin_setting->{storage_class} // 'Articulate::Storage::Local';
-  Module::Load::load $storage_class;
-  $storage_class->new(@_);
+  instantiate (plugin_setting->{storage_class} // 'Articulate::Storage::Local');
 };
 
 register_plugin();
