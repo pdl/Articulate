@@ -6,6 +6,7 @@ use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
 use Module::Load ();
 use Articulate::Syntax qw(instantiate_array);
+use Articulate::Permission;
 
 =head1 NAME
 
@@ -53,18 +54,22 @@ If so, returns the role under which they have that permission. Otherwise, return
 sub permitted {
   my $self       = shift;
   my $user_id    = shift;
-  my $permission = shift;
+  my $verb       = shift;
   my $location   = shift;
+  my $p = permission ($user_id, $verb, $location);
   foreach my $rule ( @{ $self->rules } ) {
     my $authed_role;
     if (
-      defined ($authed_role = $rule->permitted( $user_id, $permission, $location ) )
+      $rule->permitted( $p )
     ) {
       session user_id => $user_id;
-      return ($authed_role);
+      return ($p);
+    }
+    elsif ( $p->denied ) {
+      return $p;
     }
   }
-  return (undef);
+  return ($p->deny);
 }
 
 register_plugin();

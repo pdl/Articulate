@@ -5,8 +5,9 @@ with 'MooX::Singleton';
 
 sub permitted {
   my $self       = shift;
-  my $user_id    = shift // '';
-  return ( $user_id eq 'owner' ? $user_id : undef );
+  my $permission = shift;
+  $permission->grant('Site owner can do anything') if ( ( $permission->user // '' ) eq 'owner' ); 
+  return $permission;
 }
 
 1;

@@ -4,8 +4,9 @@ use Moo;
 with 'MooX::Singleton';
 
 sub permitted {
-  my $self = shift;
-  return 1;
+  my $self       = shift;
+  my $permission = shift;
+  $permission->grant('Anything is possible!');
 }
 
 1;
