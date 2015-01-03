@@ -7,6 +7,7 @@ use Moo::Role;
 use Articulate::Storage        ();
 use Articulate::Authentication ();
 use Articulate::Authorisation  ();
+use Articulate::Enrichment     ();
 use Articulate::Interpreter    ();
 use Articulate::Augmentation   ();
 use Articulate::Validation     ();
@@ -43,6 +44,13 @@ has augmentation => (
   is      => 'rw',
   default => sub {
     Articulate::Augmentation::augmentation;
+  }
+);
+
+has enrichment => (
+  is      => 'rw',
+  default => sub {
+    Articulate::Enrichment::enrichment;
   }
 );
 

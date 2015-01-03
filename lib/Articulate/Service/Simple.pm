@@ -42,14 +42,8 @@ sub _create {
   my $now     = now;
 
   my $item = blessed $request->data ? $request->data : Articulate::Item->new(
-  meta => {
-    schema => {
-      core => {
-        updated => "$now" # ought to stringify # todo: move into item or request
-      }
-    },
-  },
-  (%{$request->data} ? %{$request->data} : ()),
+    meta => {},
+    (%{$request->data} ? %{$request->data} : ()),
   );
   my $location = $item->location;
 
@@ -60,7 +54,7 @@ sub _create {
     throw_error 'AlreadyExists' if $self->storage->item_exists($location);
 
     $self->validation->validate   ($item) or throw_error BadRequest => 'The content did not validate';
-
+    $self->enrichment->enrich     ($item, $request); # this will throw if it fails
     $self->storage->create_item   ($item); # this will throw if it fails
 
     $self->interpreter->interpret ($item); # this will throw if it fails
@@ -115,14 +109,8 @@ sub _update {
   my $now     = now;
 
   my $item = blessed $request->data ? $request->data : Articulate::Item->new(
-  meta => {
-    schema => {
-      core => {
-        updated => "$now" # ought to stringify # todo: move into item or request
-      }
-    },
-  },
-  (%{$request->data} ? %{$request->data} : ()),
+    meta => {},
+    (%{$request->data} ? %{$request->data} : ()),
   );
   my $location = $item->location;
 
@@ -132,8 +120,8 @@ sub _update {
 
     throw_error 'NotFound' unless $self->storage->item_exists($location);
 
-    $self->validation->validate  ($item) or throw_error BadRequest => 'The content did not validate'; # or throw
-
+    $self->validation->validate ($item) or throw_error BadRequest => 'The content did not validate'; # or throw
+    $self->enrichment->enrich   ($item, $request); # this will throw if it fails
     $self->storage->set_meta    ($item) or throw_error 'Internal'; # or throw
     $self->storage->set_content ($item) or throw_error 'Internal'; # or throw
 

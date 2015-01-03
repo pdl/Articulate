@@ -48,7 +48,10 @@ plugins:
     rules:
       - Articulate::Authorisation::OwnerOverride
       - Articulate::Authorisation::AlwaysAllow
-  Articulate::Components: {}
+  Articulate::Enrichment:
+    enrichments:
+      - Articulate::Enrichment::DateCreated
+      - Articulate::Enrichment::DateUpdated
   Articulate::Storage:
     storage_class: Articulate::Storage::Local
   Articulate::Interpreter:

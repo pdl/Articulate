@@ -22,8 +22,13 @@
 </section>
 [%- END -%]
 <footer>
-  <div class="article-meta-updated">
-    Updated <time itemprop="dateModified">[% article.schema.core.updated | html %]</time>
+  <div class="article-meta-created">
+    Created <time itemprop="dateModified">[% article.schema.core.dateCreated | html %]</time>
   </div>
+  [%- IF article.schema.core.dateCreated != article.schema.core.dateUpdated  -%]
+  <div class="article-meta-updated">
+    Updated <time itemprop="dateModified">[% article.schema.core.dateUpdated | html %]</time>
+  </div>
+  [%- END -%]
 </footer>
 </article>
