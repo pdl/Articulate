@@ -13,7 +13,7 @@ Articulate::Augmentaton - add bells and whistles to your response
 =head1 DESCRIPTION
 
   use Articulate::Augmentation;
-  $response = augmentation->aughment($response);
+  $response = augmentation->augment($response);
 
 This will pass the response to a series of augmentation objects, each of which has the opportunity to alter the response according to their own rules, for instance, to retrieve additional related content (e.g. article comments).
 
