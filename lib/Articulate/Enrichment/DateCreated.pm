@@ -11,7 +11,7 @@ Articulate::Enrichment::DateCreated - add a creation date to the meta
 
 =head3 enrich
 
-Sets the creation date (C<meta.schema.core.dateCreated>) to the current time, provided the request verb begins with C<create>.
+Sets the creation date (C<meta.schema.core.dateCreated>) to the current time, unless it already has a defined value.
 
 =cut
 
@@ -25,11 +25,9 @@ sub enrich {
   my $self    = shift;
   my $item    = shift;
   my $request = shift;
-  if ( $request->verb =~ /^create/ ) {
-    my $now = now;
-    $item->meta->{schema}->{core}->{dateCreated} = "$now";
-    return $item;
-  }
+  my $now = now;
+  $item->meta->{schema}->{core}->{dateCreated} //= "$now";
+  return $item;
 }
 
 1;
