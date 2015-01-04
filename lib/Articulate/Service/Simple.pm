@@ -21,12 +21,6 @@ with 'MooX::Singleton';
 use Try::Tiny;
 use Scalar::Util qw(blessed);
 
-use DateTime;
-
-sub now {
-  DateTime->now;
-}
-
 use Moo;
 
 sub process_request {
@@ -39,7 +33,6 @@ sub process_request {
 sub _create {
   my $self    = shift;
   my $request = shift;
-  my $now     = now;
 
   my $item = blessed $request->data ? $request->data : Articulate::Item->new(
     meta => {},
@@ -106,7 +99,6 @@ sub _read {
 sub _update {
   my $self    = shift;
   my $request = shift;
-  my $now     = now;
 
   my $item = blessed $request->data ? $request->data : Articulate::Item->new(
     meta => {},
@@ -145,7 +137,6 @@ sub _update {
 sub _delete {
   my $self    = shift;
   my $request = shift;
-  my $now     = now;
 
   my $item = $request->data;
   my $location = $item->location;

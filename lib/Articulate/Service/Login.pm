@@ -24,12 +24,6 @@ with 'MooX::Singleton';
 use Try::Tiny;
 use Scalar::Util qw(blessed);
 
-use DateTime;
-
-sub now {
-  DateTime->now;
-}
-
 use Moo;
 
 sub process_request {
@@ -42,7 +36,6 @@ sub process_request {
 sub _login {
   my $self     = shift;
   my $request  = shift;
-  my $now      = now;
 
   my $user_id  = $request->data->{user_id};
   my $password = $request->data->{password};
@@ -64,7 +57,6 @@ sub _login {
 sub _logout {
   my $self     = shift;
   my $request  = shift;
-  my $now      = now;
   my $user_id  = session('user_id');
   session->destroy();
   response success => { user_id => $user_id };

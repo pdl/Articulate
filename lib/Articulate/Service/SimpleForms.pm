@@ -21,12 +21,6 @@ with 'MooX::Singleton';
 use Try::Tiny;
 use Scalar::Util qw(blessed);
 
-use DateTime;
-
-sub now {
-  DateTime->now;
-}
-
 use Moo;
 
 sub process_request {
@@ -39,7 +33,6 @@ sub process_request {
 sub _create_form {
   my $self     = shift;
   my $request  = shift;
-  my $now      = now;
   my $user     = session ('user');
   my $location = loc $request->data->{location};
 
@@ -60,7 +53,6 @@ sub _create_form {
 sub _edit_form {
   my $self    = shift;
   my $request = shift;
-  my $now     = now;
 
   my $location = loc $request->data->{location};
 
@@ -91,7 +83,6 @@ sub _edit_form {
 sub _delete_form {
   my $self    = shift;
   my $request = shift;
-  my $now     = now;
 
   my $item = $request->data;
   my $location = $item->location;

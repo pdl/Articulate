@@ -17,12 +17,6 @@ use Try::Tiny;
 use Scalar::Util qw(blessed);
 use Articulate::Syntax qw(instantiate_array);
 
-use DateTime;
-
-sub now {
-  DateTime->now;
-}
-
 =head1 NAME
 
 Articulate::Service - provide an API to all the core Articulate features.
