@@ -35,11 +35,13 @@ plugins:
     routes:
       - Articulate::Routes::Transparent
       - Articulate::Routes::TransparentForms
+      - Articulate::Routes::TransparentPreviews
       - Articulate::Routes::Login
   Articulate::Service:
     providers:
       - Articulate::Service::Simple
       - Articulate::Service::SimpleForms
+      - Articulate::Service::SimplePreviews
       - Articulate::Service::Login
   Articulate::Authentication:
     providers:
