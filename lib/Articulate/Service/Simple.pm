@@ -36,10 +36,10 @@ sub _create {
   my $self    = shift;
   my $request = shift;
 
-  my $item = blessed $request->data ? $request->data : Articulate::Item->new(
+  my $item = blessed $request->data ? $request->data : construction->construct( {
     meta => {},
     (%{$request->data} ? %{$request->data} : ()),
-  );
+  } );
   my $location = $item->location;
 
   my $user       = session ('user');
@@ -101,10 +101,10 @@ sub _update {
   my $self    = shift;
   my $request = shift;
 
-  my $item = blessed $request->data ? $request->data : Articulate::Item->new(
+  my $item = blessed $request->data ? $request->data : construction->construct( {
     meta => {},
     (%{$request->data} ? %{$request->data} : ()),
-  );
+  } );
   my $location = $item->location;
 
   my $user       = session ('user');

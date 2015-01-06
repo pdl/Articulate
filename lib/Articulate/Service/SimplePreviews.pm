@@ -14,6 +14,8 @@ use Articulate::Error;
 use Articulate::Request;
 use Articulate::Response;
 
+use Articulate::Construction;
+
 use Moo;
 with 'Articulate::Role::Service';
 with 'MooX::Singleton';
@@ -34,9 +36,9 @@ sub _preview {
   my $self    = shift;
   my $request = shift;
 
-  my $item = blessed $request->data ? $request->data : Articulate::Item->new(
+  my $item = blessed $request->data ? $request->data : construction->construct( {
     (%{$request->data} ? %{$request->data} : ()),
-  );
+  } );
 
   my $location = $item->location;
 
