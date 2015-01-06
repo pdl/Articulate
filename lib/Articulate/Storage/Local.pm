@@ -79,7 +79,7 @@ sub get_item {
 	my $location = shift->location;
 	throw_error Internal => "Bad location $location" unless good_location $location;
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
-	my $item = Articulate::Construction->construct( { location => $location } );
+	my $item = construction->construct( { location => $location } );
 	$item->meta    ( $self->get_meta($item) );
 	$item->content ( $self->get_content($item) );
 	return $item;
