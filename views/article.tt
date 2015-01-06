@@ -22,6 +22,9 @@
 </section>
 [%- END -%]
 <footer>
+  <div class="article-id">
+    This is  [% article.article_id | html %]
+  </div>
   <div class="article-meta-created">
     Created <time itemprop="dateModified">[% article.schema.core.dateCreated | html %]</time>
   </div>

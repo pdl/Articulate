@@ -37,6 +37,12 @@ plugins:
       - Articulate::Routes::TransparentForms
       - Articulate::Routes::TransparentPreviews
       - Articulate::Routes::Login
+  Articulate::Construction:
+    constructors:
+      - class: Articulate::Construction::LocationBased
+        args:
+          types:
+            article: Articulate::Item::Article
   Articulate::Service:
     providers:
       - Articulate::Service::Simple
