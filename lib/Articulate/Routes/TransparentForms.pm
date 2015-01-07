@@ -5,7 +5,6 @@ with 'Articulate::Role::Routes';
 
 use Dancer qw(:syntax !after !before);
 use Articulate::Service;
-use Articulate::Error;
 
 my $service = articulate_service;
 
@@ -20,7 +19,10 @@ get '/zone/:zone_id/create' => sub {
 
 post '/zone/:zone_id/create' => sub {
   my $zone_id    = param ('zone_id');
-  my $article_id = param ('article_id') // throw_error BadRequest => "article_id must be specified"; # todo: capture and serialise
+  my $article_id = param ('article_id');
+  return $service->process_request( error => {
+    simple_message => 'Parameter article_id is required'
+  } ) unless defined $article_id and $article_id ne '';
   my $content    = param ('content');
   $service->process_request(
   create => {

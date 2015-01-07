@@ -8,11 +8,12 @@ use Dancer qw(:syntax !after !before); # we only want session, but we need to im
 use Dancer::Plugin;
 
 # The following provide objects which must be created on a per-request basis
-use Articulate::Location;
-use Articulate::Item;
-use Articulate::Error;
+# use Articulate::Location;
+# use Articulate::Item;
+# use Articulate::Error;
 use Articulate::Request;
 use Articulate::Response;
+use Articulate::Syntax;
 
 use Articulate::Construction;
 

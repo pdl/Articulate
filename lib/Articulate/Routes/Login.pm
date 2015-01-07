@@ -5,7 +5,6 @@ with 'Articulate::Role::Routes';
 
 use Dancer qw(:syntax !after !before);
 use Articulate::Service;
-use Articulate::Error;
 
 my $service = articulate_service;
 

@@ -45,6 +45,7 @@ plugins:
             article: Articulate::Item::Article
   Articulate::Service:
     providers:
+      - Articulate::Service::Error
       - Articulate::Service::Simple
       - Articulate::Service::SimpleForms
       - Articulate::Service::SimplePreviews

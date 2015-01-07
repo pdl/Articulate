@@ -7,8 +7,9 @@ with 'MooX::Singleton';
 use File::Path;
 use IO::All;
 use YAML;
-use Articulate::Error;
+# use Articulate::Error;
 use Articulate::Construction;
+use Articulate::Syntax;
 
 
 =head1 NAME

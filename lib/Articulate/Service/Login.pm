@@ -11,11 +11,12 @@ use Dancer::Plugin;
 use Articulate::Service;
 
 # The following provide objects which must be created on a per-request basis
-use Articulate::Location;
-use Articulate::Item;
-use Articulate::Error;
+# use Articulate::Location;
+# use Articulate::Item;
+# use Articulate::Error;
 use Articulate::Request;
 use Articulate::Response;
+use Articulate::Syntax;
 
 use Moo;
 with 'Articulate::Role::Service';

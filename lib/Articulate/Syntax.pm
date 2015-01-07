@@ -4,8 +4,15 @@ use Scalar::Util qw(blessed);
 use Module::Load ();
 
 use Exporter::Declare;
+default_exports qw(instantiate instantiate_array throw_error loc);
 use Articulate::Error;
-default_exports qw(instantiate instantiate_array);
+
+use Articulate::Item;
+use Articulate::Error;
+use Articulate::Location;
+
+sub throw_error { Articulate::Error::throw_error(@_) };
+sub loc         { Articulate::Location::loc(@_) };
 
 =head3 instantiate_array
 
