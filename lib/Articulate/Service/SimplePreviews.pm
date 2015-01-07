@@ -6,14 +6,11 @@ use warnings;
 use Dancer qw(:syntax !after !before); # we only want session, but we need to import Dancer in a way which doesn't mess with the appdir. Todo: create Articulate::FrameworkAdapter
 
 use Dancer::Plugin;
+use Articulate::Syntax;
 
 # The following provide objects which must be created on a per-request basis
-# use Articulate::Location;
-# use Articulate::Item;
-# use Articulate::Error;
 use Articulate::Request;
 use Articulate::Response;
-use Articulate::Syntax;
 
 use Articulate::Construction;
 
