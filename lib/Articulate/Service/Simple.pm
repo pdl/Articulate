@@ -8,7 +8,6 @@ use Dancer qw(:syntax !after !before); # we only want session, but we need to im
 use Dancer::Plugin;
 
 use Articulate::Syntax;
-use Articulate::Construction;
 
 # The following provide objects which must be created on a per-request basis
 use Articulate::Request;
@@ -34,7 +33,7 @@ sub _create {
   my $self    = shift;
   my $request = shift;
 
-  my $item = blessed $request->data ? $request->data : construction->construct( {
+  my $item = blessed $request->data ? $request->data : $self->construction->construct( {
     meta => {},
     (%{$request->data} ? %{$request->data} : ()),
   } );
@@ -75,7 +74,7 @@ sub _read {
 
   if ( $self->authorisation->permitted ( $user, read => $location ) ) {
     throw_error 'NotFound' unless $self->storage->item_exists($location);
-    my $item = construction->construct( {
+    my $item = $self->construction->construct( {
       meta     => $self->storage->get_meta_cached    ($location),
       content  => $self->storage->get_content_cached ($location),
       location => $location,
@@ -99,7 +98,7 @@ sub _update {
   my $self    = shift;
   my $request = shift;
 
-  my $item = blessed $request->data ? $request->data : construction->construct( {
+  my $item = blessed $request->data ? $request->data : $self->construction->construct( {
     meta => {},
     (%{$request->data} ? %{$request->data} : ()),
   } );

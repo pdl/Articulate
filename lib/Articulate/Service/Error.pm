@@ -7,8 +7,6 @@ use Dancer qw(:syntax !after !before); # we only want session, but we need to im
 
 use Dancer::Plugin;
 
-use Articulate::Construction;
-
 use Articulate::Request;
 use Articulate::Response;
 use Articulate::Syntax;
@@ -36,3 +34,5 @@ sub _error {
   my $error_data = $request->error // {};
   throw_error $error_type, $error_data;
 }
+
+1;

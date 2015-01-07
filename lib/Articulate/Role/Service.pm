@@ -11,6 +11,7 @@ use Articulate::Enrichment     ();
 use Articulate::Interpreter    ();
 use Articulate::Augmentation   ();
 use Articulate::Validation     ();
+use Articulate::Construction   ();
 
 has storage => (
   is      => 'rw',
@@ -30,6 +31,13 @@ has authorisation => (
   is      => 'rw',
   default => sub {
     Articulate::Authorisation::authorisation;
+  }
+);
+
+has construction => (
+  is      => 'rw',
+  default => sub {
+    Articulate::Construction::construction;
   }
 );
 
