@@ -148,6 +148,8 @@ The Content component is responsible for caching content, meta, etc, and also cl
 
 What about indexing things post-component? e.g. do some metadata extraction to get datesdates, then search? I wonder if indexes need to be maintained separately from content, especially to avoid contamination by non-UGC.
 
+When storage does write ops let it call Indexation which delegates to indexes which can decide whether to update indexes.
+
 What about indexing with a separate service, e.g. store content locally but hive off document search to a solr instance?
 
 ### Versioning
@@ -162,7 +164,7 @@ lock_item ($user, $endtime)
 
 ### Integrated services
 
-It should be possible to define route handlers, possibly within zones, which are available to only certain users and that perfoem operations, e.g. authors can access a service which turns markdown into html for previews. Login might be one of these services?
+It should be possible to define route handlers, possibly within zones, which are available to only certain users and that perform operations, e.g. authors can access a service which turns markdown into html for previews. Login might be one of these services?
 
 Does this need to be a formal component or can it be just plugged directly into the Authorisation/Authentication?
 
