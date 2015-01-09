@@ -313,10 +313,10 @@ sub list_items {
 	my @contents;
 	return @contents unless -d $true_location;
 	opendir (my $dh, $true_location) or throw_error NotFound => ('Could not open '.$true_location);
-	while (readdir $dh) {
-		my $child_dn = $true_location.'/'.$_;
+	while (my $fn = readdir $dh) {
+		my $child_dn = $true_location.'/'.$fn;
 		next unless -d $child_dn;
-		push @contents, $_ if good_location $location.'/'.$_ and $self->item_exists( $location.'/'.$_ );
+		push @contents, $fn if good_location $location.'/'.$fn and $self->item_exists( loc $location.'/'.$fn );
 	}
 	return @contents;
 }
