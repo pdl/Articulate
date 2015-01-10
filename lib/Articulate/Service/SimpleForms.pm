@@ -33,7 +33,7 @@ sub _create_form {
   my $user       = $self->framework->user;
   my $location   = loc $request->data->{location};
   my $permission = $self->authorisation->permitted ( $user, write => $location );
-  
+
   if ( $permission ) {
 
     return response 'form/create', {
