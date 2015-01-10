@@ -27,7 +27,7 @@ The purpose of this function is to enable the following:
     has delegates_to =>
       is      => 'rw',
       default => sub { [] },
-      coerce  => \&instantiate_array;
+      coerce  => sub{ instantiate_array(@_) };
 
 Which means given config like the following:
 
