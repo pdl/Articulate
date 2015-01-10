@@ -2,7 +2,6 @@ package Articulate::Authorisation;
 
 use Moo;
 with 'MooX::Singleton';
-use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
 use Module::Load ();
 use Articulate::Syntax qw(instantiate_array);

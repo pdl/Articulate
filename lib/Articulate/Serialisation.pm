@@ -2,7 +2,6 @@ package Articulate::Serialisation;
 
 use Moo;
 with 'MooX::Singleton';
-use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
 use Articulate::Syntax qw(instantiate_array);
 

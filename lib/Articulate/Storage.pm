@@ -1,6 +1,5 @@
 package Articulate::Storage;
 
-use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
 use Moo;
 use Articulate::Syntax qw(instantiate);

@@ -1,6 +1,5 @@
 package Articulate::Item;
 use Moo;
-use Dancer qw(:syntax !after !before);
 use Dancer::Plugin;
 
 =head1 NAME
