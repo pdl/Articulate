@@ -24,7 +24,7 @@ Creates a new request, using the verb and data supplied as the respective argume
 
 register permission => sub {
   __PACKAGE__->new( {
-     user     => shift,
+     user     => shift // '[guest]',
      verb     => shift,
      location => shift
   } );
