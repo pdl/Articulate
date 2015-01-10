@@ -43,7 +43,7 @@ sub _login {
 
   if ( defined $user_id ) {
     if ( $self->authentication->login ($user_id, $password) ) {
-      session user => $user_id;
+      $self->framework->user( $user_id );
       response success => { user => $user_id };
     } # Can we handle all the exceptions with 403s?
     else {
@@ -60,7 +60,7 @@ sub _login {
 sub _logout {
   my $self     = shift;
   my $request  = shift;
-  my $user_id  = session('user');
+  my $user_id  = $self->framework->user;
   session->destroy();
   response success => { user_id => $user_id };
 }

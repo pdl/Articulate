@@ -28,11 +28,12 @@ sub process_request {
 }
 
 sub _create_form {
-  my $self     = shift;
-  my $request  = shift;
-  my $user     = session ('user');
-  my $location = loc $request->data->{location};
+  my $self       = shift;
+  my $request    = shift;
+  my $user       = $self->framework->user;
+  my $location   = loc $request->data->{location};
   my $permission = $self->authorisation->permitted ( $user, write => $location );
+  
   if ( $permission ) {
 
     return response 'form/create', {
@@ -51,11 +52,11 @@ sub _edit_form {
   my $self    = shift;
   my $request = shift;
 
-  my $location = loc $request->data->{location};
+  my $location   = loc $request->data->{location};
+  my $user       = $self->framework->user;
+  my $permission = $self->authorisation->permitted ( $user, write => $location );
 
-  my $user       = session ('user');
-
-  if ( $self->authorisation->permitted ( $user, write => $location ) ) {
+  if ( $permission ) {
 
     throw_error 'NotFound' unless $self->storage->item_exists($location);
 
@@ -72,7 +73,7 @@ sub _edit_form {
     };
   }
   else {
-    throw_error 'Forbidden';
+    throw_error Forbidden => $permission->reason;
   }
 
 }
@@ -81,10 +82,10 @@ sub _delete_form {
   my $self    = shift;
   my $request = shift;
 
-  my $item = $request->data;
-  my $location = $item->location;
-
-  my $user       = session ('user');
+  my $item       = $request->data;
+  my $location   = $item->location;
+  my $user       = $self->framework->user;
+  my $permission = $self->authorisation->permitted ( $user, write => $location );
 
   if ( $self->authorisation->permitted ( $user, write => $location ) ) {
     throw_error 'NotFound' unless $self->storage->item_exists($location);
@@ -102,7 +103,7 @@ sub _delete_form {
     };
   }
   else {
-    throw_error 'Forbidden';
+    throw_error Forbidden => $permission->reason;
   }
 
 }

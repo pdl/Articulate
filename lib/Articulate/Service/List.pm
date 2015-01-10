@@ -46,7 +46,7 @@ sub _list {
     return $curr->[0];
   };
 
-  my $user       = session ('user');
+  my $user       = $self->framework->user;
   my $permission = $self->authorisation->permitted ( $user, read => $location );
 
   if ( $permission ) {

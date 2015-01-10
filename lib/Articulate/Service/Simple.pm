@@ -104,7 +104,7 @@ sub _update {
   } );
   my $location = $item->location;
 
-  my $user       = session ('user');
+  my $user       = $self->framework->user;
   my $permission = $self->authorisation->permitted ( $user, write => $location );
   if ( $permission ) {
 
@@ -139,7 +139,7 @@ sub _delete {
   my $item = $request->data;
   my $location = $item->location;
 
-  my $user       = session ('user');
+  my $user       = $self->framework->user;
   my $permission = $self->authorisation->permitted ( $user, write => $location );
   if ( $permission ) {
     throw_error 'NotFound' unless $self->storage->item_exists($location);

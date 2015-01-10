@@ -4,14 +4,15 @@ use warnings;
 use Moo::Role;
 
 # The following provide plugins which should be singletons within an application
-use Articulate::Storage        ();
-use Articulate::Authentication ();
-use Articulate::Authorisation  ();
-use Articulate::Enrichment     ();
-use Articulate::Interpreter    ();
-use Articulate::Augmentation   ();
-use Articulate::Validation     ();
-use Articulate::Construction   ();
+use Articulate::Storage          ();
+use Articulate::Authentication   ();
+use Articulate::Authorisation    ();
+use Articulate::Enrichment       ();
+use Articulate::Interpreter      ();
+use Articulate::Augmentation     ();
+use Articulate::Validation       ();
+use Articulate::Construction     ();
+use Articulate::FrameworkAdapter ();
 
 has storage => (
   is      => 'rw',
@@ -59,6 +60,13 @@ has enrichment => (
   is      => 'rw',
   default => sub {
     Articulate::Enrichment::enrichment;
+  }
+);
+
+has framework => (
+  is      => 'rw',
+  default => sub {
+    Articulate::FrameworkAdapter::framework;
   }
 );
 
