@@ -1,0 +1,93 @@
+# This is the main configuration file of your Dancer app
+# env-related settings should go to environments/$env.yml
+# all the settings in this file will be loaded at Dancer's startup.
+
+# Your application's name
+appname: "PlainSpeaking"
+
+# The default layout to use for your application (located in
+# views/layouts/main.tt)
+layout: "main"
+
+# when the charset is set to UTF-8 Dancer will handle for you
+# all the magic of encoding and decoding. You should not care
+# about unicode within your app when this setting is set (recommended).
+charset: "UTF-8"
+
+template: "template_toolkit"
+engines:
+  template_toolkit:
+    start_tag: '[%'
+    end_tag:   '%]'
+
+
+plugins:
+  Articulate:
+    routes:
+      - PlainSpeaking::Routes::BlogContent
+      - Articulate::Routes::Login
+  Articulate::Construction:
+    constructors:
+      - class: Articulate::Construction::LocationBased
+        args:
+          types:
+            article: Articulate::Item::Article
+  Articulate::Service:
+    providers:
+      - Articulate::Service::Error
+      - Articulate::Service::Simple
+      - Articulate::Service::List
+      - Articulate::Service::SimpleForms
+      - Articulate::Service::SimplePreviews
+      - Articulate::Service::Login
+      - Articulate::Service::LoginForm
+  Articulate::Authentication:
+    providers:
+      - class: Articulate::Authentication::Preconfigured
+        args:
+          passwords:
+            admin: admin
+  Articulate::Authorisation:
+    rules:
+      - class: Articulate::Authorisation::Preconfigured
+        args:
+          rules:
+            "zone/blog":
+              admin: 1
+              "[guest]":
+                read: 1
+  Articulate::Enrichment:
+    enrichments:
+      - Articulate::Enrichment::DateCreated
+      - Articulate::Enrichment::DateUpdated
+  Articulate::Storage:
+    storage_class: Articulate::Storage::Local
+  Articulate::Interpreter:
+    interpreters:
+      - Articulate::Interpreter::Markdown
+  Articulate::Validation:
+    validators: []
+#      - Articulate::Validation::NoScript
+  Articulate::Serialisation:
+    serialisers:
+      - class: PlainSpeaking::Serialisation::SiteConfig
+        args:
+          site_data:
+            title: Plain Speaking
+            subtitle: An Articulate Blog
+            css:
+              - //maxcdn.bootstrapcdn.com/bootswatch/3.3.1/journal/bootstrap.min.css
+              - blog
+            js:
+              - plain-speaking-forms
+            nav_links:
+              - href: /
+                text: Home
+              - href: http://github.com/pdl/Articulate
+                text: About Articulate
+              - href: /login
+                text: Log In
+              - href: /create
+                text: New Post
+      - Articulate::Serialisation::StatusSetter
+      - Articulate::Serialisation::TemplateToolkit

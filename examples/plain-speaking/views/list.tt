@@ -1,0 +1,6 @@
+<section class="article-list">
+[% FOREACH item in list %]
+[% SET template = item.is _ '_result.tt' %]
+[% PROCESS $template article=item %]
+[% END %]
+</section>
