@@ -47,13 +47,14 @@ sub _list {
   };
 
   my $user       = session ('user');
+  my $permission = $self->authorisation->permitted ( $user, read => $location );
 
-  if ( $self->authorisation->permitted ( $user, read => $location ) ) {
+  if ( $permission ) {
     my $items = [];
     foreach my $item_location (map { loc "$location/$_" } $self->storage->list_items($location)) {
       if ( $self->authorisation->permitted ( $user, read => $item_location ) ) {
         my $item = $self->construction->construct( {
-          location => $location,
+          location => $item_location,
           meta     => $self->storage->get_meta($item_location),
           content  => $self->storage->get_content($item_location),
         } );
@@ -76,7 +77,7 @@ sub _list {
     };
   }
   else {
-    throw_error 'Forbidden';
+    throw_error 'Forbidden' => $permission->reason;
   }
 
 }

@@ -42,15 +42,17 @@ sub _login {
   my $password = $request->data->{password};
 
   if ( defined $user_id ) {
-    if ( service->authentication->login ($user_id, $password) ) {
-      session user_id => $user_id;
-      response success => { user_id => $user_id };
+    if ( $self->authentication->login ($user_id, $password) ) {
+      session user => $user_id;
+      response success => { user => $user_id };
     } # Can we handle all the exceptions with 403s?
-    throw_error 'Forbidden';
+    else {
+      throw_error Forbidden => 'Incorrect credentials';
+    }
   }
   else {
     # todo: see if we have email and try to identify a user and verify with that
-    throw_error 'Forbidden';
+    throw_error Forbidden => 'Missing user id';
   }
 
 }
@@ -58,7 +60,7 @@ sub _login {
 sub _logout {
   my $self     = shift;
   my $request  = shift;
-  my $user_id  = session('user_id');
+  my $user_id  = session('user');
   session->destroy();
   response success => { user_id => $user_id };
 }

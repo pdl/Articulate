@@ -32,8 +32,8 @@ sub _create_form {
   my $request  = shift;
   my $user     = session ('user');
   my $location = loc $request->data->{location};
-
-  if ( $self->authorisation->permitted ( $user, write => $location ) ) {
+  my $permission = $self->authorisation->permitted ( $user, write => $location );
+  if ( $permission ) {
 
     return response 'form/create', {
       form => {
@@ -42,7 +42,7 @@ sub _create_form {
     };
   }
   else {
-    throw_error 'Forbidden';
+    throw_error Forbidden => $permission->reason;
   }
 
 }

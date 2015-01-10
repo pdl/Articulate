@@ -39,8 +39,9 @@ sub _preview {
   my $location = $item->location;
 
   my $user = session ('user');
+  $permission = $self->authorisation->permitted ( $user, write => $location );
 
-  if ( $self->authorisation->permitted ( $user, write => $location ) ) { # no point offering this service to people who can't write there
+  if ( $permission ) { # no point offering this service to people who can't write there
 
     $self->validation->validate ($item) or throw_error BadRequest => 'The content did not validate'; # or throw
     $self->enrichment->enrich   ($item, $request); # this will throw if it fails
@@ -59,7 +60,7 @@ sub _preview {
     };
   }
   else {
-    throw_error 'Forbidden';
+    throw_error Forbidden => $permission->reason;
   }
 }
 
