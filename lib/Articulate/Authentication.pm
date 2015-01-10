@@ -10,7 +10,7 @@ register authentication => sub {
   __PACKAGE__->instance(plugin_setting);
 };
 
-has rules =>
+has providers =>
   is      => 'rw',
   default => sub { [] },
   coerce  => sub { instantiate_array(@_) };
@@ -20,7 +20,6 @@ sub login {
   my $user_id    = shift;
   my $password   = shift;
   foreach my $provider ( @{ $self->providers } ) {
-    my $provider = $provider->new;
     if (
       defined ( $provider->authenticate( $user_id, $password ) )
     ) {
