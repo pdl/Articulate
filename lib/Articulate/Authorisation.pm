@@ -62,14 +62,13 @@ sub permitted {
     if (
       $rule->permitted( $p )
     ) {
-      session user_id => $user_id;
       return ($p);
     }
     elsif ( $p->denied ) {
       return $p;
     }
   }
-  return ($p->deny);
+  return ($p->deny('No rule granted this permission'));
 }
 
 register_plugin();
