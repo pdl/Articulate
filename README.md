@@ -14,9 +14,17 @@ It's written in Perl, the fast, reliable 'glue language' that's perfect for agil
 >
 > This is work in progress! It's alpha-stage software and important things WILL change.
 >
-> Currently the interface is not final so examples would be premature.
+> Articulate isn't on CPAN yet - but don't worry, it will be when it's just a little bit more stable.
 >
-> For the same reason, it isn't on CPAN yet - but don't worry, it will be.
+> If you want a preview, there's an example blog engine included, just clone the repository and type:
+>
+>     cd examples/plain-speaking
+>     bin/app.pl
+>
+>  ... and then go to http://localhost:3000/
+>
+> Don't want a blog? Don't worry, many other things are possible!
+
 
 ## Roadmap
 
