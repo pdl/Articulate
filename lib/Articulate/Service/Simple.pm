@@ -3,8 +3,6 @@ package Articulate::Service::Simple;
 use strict;
 use warnings;
 
-use Dancer qw(:syntax !after !before); # we only want session, but we need to import Dancer in a way which doesn't mess with the appdir. Todo: create Articulate::FrameworkAdapter
-
 use Dancer::Plugin;
 
 use Articulate::Syntax;
@@ -39,7 +37,7 @@ sub _create {
   } );
   my $location = $item->location;
 
-  my $user       = session ('user');
+  my $user       = $self->framework->user;
   my $permission = $self->authorisation->permitted ( $user, write => $location );
   if ( $permission ) {
 
@@ -67,10 +65,10 @@ sub _create {
 }
 
 sub _read {
-  my $self     = shift;
-  my $request  = shift;
-  my $location = loc $request->data->{location};
-  my $user     = session ('user');
+  my $self       = shift;
+  my $request    = shift;
+  my $location   = loc $request->data->{location};
+  my $user       = $self->framework->user;
   my $permission = $self->authorisation->permitted ( $user, read => $location );
   if ( $permission ) {
     throw_error 'NotFound' unless $self->storage->item_exists($location);
