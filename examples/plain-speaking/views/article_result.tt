@@ -3,14 +3,14 @@
   [%- SET slug = article.location _ '' -%]
   [%- slug = slug.replace('.*/', '') -%]
   href  = "/article/[% slug %]"
-  class = "block-item"
+  class = "block-item list-group-item"
 >
-  <h3
-    class="article-title lead"
+  <p
+    class="article-title h3"
     itemprop="name"
   >
       [% article.schema.core.title | html %]
-  </h3>
+  </p>
 <div class="small text-muted">
   <div class="article-meta-created">
     Written at about <time itemprop="dateModified">[% date.format(article.schema.core.dateCreated) | html %]</time>

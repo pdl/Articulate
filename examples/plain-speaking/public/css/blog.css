@@ -14,3 +14,8 @@ a.block-item {
 a.block-item:hover {
   text-decoration: none;
 }
+
+a.list-group-item>.h3{
+  margin-top: 0px;
+  padding-top: 0px;
+}
