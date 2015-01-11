@@ -12,6 +12,7 @@ Articulate - A lightweight Perl CMS Framework
 
 	# (in bin/app.pl)
 	use Dancer;
+	use Articulate;
 	articulate_app->enable;
 	dance;
 
@@ -23,7 +24,18 @@ It's written in Perl, the fast, reliable 'glue language' that's perfect for agil
 
 =head1 DESCRIPTION
 
-Articulate is (currently) a set of Dancer plugins which work together to create a conent management service that will sit alongside an existing Dancer app or form the basis of a new one.
+Articulate is a set of plugins which work together to create a conent management service that will sit alongside an existing Dancer app or form the basis of a new one.
+
+If you want to see one in action, try running:
+
+	cd examples/plain-speaking
+	perl bin/app.pl
+
+You can see how it's configured by looking at
+
+	examples/plain-speaking/config.yml
+
+Notice that bin/app.pl doesn't directly load anything but Articulate. Everything you need is in config.yml, and you can replace components with ones you've written if your app needs to do different things.
 
 =head2 Response/Request lifecycle summary
 
@@ -92,6 +104,8 @@ The following classes are used for passing request data between components:
 =back
 
 =head1 GETTING STARTED
+
+Don't forget to install Articulate - remember, it's a library, not an app.
 
 Check out the examples in the C<examples> folder of the distribution.
 
