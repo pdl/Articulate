@@ -62,9 +62,14 @@ plugins:
       - Articulate::Enrichment::DateUpdated
   Articulate::Storage:
     storage_class: Articulate::Storage::Local
-  Articulate::Interpreter:
-    interpreters:
-      - Articulate::Interpreter::Markdown
+  Articulate::Augmentation:
+    augmentations:
+      - class: Articulate::Augmentation::Interpreter
+        args:
+          interpreters:
+            "text/markdown":
+              - Articulate::Augmentation::Interpreter::Markdown
+          default_format: "text/markdown"
   Articulate::Validation:
     validators: []
 #      - Articulate::Validation::NoScript

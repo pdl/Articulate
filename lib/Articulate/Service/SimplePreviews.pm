@@ -46,7 +46,6 @@ sub _preview {
 
     # skip the storage interaction
 
-    $self->interpreter->interpret ($item); # this will throw if it fails
     $self->augmentation->augment  ($item); # this will throw if it fails
 
     return response 'article', {

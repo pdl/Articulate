@@ -8,7 +8,6 @@ use Articulate::Storage          ();
 use Articulate::Authentication   ();
 use Articulate::Authorisation    ();
 use Articulate::Enrichment       ();
-use Articulate::Interpreter      ();
 use Articulate::Augmentation     ();
 use Articulate::Validation       ();
 use Articulate::Construction     ();
@@ -39,13 +38,6 @@ has construction => (
   is      => 'rw',
   default => sub {
     Articulate::Construction::construction;
-  }
-);
-
-has interpreter => (
-  is      => 'rw',
-  default => sub {
-    Articulate::Interpreter::interpreter;
   }
 );
 

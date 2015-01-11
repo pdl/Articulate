@@ -47,7 +47,6 @@ sub _create {
     $self->enrichment->enrich     ($item, $request); # this will throw if it fails
     $self->storage->create_item   ($item); # this will throw if it fails
 
-    $self->interpreter->interpret ($item); # this will throw if it fails
     $self->augmentation->augment  ($item); # this will throw if it fails
 
     return response 'article', {
@@ -77,7 +76,6 @@ sub _read {
       content  => $self->storage->get_content_cached ($location),
       location => $location,
     } );
-    $self->interpreter->interpret ($item); # or throw
     $self->augmentation->augment  ($item); # or throw
 
     return response article => {
@@ -113,7 +111,6 @@ sub _update {
     $self->storage->set_meta    ($item) or throw_error 'Internal'; # or throw
     $self->storage->set_content ($item) or throw_error 'Internal'; # or throw
 
-    $self->interpreter->interpret ($item) or throw_error 'Internal'; # or throw
     $self->augmentation->augment  ($item) or throw_error 'Internal'; # or throw
 
     return response 'article', {

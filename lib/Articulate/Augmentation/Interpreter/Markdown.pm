@@ -1,11 +1,11 @@
-package Articulate::Interpreter::Markdown;
+package Articulate::Augmentation::Interpreter::Markdown;
 use Text::Markdown;
 use Moo;
 with 'MooX::Singleton';
 
 =head1 NAME
 
-Articulate::Interpreter::Markdown - convert markdown to HTML
+Articulate::Augmentation::Interpreter::Markdown - convert markdown to HTML
 
 =head1 METHODS
 
@@ -22,7 +22,7 @@ has markdown_parser =>
   }
 ;
 
-sub interpret {
+sub augment {
   my $self = shift;
   my $item = shift;
   $item->content (

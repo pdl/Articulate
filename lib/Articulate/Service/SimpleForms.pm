@@ -91,7 +91,6 @@ sub _delete_form {
     throw_error 'NotFound' unless $self->storage->item_exists($location);
 
     my $item = $self->storage->get_item($location);
-    $self->interpreter->interpret ($item) or throw_error 'Internal'; # or throw
     $self->augmentation->augment  ($item) or throw_error 'Internal'; # or throw
 
     return response 'form/delete', {

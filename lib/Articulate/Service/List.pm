@@ -55,7 +55,6 @@ sub _list {
           meta     => $self->storage->get_meta($item_location),
           content  => $self->storage->get_content($item_location),
         } );
-        $self->interpreter->interpret ($item); # this will throw if it fails
         $self->augmentation->augment  ($item); # this will throw if it fails
         push $items, $item;
       }
