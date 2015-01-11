@@ -1,4 +1,4 @@
-package PlainSpeaking::Serialisation::SiteConfig;
+package Articulate::Serialisation::SiteConfig;
 
 use Moo;
 with 'MooX::Singleton';

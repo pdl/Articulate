@@ -75,7 +75,7 @@ plugins:
 #      - Articulate::Validation::NoScript
   Articulate::Serialisation:
     serialisers:
-      - class: PlainSpeaking::Serialisation::SiteConfig
+      - class: Articulate::Serialisation::SiteConfig
         args:
           site_data:
             title: Plain Speaking
