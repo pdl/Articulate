@@ -1,8 +1,9 @@
-package Articulate::Location;
+package Articulate::LocationSpecification;
 use Moo;
 use Scalar::Util qw(blessed);
 use overload  '""' => \&to_file_path, '@{}' => sub{ shift->path };
 use Dancer::Plugin ();
+use Articulate::Location;
 
 =head1 NAME
 
@@ -27,10 +28,21 @@ C<loc> is a constructor. It takes either a string (in the form of a path) or an 
 
 =cut
 
-Dancer::Plugin::register loc => sub {
+Dancer::Plugin::register locspec => sub {
   if ( 1 == scalar @_ ) {
-    if ( blessed $_[0] and $_[0]->can('location') ) {
+    if ( blessed $_[0] and $_[0]->isa('Articulate::LocationSpecification') ) {
       return $_[0];
+    }
+    elsif ( blessed $_[0] and $_[0]->isa('Articulate::Location') ) {
+      my $path = $_[0]->path; # should this logic be in the coerce?
+      if (@$path) {
+        for my $i (1..$#$path) {
+          if (0 == ($i % 2) ) {
+            $path->[$i] = '*';
+          }
+        }
+      }
+      return __PACKAGE__->new({ path => $path });
     }
     elsif ( ref $_[0] eq 'ARRAY' ) {
       return __PACKAGE__->new({ path => $_[0] });
@@ -82,6 +94,53 @@ Joins the contents of C<path> on C</> and returns the result. This is used for o
 sub to_file_path {
   return join '/', @{ $_[0]->path }
 };
+
+sub _step_matches {
+  my ( $left, $right ) = @_;
+  return 1 if ( $left  eq '*' );
+  return 1 if ( $right eq '*' );
+  return 1 if ( $left  eq $right );
+  return 0;
+
+}
+
+sub matches {
+  my $self     = shift;
+  my $location = loc shift;
+  return 0 unless $#$self == $#$location;
+  return 1 if $#$self == -1; # go no further if both are empty
+  for my $i (0..$#$self) {
+    return 0 unless _step_matches( $self->[$i], $location->[$i] );
+  }
+  return 1;
+}
+# sub matches_parent_of {
+#
+# }
+# sub matches_child_of {
+#
+# }
+sub matches_ancestor_of {
+  my $self     = shift;
+  my $location = loc shift;
+  return 0 unless $#$self <= $#$location;
+  return 1 if $#$self == -1; # go no further if self is empty
+  for my $i (0..$#$self) {
+    return 0 unless _step_matches( $self->[$i], $location->[$i] );
+  }
+  return 1;
+}
+
+sub matches_descendant_of {
+  my $self     = shift;
+  my $location = loc shift;
+  return 0 unless $#$self >= $#$location;
+  return 1 if $#$location == -1; # go no further if self is empty
+  for my $i (0..$#$self) {
+    return 0 unless _step_matches( $self->[$i], $location->[$i] );
+  }
+  return 1;
+}
 
 Dancer::Plugin::register_plugin;
 

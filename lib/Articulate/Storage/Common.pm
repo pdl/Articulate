@@ -2,6 +2,8 @@ package Articulate::Storage::Common;
 use strict;
 use warnings;
 use Exporter::Declare;
+use Articulate::Navigation;
+
 default_exports qw(
   good_location
   merge_settings
@@ -53,6 +55,7 @@ my $re_slug = qr~$s_slug~;
 
 sub good_location {
   my $location  = shift;
+  return navigation->valid_location($location);
   return undef unless $location =~ $re_location;#m~^zone/$re_slug/article/$re_slug$~;
   return $location;
 }

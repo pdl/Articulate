@@ -60,6 +60,13 @@ plugins:
     enrichments:
       - Articulate::Enrichment::DateCreated
       - Articulate::Enrichment::DateUpdated
+  Articulate::Navigation:
+    locations:
+      - zone
+      - zone/*
+      - zone/*/article/
+      - zone/*/article/*
+      - user/*
   Articulate::Storage:
     storage_class: Articulate::Storage::Local
   Articulate::Augmentation:

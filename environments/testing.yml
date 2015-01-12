@@ -43,6 +43,11 @@ plugins:
         args:
           types:
             article: Articulate::Item::Article
+  Articulate::Navigation:
+    locations:
+      - zone/*/article/*
+      - user/*
+      - []
   Articulate::Service:
     providers:
       - Articulate::Service::Error
