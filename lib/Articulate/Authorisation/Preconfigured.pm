@@ -5,6 +5,8 @@ use warnings;
 use Moo;
 with 'MooX::Singleton';
 
+use Articulate::LocationSpecification; # provides locspec
+
 =head1 NAME
 
 Articulate::Authorisation::Preconfigured - allow access to users in your config
@@ -62,8 +64,8 @@ sub permitted {
   my $rules      = $self->rules;
   my $access     = undef;
 
-  foreach my $rule_location (sort {length $a <=> length $b } keys $rules) {
-    if ( $location =~ /^$rule_location\b/ ) {
+  foreach my $rule_location ( sort {$#$a <=> $#$b } map { locspec $_ } keys $rules) {
+    if ( $rule_location->matches_ancestor_of($location) ) {
       if ( grep { $_ eq $user_id } keys %{ $rules->{$rule_location} } ){
         if ( ref $rules->{$rule_location}->{$user_id} ) {
           if ( exists $rules->{$rule_location}->{$user_id}->{$verb} ) {

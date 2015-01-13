@@ -52,7 +52,7 @@ plugins:
       - class: Articulate::Authorisation::Preconfigured
         args:
           rules:
-            "zone/blog":
+            "zone/*":
               admin: 1
               "[guest]":
                 read: 1
