@@ -9,15 +9,62 @@ with 'MooX::Singleton';
 
 use Dancer::Plugin;
 use YAML;
+
+=head1 NAME
+
+Articulate::Construction - create appropriate content item objects given location, meta, content.
+
+=cut
+
+=head1 CONFIGURATION
+
+  plugins:
+    Articulate::Construction:
+      constructors:
+      - Articulate::Construction::LocationBased
+
+=head1 FUNCTION
+
+=head3 construction
+
+Returns a new instance of this object.
+
+=cut
+
 register construction => sub {
   __PACKAGE__->instance(plugin_setting);
 };
+
+=head1 ATTRIBUTE
+
+head3 constructors
+
+A list of classes which can be used to construct items.
+
+=cut
 
 has constructors => (
   is      => 'rw',
   default => sub { [] },
   coerce  => sub { instantiate_array(@_) }
 );
+
+=head1 METHODS
+
+=head3 construct
+
+  my $item = $construction->construct( {
+    location => $location,
+    meta     => $meta,
+    content  => $content,
+  } );
+
+Iterates through the C<constructors> and asks each to C<construct> an item with the construction data.
+If no constructor returns a defined vaue, then performs C<< Articulate::Item->new( $args ) >>.
+
+Note that of these three pieces of data, it is not guaranteed that all will be available at the time of construction, particularly on inbound communication (as opposed to when retrieving from storage). This is largely dependant on the Service. Location should always be available. Content is often not available.
+
+=cut
 
 sub construct {
   my $self = shift;
