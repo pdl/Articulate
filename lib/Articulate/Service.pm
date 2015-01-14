@@ -97,6 +97,23 @@ sub process_request {
   return $response;
 }
 
+=head3 enumerate_verbs
+
+  my @verbs = @{ $service->enumerate_verbs };
+
+Returns an arrayref of verbs which at list one provider will process.
+
+=cut
+
+sub enumerate_verbs {
+  my $self = shift;
+  my $verbs = {};
+  foreach my $provider ( @{ $self->providers } ) {
+    $verbs->{$_}++ foreach keys %{ $provider->verbs };
+  }
+  return [ sort keys %$verbs ];
+}
+
 register_plugin;
 
 1;
