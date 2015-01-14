@@ -2,10 +2,14 @@ package Articulate::TestEnv;
 
 use FindBin;
 use Dancer qw(:syntax !after !before);
-config->{appdir} = $FindBin::Bin.'/..';
+set appdir      => $FindBin::Bin.'/';
+set envdir      => $FindBin::Bin.'/environments';
+set public      => $FindBin::Bin.'/public';
+set views       => $FindBin::Bin.'/views';
 set environment => 'testing';
+#set require_environment => 'testing';
 
-Dancer::Config->load;
+Dancer::Config->load; #::load_settings_from_yaml($FindBin::Bin.'/config.yml');
 
 use Articulate;
 
@@ -15,7 +19,5 @@ use Articulate::Storage;
 storage->empty_all_content;
 
 #use YAML;
-
-#die Dump config;
 
 1;

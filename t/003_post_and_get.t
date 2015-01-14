@@ -4,6 +4,7 @@ use warnings;
 
 # the order is important
 use Articulate::TestEnv;
+Dancer::config->{views} = $FindBin::Bin.'/views'; # not happy about this hack it was fine at the end of TestEnv
 use Articulate;
 use Dancer::Test;
 use YAML;
