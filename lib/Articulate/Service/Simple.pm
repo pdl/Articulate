@@ -20,14 +20,7 @@ use Scalar::Util qw(blessed);
 
 use Moo;
 
-sub process_request {
-  my $self    = shift;
-  my $request = shift;
-  $request->verb eq $_ ? return $self->${\"_$_"}($request) : 0 for qw(create read update delete);
-  return undef; # whatever else the user wants, we can't provide it
-}
-
-sub _create {
+sub handle_create {
   my $self    = shift;
   my $request = shift;
 
@@ -63,7 +56,7 @@ sub _create {
 
 }
 
-sub _read {
+sub handle_read {
   my $self       = shift;
   my $request    = shift;
   my $location   = loc $request->data->{location};
@@ -90,7 +83,7 @@ sub _read {
   }
 }
 
-sub _update {
+sub handle_update {
   my $self    = shift;
   my $request = shift;
 
@@ -127,7 +120,7 @@ sub _update {
 
 }
 
-sub _delete {
+sub handle_delete {
   my $self    = shift;
   my $request = shift;
 

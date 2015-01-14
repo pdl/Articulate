@@ -18,14 +18,7 @@ use Scalar::Util qw(blessed);
 
 use Moo;
 
-sub process_request {
-  my $self    = shift;
-  my $request = shift;
-  $request->verb eq $_ ? return $self->${\"_$_"}($request) : 0 for qw(error);
-  return undef; # whatever else the user wants, we can't provide it
-}
-
-sub _error {
+sub handle_error {
   my $self     = shift;
   my $request  = shift;
   my $error_type = $request->error_type // 'Internal';

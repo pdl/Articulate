@@ -24,9 +24,10 @@ WriteMakefile(
         'Module::Load'      => 0,
         'IO::All'           => 0,
         'Digest::SHA'       => 0,
+        'Class::Inspector'  => 0, # Used by Articulate::Role::Service
         'Exporter::Declare' => 0,
         'Text::Markdown'    => 0, # chances are you'll need it
-	'MooX::Singleton'   => 0, # for now at least
+        'MooX::Singleton'   => 0, # for now at least
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Articulate-*' },

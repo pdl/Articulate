@@ -16,14 +16,7 @@ with 'MooX::Singleton';
 
 use Moo;
 
-sub process_request {
-  my $self    = shift;
-  my $request = shift;
-  $request->verb eq $_ ? return $self->${\"_$_"}($request) : 0 for qw(login_form);
-  return undef; # whatever else the user wants, we can't provide it
-}
-
-sub _login_form {
+sub handle_login_form {
   my $self     = shift;
   my $request  = shift;
   return response 'form/login', {

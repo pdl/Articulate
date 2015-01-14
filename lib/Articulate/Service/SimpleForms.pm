@@ -20,14 +20,7 @@ use Scalar::Util qw(blessed);
 
 use Moo;
 
-sub process_request {
-  my $self    = shift;
-  my $request = shift;
-  $request->verb eq $_ ? return $self->${\"_$_"}($request) : 0 for qw(create_form edit_form delete_form);
-  return undef; # whatever else the user wants, we can't provide it
-}
-
-sub _create_form {
+sub handle_create_form {
   my $self       = shift;
   my $request    = shift;
   my $user       = $self->framework->user;
@@ -48,7 +41,7 @@ sub _create_form {
 
 }
 
-sub _edit_form {
+sub handle_edit_form {
   my $self    = shift;
   my $request = shift;
 
@@ -78,7 +71,7 @@ sub _edit_form {
 
 }
 
-sub _delete_form {
+sub handle_delete_form {
   my $self    = shift;
   my $request = shift;
 
