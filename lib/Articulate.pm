@@ -59,7 +59,7 @@ Finally, after items are retrieved from storage, there is the opportunity to B<a
 
 =head2 Components
 
-The following classes are persistent, configurable components of the system
+The following classes are persistent, configurable components of the system:
 
 =over
 
@@ -71,7 +71,9 @@ The following classes are persistent, configurable components of the system
 
 =item * L<Articulate::Enrichment>
 
-=item * L<Articulate::Intepreter>
+=item * L<Articulate::FrameworkAdapter>
+
+=item * L<Articulate::Navigation>
 
 =item * L<Articulate::Serialisation>
 
@@ -94,6 +96,8 @@ The following classes are used for passing request data between components:
 =item * L<Articulate::Item>
 
 =item * L<Articulate::Location>
+
+=item * L<Articulate::LocationSpecification>
 
 =item * L<Articulate::Permission>
 
