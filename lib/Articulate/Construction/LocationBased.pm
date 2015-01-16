@@ -28,11 +28,11 @@ So:
     content  => " ... "
   } );
 
-Attempts to construct the item. Determines the desired class based on the mapping in the `types` attribute, then calls C<< $class->new($args) >> on the class. Returns `undef` if no appropriate class found.
+Attempts to construct the item. Determines the desired class based on the mapping in the C<types> attribute, then calls C<< $class->new($args) >> on the class. Returns C<undef> if no appropriate class found.
 
 In the above example, C<< $self->types->{article} >> would be consulted.
 
-If the location is root or not a multiple of 2 (e.g. C<zone/public> is even and a zone but C<zone/public/article> is odd), returns undef.
+If the location is root or not a multiple of 2 (e.g. C<zone/public> is even and a C<zone> but C<zone/public/article> is odd), returns C<undef>.
 
 =cut
 
