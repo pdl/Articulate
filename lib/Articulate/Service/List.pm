@@ -5,7 +5,7 @@ use warnings;
 
 use Dancer::Plugin;
 use Articulate::Syntax;
-
+use Articulate::Sortation::MetaDelver;
 # The following provide objects which must be created on a per-request basis
 use Articulate::Request;
 use Articulate::Response;
@@ -24,7 +24,7 @@ sub handle_list {
   my $request = shift;
 
   my $location = loc $request->data->{location};
-  my $sort     = $request->data->{sort};
+  my $sort     = $request->data->{sort}; # needs careful validation as this can do all sorts of fun constructor logic
 
   my $get_sort_field = sub {
     my $meta = shift->meta;
@@ -52,6 +52,7 @@ sub handle_list {
         push $items, $item;
       }
     }
+    my $sorter = Articulate::Sortation::MetaDelver->new( $sort );
     return response 'list', {
       list => [
         map {
@@ -61,7 +62,8 @@ sub handle_list {
             schema   => $_->meta->{schema},
             content  => $_->content,
           }
-        } sort { ( $get_sort_field->($a) cmp $get_sort_field->($b) ) * ( ( $sort->{order} // 'asc' ) eq 'desc' ? -1 : 1 ) } @$items # would benefit from a schwartzian transform here
+        }
+        @{ $sorter->schwartz($items) }
       ],
     };
   }
