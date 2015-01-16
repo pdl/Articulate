@@ -17,7 +17,7 @@ Sets the creation date (C<meta.schema.core.dateCreated>) to the current time, un
 
 use DateTime;
 
-sub now {
+sub _now {
   DateTime->now;
 }
 
@@ -25,7 +25,7 @@ sub enrich {
   my $self    = shift;
   my $item    = shift;
   my $request = shift;
-  my $now = now;
+  my $now = _now;
   $item->meta->{schema}->{core}->{dateCreated} //= "$now";
   return $item;
 }
