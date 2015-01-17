@@ -27,6 +27,32 @@ use Scalar::Util qw(blessed);
 
 use Moo;
 
+=head1 NAME
+
+Articulate::Service::Login - provide login, logout
+
+=cut
+
+=head1 METHODS
+
+=head1 handle_login
+
+  $self->handle_login( {user_id => 'admin', password => 'secret!' } )
+
+Tries to authenticate a user and, if successful, sets a session var (see L<Articulate::FrameworkAdapter>).
+
+Returns C<< {user_id => $user_id } >> if successful, throws an error otherwise.
+
+=head1 handle_logout
+
+  $self->handle_login( {user_id => 'admin', password => 'secret!' } )
+
+Destroys the current session.
+
+Returns C<< {user_id => $user_id } >>.
+
+=cut
+
 sub handle_login {
   my $self     = shift;
   my $request  = shift;
@@ -37,7 +63,7 @@ sub handle_login {
   if ( defined $user_id ) {
     if ( $self->authentication->login ($user_id, $password) ) {
       $self->framework->user( $user_id );
-      response success => { user => $user_id };
+      response success => { user_id => $user_id };
     } # Can we handle all the exceptions with 403s?
     else {
       throw_error Forbidden => 'Incorrect credentials';
