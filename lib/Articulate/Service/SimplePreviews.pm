@@ -29,7 +29,7 @@ sub handle_preview {
 
   my $location = $item->location;
 
-  my $user       = $self->framework->user;
+  my $user       = $self->framework->user_id;
   my $permission = $self->authorisation->permitted ( $user, write => $location );
 
   if ( $permission ) { # no point offering this service to people who can't write there

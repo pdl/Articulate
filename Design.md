@@ -14,8 +14,9 @@ Articulate is an expression of the idea that your content management solution is
 - it should not place arbitrary restrictions on role of the content (blog, issue tracker, wiki)
 - it should not place arbitrary restrictions on the content-types you want to host, or how you want to edit them
 - it should not force you into a url schema you don't want.
+- It should be easy to add an Articulate component to a project with other functions.
 
-It should be easy to add an Articulate component to a project with other functions.
+
 
 ## Qs
 

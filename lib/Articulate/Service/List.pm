@@ -36,7 +36,7 @@ sub handle_list {
     return $curr->[0];
   };
 
-  my $user       = $self->framework->user;
+  my $user       = $self->framework->user_id;
   my $permission = $self->authorisation->permitted ( $user, read => $location );
 
   if ( $permission ) {

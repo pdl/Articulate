@@ -58,7 +58,7 @@ This is preconfigured access, so fine for a small personal or static site, but i
 sub permitted {
   my $self       = shift;
   my $permission = shift;
-  my $user_id    = $permission->user;
+  my $user_id    = $permission->user_id;
   my $location   = $permission->location;
   my $verb       = $permission->verb;
   my $rules      = $self->rules;

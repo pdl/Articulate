@@ -30,7 +30,7 @@ sub handle_create {
   } );
   my $location = $item->location;
 
-  my $user       = $self->framework->user;
+  my $user       = $self->framework->user_id;
   my $permission = $self->authorisation->permitted ( $user, write => $location );
   if ( $permission ) {
 
@@ -60,7 +60,7 @@ sub handle_read {
   my $self       = shift;
   my $request    = shift;
   my $location   = loc $request->data->{location};
-  my $user       = $self->framework->user;
+  my $user       = $self->framework->user_id;
   my $permission = $self->authorisation->permitted ( $user, read => $location );
   if ( $permission ) {
     throw_error 'NotFound' unless $self->storage->item_exists($location);
@@ -93,7 +93,7 @@ sub handle_update {
   } );
   my $location = $item->location;
 
-  my $user       = $self->framework->user;
+  my $user       = $self->framework->user_id;
   my $permission = $self->authorisation->permitted ( $user, write => $location );
   if ( $permission ) {
 
@@ -127,7 +127,7 @@ sub handle_delete {
   my $item = $request->data;
   my $location = $item->location;
 
-  my $user       = $self->framework->user;
+  my $user       = $self->framework->user_id;
   my $permission = $self->authorisation->permitted ( $user, write => $location );
   if ( $permission ) {
     throw_error 'NotFound' unless $self->storage->item_exists($location);

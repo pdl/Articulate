@@ -54,7 +54,7 @@ Grants any request if the user asking is the owner. By default this is the user 
 sub permitted {
   my $self       = shift;
   my $permission = shift;
-  $permission->grant('Site owner can do anything') if ( ( $permission->user // '' ) eq $self->owner );
+  $permission->grant('Site owner can do anything') if ( ( $permission->user_id // '' ) eq $self->owner );
   return $permission;
 }
 

@@ -9,9 +9,4 @@ sub user_id {
   session ('user_id', @_);
 }
 
-sub user {
-  my $self = shift;
-  session ('user_id', @_);
-}
-
 1;
