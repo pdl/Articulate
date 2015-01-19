@@ -24,7 +24,7 @@ Creates a new request, using the verb and data supplied as the respective argume
 
 register permission => sub {
   __PACKAGE__->new( {
-     user     => shift // '[guest]',
+     user_id   => shift // '[guest]',
      verb     => shift,
      location => shift
   } );
@@ -61,13 +61,13 @@ sub deny {
 
 =head1 ATTRIBUTES
 
-=head3 user
+=head3 user_id
 
-The user requesting permission to access the resource.
+The user_id requesting permission to access the resource.
 
 =cut
 
-has user =>
+has user_id =>
   is      => 'rw',
   default => sub { undef };
 
