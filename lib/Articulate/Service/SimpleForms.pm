@@ -84,10 +84,11 @@ sub handle_delete_form {
     throw_error 'NotFound' unless $self->storage->item_exists($location);
 
     my $item = $self->storage->get_item($location);
+    my $item_class = $item->location->[-2];
     $self->augmentation->augment  ($item) or throw_error 'Internal'; # or throw
 
     return response 'form/delete', {
-      article => {
+      $item_class => {
         schema   => $item->meta->{schema},
         content  => $item->content,
         location => $item->location, # as string or arrayref?

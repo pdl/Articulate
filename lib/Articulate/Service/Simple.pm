@@ -40,10 +40,11 @@ sub handle_create {
     $self->enrichment->enrich     ($item, $request); # this will throw if it fails
     $self->storage->create_item   ($item); # this will throw if it fails
 
+    my $item_class = $item->location->[-2];
     $self->augmentation->augment  ($item); # this will throw if it fails
 
-    return response 'article', {
-      article => {
+    return response $item_class, {
+      $item_class => {
         schema   => $item->meta->{schema},
         content  => $item->content,
         location => $item->location, # as string or arrayref?
@@ -69,10 +70,13 @@ sub handle_read {
       content  => $self->storage->get_content_cached ($location),
       location => $location,
     } );
+
+    my $item_class = $item->location->[-2];
+
     $self->augmentation->augment  ($item); # or throw
 
-    return response article => {
-      article => {
+    return response $item_class => {
+      $item_class => {
         schema  => $item->meta->{schema},
         content => $item->content,
       },
@@ -104,10 +108,11 @@ sub handle_update {
     $self->storage->set_meta    ($item) or throw_error 'Internal'; # or throw
     $self->storage->set_content ($item) or throw_error 'Internal'; # or throw
 
+    my $item_class = $item->location->[-2];
     $self->augmentation->augment  ($item) or throw_error 'Internal'; # or throw
 
-    return response 'article', {
-      article => {
+    return response $item_class, {
+      $item_class => {
         schema   => $item->meta->{schema},
         content  => $item->content,
         location => $item->location, # as string or arrayref?

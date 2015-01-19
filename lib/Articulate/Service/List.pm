@@ -57,7 +57,7 @@ sub handle_list {
       list => [
         map {
           {
-            is       => 'article',
+            is       => $_->location->[-2],
             location => $_->location,
             schema   => $_->meta->{schema},
             content  => $_->content,

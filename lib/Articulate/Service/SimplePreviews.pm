@@ -38,11 +38,12 @@ sub handle_preview {
     $self->enrichment->enrich   ($item, $request); # this will throw if it fails
 
     # skip the storage interaction
+    my $item_class = $item->location->[-2];
 
-    $self->augmentation->augment  ($item); # this will throw if it fails
+    $self->augmentation->augment  ($item_class); # this will throw if it fails
 
-    return response 'article', {
-      article => {
+    return response $item_class, {
+      $item_class => {
         schema   => $item->meta->{schema},
         content  => $item->content,
         location => $item->location, # as string or arrayref?
