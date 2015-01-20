@@ -111,4 +111,46 @@ get '/article/:article_id/edit' => sub {
   )->serialise;
 };
 
+get '/upload' => sub {
+  $service->process_request(
+    upload_form => {
+      location => "assets/images",
+    }
+  )->serialise;
+};
+
+post '/upload' => sub {
+  my $image_id   = param ('image_id');
+  my $title      = param ('title');
+  my $content    = upload('image');
+  return $service->process_request( error => {
+    simple_message => 'Parameter image_id is required'
+  } ) unless defined $image_id and $image_id ne '';
+  my $location = "assets/images/image/$image_id";
+  my $response = $service->process_request(
+    create => {
+      location => $location,
+      content  => $content,
+      meta     => {
+        schema => {
+          core => {
+            file => 1,
+            content_type => request->content_type
+          }
+        }
+      }
+    }
+  );
+  $response->serialise;
+};
+
+get '/image/:image_id' => sub {
+  my $image_id = param ('image_id');
+  $service->process_request(
+    read => {
+      location => "assets/images/image/image_id",
+    }
+  )->serialise;
+};
+
 1;

@@ -41,6 +41,26 @@ sub handle_create_form {
 
 }
 
+sub handle_upload_form {
+  my $self       = shift;
+  my $request    = shift;
+  my $user       = $self->framework->user_id;
+  my $location   = loc $request->data->{location};
+  my $permission = $self->authorisation->permitted ( $user, write => $location );
+
+  if ( $permission ) {
+
+    return response 'form/upload', {
+      form => {
+        location => loc $location, # as string or arrayref?
+      },
+    };
+  }
+  else {
+    throw_error Forbidden => $permission->reason;
+  }
+}
+
 sub handle_edit_form {
   my $self    = shift;
   my $request = shift;

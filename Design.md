@@ -4,6 +4,8 @@ This document may be a bit cryptic! It's not a spec and it's not documentation (
 
 Some of it is more formal, other bits are more stream-of consciousness.
 
+Since writing much of this, implementation has moved forwards and the docs and bugtracker may be better sources of info.
+
 ## Synopsis
 
 Articulate is a Content Management Framework. It provides a service which forms the backbone of your content management solution. Wherever possible the 'moving parts' are replaceable using plugins. It is intended to increase the 'whipuptitude' of the Dancer ecosystem without sacrificing the flexibility you have when writing dancer routes.
@@ -15,7 +17,6 @@ Articulate is an expression of the idea that your content management solution is
 - it should not place arbitrary restrictions on the content-types you want to host, or how you want to edit them
 - it should not force you into a url schema you don't want.
 - It should be easy to add an Articulate component to a project with other functions.
-
 
 
 ## Qs
@@ -33,8 +34,6 @@ If the blob type has an associated edit method - this needs to make the browser 
 ### Can a blob be validated?
 
 The blob type needs an associated validator writing.
-
-### Can a blob be during editing?
 
 ### Does metadata need validating?
 
@@ -82,7 +81,7 @@ A hook is during an execution. It MAY be able to interrupt the action.
 
 hooks->add before_write => sub{ check_permissions }
 
-Do we need hooks when everything is a plugin? What about Using things like `around`?
+Do we need hooks when everything is a plugin? What about using things like `around`?
 
 ### User Access Control
 
@@ -155,33 +154,33 @@ What about indexing with a separate service, e.g. store content locally but hive
 
 ### Versioning
 
-Can this be done with a augmentation?
-
-There's currently no incoming equivalent to an augmentation - hook or coercion.
+Can this be done with an augmentation?
 
 ### Content locking
 
-lock_item ($user, $endtime)
+  lock_item ($user, $endtime)
+
+Do this by a plugin? Autolock on get?
 
 ### Integrated services
 
-It should be possible to define route handlers, possibly within zones, which are available to only certain users and that perform operations, e.g. authors can access a service which turns markdown into html for previews. Login might be one of these services?
+See Articulate::Service
 
-Does this need to be a formal component or can it be just plugged directly into the Authorisation/Authentication?
+It should be possible to define route handlers, possibly within zones, which are available to only certain users and that perform operations, e.g. authors can access a service which turns markdown into html for previews.
 
 ### Items
 
-Replace the separate meta, content with an item, or even request/response? Can/should we put a barrier to AAD? Not sure I want the validator to care about the user or the action, for instance.
-
-- Item has meta, content, item_type (article, user), location. Flag to say whether content is a string or a filehandle? Or handle the latter in meta? Temp locations for files?
+See Articulate::Item
 
 ### Location Object
+
+See Articulate::Location, Articulate::LocationSpecification
 
 A glorified array. Let Redis do zone.public and local do zone/public. Avoid having to deal with initial slashes.
 
 ### Setup
 
-Like `dancer -a`
+Should we have a script like `dancer -a`
 
 articulate -a --preset=empty
 
@@ -199,9 +198,6 @@ Other presets can be defined like webservice, blog, issue tracker, wiki.
 ##### Perl Blog Engine "Plain Speaking"
 
 ##### Perl Issue Tracker "Pipe Up"
-
-##### Perl Issue Tracker ""
-
 
 ### Error throwing
 

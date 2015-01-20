@@ -7,10 +7,9 @@ with 'MooX::Singleton';
 use File::Path;
 use IO::All;
 use YAML;
-# use Articulate::Error;
 use Articulate::Construction;
 use Articulate::Syntax;
-
+use Scalar::Util qw(blessed);
 
 =head1 NAME
 
@@ -228,6 +227,7 @@ sub get_content {
 	return '' . (join '', <$fh>);
 }
 
+
 =head3 set_content
 
 	$storage->set_content('zone/public/article/hello-world', $blob);
@@ -237,6 +237,33 @@ Places content at that location.
 =cut
 
 
+sub _is_upload {
+	my $content = shift;
+	return ( blessed $content and $content->isa('Dancer::Request::Upload') ); # todo: have this wrapped by an articulate class which interfaces with the FrameworkAdapter
+}
+
+sub _write_data {
+	my ($content, $fn) = @_;
+	open my $fh, '>', $fn or throw_error Internal => "Cannot open file $fn to write";
+	print $fh $content;
+	close $fh;
+}
+
+sub _copy_upload {
+	my ($content, $fn) = @_;
+	$content->copy_to($fn);
+}
+
+sub _write_content {
+	my ($content, $fn) = @_;
+	$content //= '';
+	if ( _is_upload($content) ) {
+		_copy_upload( $content, $fn );
+	}	else {
+		_write_data( $content, $fn );
+	}
+}
+
 sub set_content {
 	my $self = shift;
 	my $item = shift;
@@ -244,9 +271,7 @@ sub set_content {
 	throw_error Internal => "Bad location $location" unless good_location $location;
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/content.blob' ) );
-	open my $fh, '>', $fn or throw_error Internal => "Cannot open file $fn to write";
-	print $fh $item->content;
-	close $fh;
+	_write_content( $item->content, $fn );
 	return $location;
 }
 
@@ -267,14 +292,13 @@ sub create_item {
 	throw_error AlreadyExists => "Cannot create: item already exists at ".$location if $self->item_exists($location);
 	{
 		my $fn = $self->ensure_exists( $self->true_location( $location . '/content.blob' ) );
-		open my $fh, '>', $fn or throw_error Internal => "Cannot open file $fn to write";
-		print $fh $item->content;
-		close $fh;
+		_write_content( $item->content, $fn );
 	}
 	{
 		my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml' ) );
 		YAML::DumpFile($fn, $item->meta);
 	}
+	$item->content( $self->get_content($item) );
 	return $item;
 }
 

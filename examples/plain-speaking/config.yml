@@ -56,12 +56,20 @@ plugins:
               admin: 1
               "[guest]":
                 read: 1
+            "assets/*":
+              admin: 1
+              "[guest]":
+                read: 1
   Articulate::Enrichment:
     enrichments:
       - Articulate::Enrichment::DateCreated
       - Articulate::Enrichment::DateUpdated
   Articulate::Navigation:
     locations:
+      - assets
+      - assets/images
+      - assets/images/image
+      - assets/images/image/*
       - zone
       - zone/*
       - zone/*/article/
@@ -71,12 +79,16 @@ plugins:
     storage_class: Articulate::Storage::Local
   Articulate::Augmentation:
     augmentations:
-      - class: Articulate::Augmentation::Interpreter
+      - class: Articulate::Flow::ContentType
         args:
-          interpreters:
+          where:
             "text/markdown":
-              - Articulate::Augmentation::Interpreter::Markdown
-          default_format: "text/markdown"
+              - class: Articulate::Augmentation::Interpreter
+                args:
+                  interpreters:
+                    "text/markdown":
+                      - Articulate::Augmentation::Interpreter::Markdown
+                  default_format: "text/markdown"
   Articulate::Validation:
     validators: []
 #      - Articulate::Validation::NoScript
@@ -103,4 +115,5 @@ plugins:
               - href: /create
                 text: New Post
       - Articulate::Serialisation::StatusSetter
+      - Articulate::Serialisation::Asset
       - Articulate::Serialisation::TemplateToolkit
