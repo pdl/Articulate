@@ -71,10 +71,14 @@ sub instantiate {
     }
   }
   elsif ( ref $original eq ref {} ) {
-    my $class       = $original->{class}
-      // throw_error Internal => 'Instantiation failed: expecting key class, got '.(join ', ', keys %$original);
-    Module::Load::load ( $original->{class} );
-    my $args        = $original->{args};
+    my $class = $original->{class};
+    my $args  = $original->{args};
+    if ( 1 == keys %$original and join ( '', keys %$original ) !~ /^[a-z_]/ ) { # single key that does not look like a class
+      $class = join '', keys $original;
+      $args  = $original->{$class};
+    }
+    throw_error Internal => 'Instantiation failed: expecting key class, got '.(join ', ', keys %$original) unless defined $class;
+    Module::Load::load ( $class );
     my $constructor = $original->{constructor} // ($class->can('instance') ? 'instance' : 'new');
     my @args = (
       (defined $args)

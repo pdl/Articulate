@@ -10,6 +10,7 @@ isa_ok (instantiate('MadeUp::Class'), 'MadeUp::Class', 'instantiate works on cla
 foreach my $foobar (
   instantiate({ class => 'MadeUp::Class', args => [{foo => 'bar'}] }),
   instantiate({ class => 'MadeUp::Class', args => {foo => 'bar'} }),
+  instantiate({ 'MadeUp::Class' => {foo => 'bar'} }),
   ) {
   isa_ok ($foobar, 'MadeUp::Class', 'can use hashref and set class' );
   is ($foobar->foo, 'bar', 'can use hashref and pass bar' );
