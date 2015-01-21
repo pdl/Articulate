@@ -8,6 +8,10 @@ our $VERSION = '0.001';
 
 Articulate - A lightweight Perl CMS Framework
 
+=head1 WARNING
+
+This is very much in alpha. Things will change. Feel free to build things and have fun, but don't hook up anything business-critical just yet!
+
 =head1 SYNOPSIS
 
 	# (in bin/app.pl)
@@ -22,9 +26,31 @@ You don't need to redesign your app around Articulate, it's a service that you c
 
 It's written in Perl, the fast, reliable 'glue language' that's perfect for agile web development projects.
 
+=head1 GETTING STARTED
+
+Don't forget to install Articulate - remember, it's a library, not an app.
+
+Check out the examples in the C<examples> folder of the distribution.
+
+To add Articulate to your own app, you'll need to:
+
+=over
+
+=item * add it to your C<bin/app.pl> or similar (see example above)
+
+=item * edit your C<config.yml> to configure the components you want (check each of the components for a description of their config options - or just borrow a config from one of the examples)
+
+=item * write any custom code you want if you don't like what's there, and just swap it out in the config.
+
+=item * polish off your front-end, all the backend is taken care of!
+
+=back
+
+Curious about how it all fits together? Read on...
+
 =head1 DESCRIPTION
 
-Articulate is a set of plugins which work together to create a conent management service that will sit alongside an existing Dancer app or form the basis of a new one.
+Articulate is a set of plugins which work together to create a content management service that will sit alongside an existing Dancer app or form the basis of a new one.
 
 If you want to see one in action, try running:
 
@@ -107,13 +133,40 @@ The following classes are used for passing request data between components:
 
 =back
 
-=head1 GETTING STARTED
+=head2 Other modules of interest
 
-Don't forget to install Articulate - remember, it's a library, not an app.
+=over
 
-Check out the examples in the C<examples> folder of the distribution.
+=item * L<Articulate::Syntax>
 
-To add Articulate to your own app, you'll need to add it to your C<bin/app.pl> or similar: C<use Articulate> then C<articulate_app->enable>, and you'll need to add routes and services in your C<config.yml>. Check each of the components for a description of their config options. Or just borrow a config from one of the examples.
+=item * L<Articulate::Role::Service>
+
+=back
+
+=head2 Instantiation
+
+Articulate provides a very handy way of creating (or C<instantiating>) objects through your config. The following config, for instance, assignes to the providers attribute (on some other object), an arrayref of four objects, the first created without no arguments, two created with arguments, and a final one created without arguments but using an unusual constructor.
+
+	providers:
+		- MyProvider::Simple
+		- class: MyProvider::Congfigurable
+			args:
+				verbose: 1
+		- MyProvider::Congfigurable:
+				lax: 1
+				verbose: 1
+		- class: MyProvider::Idiosyncratic
+			constuctor: tada
+
+For more details, see L<Articulate::Syntax>.
+
+=head2 Delegation
+
+A key part of the flexibility of Articulate is that objects often B<delegate> functions to other objects (the B<providers>)
+
+Typically, one class delegates to a series of providers, which are each passed the same arguments in turn. L<Articulate::Augmentation> is a good example of this. Sometimes the response from one provider will halt the delegation - see L<Articulate::Authorisation> for an example of this.
+
+Occasionally, only one provider is possible, for instance L<Articulate::FrameworkAdapter>. In this case there is a substitution rather than a delegation.
 
 =head1 BUGS
 
@@ -121,7 +174,7 @@ Bugs should be reported to the L<github issue tracker|https://github.com/pdl/Art
 
 =head1 COPYRIGHT
 
-Articulate is Copyright 2014 Daniel Perrett. You are free to use it subject to the same terms as perl: see the LICENSE.txt file included in this distribution for what this means
+Articulate is Copyright 2014-2015 Daniel Perrett. You are free to use it subject to the same terms as perl: see the LICENSE.txt file included in this distribution for what this means.
 
 Currently Articulate is bundled with versions of other software whose license information you can access from the LICENSE.txt file.
 
