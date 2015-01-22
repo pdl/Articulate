@@ -135,7 +135,7 @@ post '/upload' => sub {
         schema => {
           core => {
             file => 1,
-            content_type => request->content_type
+            content_type => $content->type
           }
         }
       }
@@ -148,7 +148,7 @@ get '/image/:image_id' => sub {
   my $image_id = param ('image_id');
   $service->process_request(
     read => {
-      location => "assets/images/image/image_id",
+      location => "assets/images/image/$image_id",
     }
   )->serialise;
 };
