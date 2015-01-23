@@ -11,7 +11,7 @@ WriteMakefile(
     NAME                => 'Articulate',
     AUTHOR              => q{Daniel Perrett <perrettdl@googlemail.com>},
     VERSION_FROM        => 'lib/Articulate.pm',
-    ABSTRACT            => 'Lightweight Perl CMS Framework',
+    ABSTRACT            => 'Lightweight Perl+Dancer CMS Framework',
     ($eumm_version >= 6.3001
       ? ('LICENSE'=> 'perl')
       : ()),
