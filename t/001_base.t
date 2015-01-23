@@ -26,7 +26,9 @@ use_ok $_ for qw(
   Articulate::Error::Internal
   Articulate::Error::NotFound
   Articulate::Error::Unauthorised
+  Articulate::Flow::ContentType
   Articulate::FrameworkAdapter
+  Articulate::FrameworkAdapter::Dancer1
   Articulate::Item
   Articulate::Item::Article
   Articulate::Location
@@ -35,13 +37,16 @@ use_ok $_ for qw(
   Articulate::Permission
   Articulate::Request
   Articulate::Response
+  Articulate::Role::Flow
   Articulate::Role::Routes
   Articulate::Role::Service
+  Articulate::Role::Sortation::AllYouNeedIsCmp
   Articulate::Routes::Login
   Articulate::Routes::Transparent
   Articulate::Routes::TransparentForms
   Articulate::Routes::TransparentPreviews
   Articulate::Serialisation
+  Articulate::Serialisation::Asset
   Articulate::Serialisation::SiteConfig
   Articulate::Serialisation::StatusSetter
   Articulate::Serialisation::TemplateToolkit
@@ -53,6 +58,11 @@ use_ok $_ for qw(
   Articulate::Service::Simple
   Articulate::Service::SimpleForms
   Articulate::Service::SimplePreviews
+  Articulate::Sortation
+  Articulate::Sortation::MetaDelver
+  Articulate::Sortation::Numeric
+  Articulate::Sortation::Slug
+  Articulate::Sortation::String
   Articulate::Storage
   Articulate::Storage::Common
   Articulate::Storage::Local
@@ -60,7 +70,6 @@ use_ok $_ for qw(
   Articulate::TestEnv
   Articulate::Validation
   Articulate::Validation::NoScript
-
 );
 
 done_testing;

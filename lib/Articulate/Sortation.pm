@@ -59,9 +59,9 @@ sub sort {
   my $self    = shift;
   my $items   = shift;
   foreach my $sortation ( @{ $self->sortations } ) {
-    $request = $sortation->sort($items);
+    $items = $sortation->sort($items);
   }
-  return $item;
+  return $items;
 }
 
 register_plugin();
