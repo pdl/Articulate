@@ -4,8 +4,9 @@ use Scalar::Util qw(blessed);
 use Module::Load ();
 
 use Exporter::Declare;
-default_exports qw(instantiate instantiate_array throw_error loc);
+default_exports qw(instantiate instantiate_array throw_error loc dpath_get dpath_set);
 use Articulate::Error;
+use Data::DPath qw(dpath dpathr);
 
 use Articulate::Item;
 use Articulate::Error;
@@ -97,6 +98,49 @@ sub instantiate_array {
   # delegates_to => "Class::Name" should be interpreted as delegates_to => ["Class::Name"]
   $arrayref = [$arrayref] unless ref $arrayref and ref $arrayref eq ref [];
   return [ map { instantiate $_ } @$arrayref ];
+}
+
+=head3 from_meta
+
+  sub email_address { from_meta (shift, 'schema/user/email_address'); }
+
+This method uses Data::DPath to retrieve a field from the metadata structure.
+
+=cut
+
+sub from_meta {
+  my $structure = shift;
+  my $item      = shift;
+  my @results   = dpath ($item->meta)->match($structure);
+  return shift @results;
+}
+
+=head3 dpath_get
+
+  my $value = dpath_get($structure, '/path/in/structure');
+
+=cut
+
+sub dpath_get {
+  my $structure = shift;
+  my $path      = shift;
+  my @results   = dpath($path)->match($structure);
+  return shift @results;
+}
+
+=head3 dpath_set
+
+  dpath_set($structure, '/path/in/structure', $value);
+
+=cut
+
+sub dpath_set {
+  my $structure = shift;
+  my $path      = shift;
+  my $value     = shift;
+  my @results   = dpathr($path)->match($structure);
+  map { $$_ = $value } @results;
+  return $value if @results;
 }
 
 1;

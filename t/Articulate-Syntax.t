@@ -1,5 +1,5 @@
 use Test::More;
-use Articulate::Syntax qw(instantiate);
+use Articulate::Syntax qw(instantiate instantiate_array dpath_get dpath_set);
 use strict;
 use warnings;
 
@@ -33,5 +33,13 @@ my $altered = MadeUp::Class->new;
 $altered->foo('bor');
 isa_ok (instantiate($altered), 'MadeUp::Class', 'instantiate works on existing objects' );
 is (instantiate($altered)->foo, 'bor', 'instantiate does not try to recreate existing objects' );
+
+my $structure = { foo => {bar => 2}, baz => [ 3, 4 ] };
+
+is ( dpath_get( $structure, '/foo/bar' ), 2);
+is ( dpath_get( $structure, '/baz/*[0]' ), 3);
+
+is ( dpath_set( $structure, '/baz/*', 5 ), 5);
+is ( $structure->{baz}->[0], 5);
 
 done_testing;
