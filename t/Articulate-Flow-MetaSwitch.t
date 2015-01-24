@@ -74,6 +74,17 @@ my $test_suite = [
       otherwise => then_fail,
     },
   },
+  {
+    item => { schema => { core => { dateUpdated => '2014-01-01' } } },
+    args => {
+      field => '/schema/core/dateUpdated',
+      where => {
+        '2014-01-02' => then_fail('does not match'),
+        '2014-01-01' => then_pass('simple comparison succeeds'),
+      },
+      otherwise => then_fail,
+    },
+  },
 ];
 
 sub verify {
