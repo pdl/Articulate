@@ -7,24 +7,26 @@ use Articulate::Location;
 
 =head1 NAME
 
-Articulate::Location - represent an item's location
+Articulate::LocationSpecification - represent a specification
 
 =cut
 
 =head1 DESCRIPTION
 
-  loc ['zone', 'public', 'article', 'hello-world']
-  loc 'zone/public/article/hello-world' # same thing
+  locspec ['zone', '*', 'article', 'hello-world']
+  locspec 'zone/*/article/hello-world' # same thing
 
-An object class which represents an item's location within the Articulate ecosystem. It contains an array of slugs, and stringifies to the 'file path' representation of them.
+An object class which represents a specification - like a 'pattern' or 'glob', and provides methods so that it can be compared with locations. It is similar to C<Articulate::Location>, and stringifies to the 'file path' representation.
+
+The main use of this is to determine whether a user has access to a resource based on rules.
 
 =cut
 
 =head1 FUNCTIONS
 
-=head3 loc
+=head3 locspec
 
-C<loc> is a constructor. It takes either a string (in the form of a path) or an arrayref. Either will be stored as an arrayref in the C<path> attribute.
+C<locspec> is a constructor. It takes either a string (in the form of a path) or an arrayref. Either will be stored as an arrayref in the C<path> attribute.
 
 =cut
 
@@ -63,7 +65,7 @@ Dancer::Plugin::register locspec => sub {
 
 =head3 path
 
-An arrayref representing the path to the location. This is used for overloaded array dereferencing.
+An arrayref representing the path to the location specification. This is used for overloaded array dereferencing.
 
 =cut
 
@@ -74,7 +76,7 @@ has path => (
 
 =head3 location
 
-  $location->location->location # same as $location
+  $locspec->location->location # same as $locspec
 
 This method always returns the object itself.
 
@@ -104,6 +106,17 @@ sub _step_matches {
 
 }
 
+=head3 matches
+
+  locspec('/zone/*')->matches(loc('/zone/public')) # true
+  locspec('/zone/*')->matches(loc('/')) # false
+  locspec('/zone/*')->matches(loc('/zone/public/article/hello-world')) # false
+
+Determines if the location given as the first argument matches the locspec.
+
+=cut
+
+
 sub matches {
   my $self     = shift;
   my $location = loc shift;
@@ -114,12 +127,17 @@ sub matches {
   }
   return 1;
 }
-# sub matches_parent_of {
-#
-# }
-# sub matches_child_of {
-#
-# }
+
+=head3 matches_ancestor_of
+
+  locspec('/zone/*')->matches_ancestor_of(loc('/zone/public')) # true
+  locspec('/zone/*')->matches_ancestor_of(loc('/')) # false
+  locspec('/zone/*')->matches_ancestor_of(loc('/zone/public/article/hello-world')) # true
+
+Determines if the location given as the first argument - or any ancestor thereof - matches the locspec.
+
+=cut
+
 sub matches_ancestor_of {
   my $self     = shift;
   my $location = loc shift;
@@ -130,6 +148,16 @@ sub matches_ancestor_of {
   }
   return 1;
 }
+
+=head3 matches_descendant_of
+
+  locspec('/zone/*')->matches_descendant_of(loc('/zone/public')) # true
+  locspec('/zone/*')->matches_descendant_of(loc('/')) # true
+  locspec('/zone/*')->matches_descendant_of(loc('/zone/public/article/hello-world')) # false
+
+Determines if the location given as the first argument - or any descendant thereof - matches the locspec.
+
+=cut
 
 sub matches_descendant_of {
   my $self     = shift;
