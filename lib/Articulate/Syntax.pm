@@ -4,13 +4,14 @@ use Scalar::Util qw(blessed);
 use Module::Load ();
 
 use Exporter::Declare;
-default_exports qw(instantiate instantiate_array throw_error loc dpath_get dpath_set);
+default_exports qw(instantiate instantiate_array throw_error loc locspec dpath_get dpath_set);
 use Articulate::Error;
 use Data::DPath qw(dpath dpathr);
 
 use Articulate::Item;
 use Articulate::Error;
 use Articulate::Location;
+use Articulate::LocationSpecification;
 
 sub throw_error { Articulate::Error::throw_error(@_) };
 sub loc         { Articulate::Location::loc(@_) };
