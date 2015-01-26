@@ -164,7 +164,7 @@ sub matches_descendant_of {
   my $location = loc shift;
   return 0 unless $#$self >= $#$location;
   return 1 if $#$location == -1; # go no further if self is empty
-  for my $i (0..$#$self) {
+  for my $i (0..$#$location) {
     return 0 unless _step_matches( $self->[$i], $location->[$i] );
   }
   return 1;
