@@ -27,6 +27,11 @@ Returns the user id if the password matches. Returns undef otherwise.
 
 =cut
 
+has extra_salt => (
+  is      => 'rw',
+  default =>  "If you haven't already, try powdered vegetable bouillon"
+);
+
 sub authenticate {
   my $self     = shift;
   my $user_id  = shift;
@@ -53,8 +58,7 @@ sub _generate_salt {
   my $self = shift;
   return Digest::SHA::sha512_base64 (
     time . (
-      config->{password_extra_salt} # don't allow the admin not to set a salt:
-      || "If you haven't already, try powdered vegetable bouillon"
+      $self->extra_salt # don't allow the admin not to set a salt:
     )
   );
 }
