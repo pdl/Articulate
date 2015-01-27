@@ -4,7 +4,6 @@ use warnings;
 
 use Moo;
 with 'MooX::Singleton';
-use Dancer qw(:syntax !after !before);
 
 use Digest::SHA;
 use Articulate::Storage;

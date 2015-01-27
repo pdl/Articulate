@@ -3,7 +3,6 @@ package Articulate::Service::SimpleForms;
 use strict;
 use warnings;
 
-use Dancer qw(:syntax !after !before); # we only want session, but we need to import Dancer in a way which doesn't mess with the appdir. Todo: create Articulate::FrameworkAdapter
 use Dancer::Plugin;
 use Articulate::Syntax;
 
