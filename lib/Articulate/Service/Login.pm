@@ -3,10 +3,7 @@ package Articulate::Service::Login;
 use strict;
 use warnings;
 
-use Dancer qw(:syntax !after !before); # we only want session, but we need to import Dancer in a way which doesn't mess with the appdir. Todo: create Articulate::FrameworkAdapter
-
 use Dancer::Plugin;
-
 
 use Articulate::Service;
 
@@ -80,7 +77,7 @@ sub handle_logout {
   my $self     = shift;
   my $request  = shift;
   my $user_id  = $self->framework->user_id;
-  session->destroy();
+  $self->framework->session->destroy();
   response success => { user_id => $user_id };
 }
 
