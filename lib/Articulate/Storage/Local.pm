@@ -3,7 +3,6 @@ use strict;
 use warnings;
 
 use Articulate::Storage::Common;
-use Dancer ':syntax';
 use Dancer::Plugin;
 use Moo;
 with 'MooX::Singleton';
@@ -11,8 +10,10 @@ use File::Path;
 use IO::All;
 use YAML;
 use Articulate::Construction;
+use Articulate::FrameworkAdapter;
 use Articulate::Syntax;
 use Scalar::Util qw(blessed);
+use FindBin;
 
 =head1 NAME
 
@@ -36,22 +37,24 @@ Caching is not implemented: get_content_cached simpy calls get_content.
 
 =cut
 
-my $content_base;
 
-sub content_base { # todo: make this an attribute
-	my $self = shift;
-	$content_base	//=
-		config->{content_base}
-		// (
-			config->{appdir}
-			// throw_error ( Internal => 'appdir not set')
+has content_base => (
+	is      => 'rw',
+	default => sub {
+		return (
+			framework->appdir
+			// $FindBin::Bin
 		).'/content/';
-	unless (-d $content_base) {
-		File::Path::make_path $content_base;
-		throw_error (Internal => 'Could not initialise content base') unless (-d $content_base);
-	}
-	return $content_base;
-}
+	},
+	coerce  => sub {
+		my $content_base = shift;
+		unless (-d $content_base) {
+			File::Path::make_path $content_base;
+			throw_error (Internal => 'Could not initialise content base') unless (-d $content_base);
+		}
+		return $content_base;
+	},
+);
 
 sub ensure_exists { # internal method
 	my $self = shift;
@@ -368,7 +371,7 @@ sub empty_all_content {
 		-f "$true_location/Makefile.PL"
 	);
 
-	File::Path::remove_tree( $content_base, {keep_root => 1} );
+	File::Path::remove_tree( $self->content_base, {keep_root => 1} );
 }
 
 sub delete_item {

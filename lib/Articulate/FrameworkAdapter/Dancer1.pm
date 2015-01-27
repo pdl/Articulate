@@ -11,4 +11,10 @@ sub user_id {
   session ('user_id', @_);
 }
 
+sub appdir {
+  my $self = shift;
+  config->{appdir};
+}
+
+
 1;
