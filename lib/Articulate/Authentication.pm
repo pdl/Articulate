@@ -1,4 +1,6 @@
 package Articulate::Authentication;
+use strict;
+use warnings;
 
 use Moo;
 with 'MooX::Singleton';

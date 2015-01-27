@@ -1,4 +1,6 @@
 package Articulate::Error::Forbidden;
+use strict;
+use warnings;
 
 use Moo;
 extends 'Articulate::Error';

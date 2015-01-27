@@ -1,4 +1,6 @@
 package Articulate::Routes::TransparentForms;
+use strict;
+use warnings;
 
 use Moo;
 with 'Articulate::Role::Routes';

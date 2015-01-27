@@ -1,4 +1,6 @@
 package Articulate::Augmentation::Interpreter;
+use strict;
+use warnings;
 
 use Moo;
 use Articulate::Syntax qw(instantiate instantiate_array);

@@ -1,6 +1,7 @@
 package Articulate::Storage::Common;
 use strict;
 use warnings;
+
 use Exporter::Declare;
 use Articulate::Navigation;
 

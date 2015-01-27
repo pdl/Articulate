@@ -1,4 +1,6 @@
 package Articulate::Authorisation::OwnerOverride;
+use strict;
+use warnings;
 
 use Moo;
 with 'MooX::Singleton';

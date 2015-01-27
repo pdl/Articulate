@@ -1,4 +1,6 @@
 package Articulate::Item::Article;
+use strict;
+use warnings;
 
 use Moo;
 extends 'Articulate::Item';

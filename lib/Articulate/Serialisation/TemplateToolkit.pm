@@ -1,4 +1,6 @@
 package Articulate::Serialisation::TemplateToolkit;
+use strict;
+use warnings;
 
 use Moo;
 with 'MooX::Singleton';

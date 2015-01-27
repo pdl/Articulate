@@ -1,4 +1,6 @@
 package Articulate::Enrichment;
+use strict;
+use warnings;
 
 use Moo;
 with 'MooX::Singleton';

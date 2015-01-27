@@ -1,4 +1,6 @@
 package Articulate::Service;
+use strict;
+use warnings;
 
 use Dancer::Plugin;
 use Articulate::Syntax;

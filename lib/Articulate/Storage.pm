@@ -1,4 +1,6 @@
 package Articulate::Storage;
+use strict;
+use warnings;
 
 use Dancer::Plugin;
 use Moo;

@@ -1,4 +1,6 @@
 package Articulate::Response;
+use strict;
+use warnings;
 
 use Moo;
 use Dancer::Plugin;

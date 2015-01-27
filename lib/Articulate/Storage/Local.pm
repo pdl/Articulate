@@ -1,4 +1,7 @@
 package Articulate::Storage::Local;
+use strict;
+use warnings;
+
 use Articulate::Storage::Common;
 use Dancer ':syntax';
 use Dancer::Plugin;

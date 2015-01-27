@@ -1,4 +1,7 @@
 package Articulate::LocationSpecification;
+use strict;
+use warnings;
+
 use Moo;
 use Scalar::Util qw(blessed);
 use overload  '""' => \&to_file_path, '@{}' => sub{ shift->path };

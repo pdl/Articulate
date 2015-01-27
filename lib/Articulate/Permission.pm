@@ -1,4 +1,6 @@
 package Articulate::Permission;
+use strict;
+use warnings;
 
 use Dancer::Plugin;
 use Moo;

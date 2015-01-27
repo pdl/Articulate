@@ -1,4 +1,6 @@
 package Articulate::FrameworkAdapter;
+use strict;
+use warnings;
 
 use Moo;
 with 'MooX::Singleton';

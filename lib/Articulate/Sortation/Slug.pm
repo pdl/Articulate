@@ -1,4 +1,6 @@
 package Articulate::Sortation::Slug;
+use strict;
+use warnings;
 
 use Moo;
 with 'Articulate::Role::Sortation::AllYouNeedIsCmp';

@@ -1,4 +1,6 @@
 package Articulate::Serialisation::Asset;
+use strict;
+use warnings;
 
 use Moo;
 with 'MooX::Singleton';

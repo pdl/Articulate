@@ -1,4 +1,6 @@
 package Articulate::Routes::Transparent;
+use strict;
+use warnings;
 
 use Moo;
 with 'Articulate::Role::Routes';

@@ -1,4 +1,7 @@
 package Articulate::Authentication::Preconfigured;
+use strict;
+use warnings;
+
 use Moo;
 
 use Digest::SHA;

@@ -1,4 +1,6 @@
 package Articulate::Authorisation::AlwaysAllow;
+use strict;
+use warnings;
 
 use Moo;
 with 'MooX::Singleton';

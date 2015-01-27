@@ -1,4 +1,6 @@
 package Articulate::FrameworkAdapter::Dancer1;
+use strict;
+use warnings;
 
 use Moo;
 with 'MooX::Singleton';

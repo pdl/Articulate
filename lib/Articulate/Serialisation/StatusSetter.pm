@@ -1,4 +1,6 @@
 package Articulate::Serialisation::StatusSetter;
+use strict;
+use warnings;
 
 use Moo;
 with 'MooX::Singleton';

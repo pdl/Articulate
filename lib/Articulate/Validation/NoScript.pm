@@ -1,4 +1,6 @@
 package Articulate::Validation::NoScript;
+use strict;
+use warnings;
 use Moo;
 with 'MooX::Singleton';
 

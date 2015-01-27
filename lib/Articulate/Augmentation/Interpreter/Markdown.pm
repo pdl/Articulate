@@ -1,4 +1,7 @@
 package Articulate::Augmentation::Interpreter::Markdown;
+use strict;
+use warnings;
+
 use Text::Markdown;
 use Moo;
 with 'MooX::Singleton';

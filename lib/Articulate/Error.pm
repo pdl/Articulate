@@ -1,4 +1,6 @@
 package Articulate::Error;
+use strict;
+use warnings;
 
 =head1 NAME
 

@@ -1,4 +1,6 @@
 package Articulate::Syntax;
+use strict;
+use warnings;
 
 use Scalar::Util qw(blessed);
 use Module::Load ();
@@ -13,8 +15,8 @@ use Articulate::Error;
 use Articulate::Location;
 use Articulate::LocationSpecification;
 
-sub throw_error { Articulate::Error::throw_error(@_) };
-sub loc         { Articulate::Location::loc(@_) };
+# sub throw_error { Articulate::Error::throw_error(@_) };
+# sub loc         { Articulate::Location::loc(@_) };
 
 =head3 instantiate_array
 

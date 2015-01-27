@@ -1,4 +1,6 @@
 package Articulate::Navigation;
+use strict;
+use warnings;
 
 use Moo;
 use Dancer::Plugin;

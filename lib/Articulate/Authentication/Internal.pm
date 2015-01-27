@@ -1,4 +1,7 @@
 package Articulate::Authentication::Internal;
+use strict;
+use warnings;
+
 use Moo;
 with 'MooX::Singleton';
 use Dancer qw(:syntax !after !before);
