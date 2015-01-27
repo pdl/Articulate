@@ -6,7 +6,15 @@ use Scalar::Util qw(blessed);
 use Module::Load ();
 
 use Exporter::Declare;
-default_exports qw(instantiate instantiate_array throw_error loc locspec dpath_get dpath_set);
+default_exports qw(
+  instantiate instantiate_array instantiate_selection
+  loc         locspec
+  dpath_get   dpath_set
+  throw_error
+  select_from
+  is_single_key_hash
+);
+
 use Articulate::Error;
 use Data::DPath qw(dpath dpathr);
 
@@ -144,6 +152,88 @@ sub dpath_set {
   my @results   = dpathr($path)->match($structure);
   map { $$_ = $value } @results;
   return $value if @results;
+}
+
+=head3 instantiate_selection
+
+  has schemata =>
+    is      => 'rw',
+    default => sub { {} },
+    coerce  => sub { instantiate_selection @_ };
+
+
+
+=cut
+
+sub instantiate_selection {
+  my $orig = shift;
+  for my $i ( 1..5 ) {
+    foreach my $this ( keys %$orig ) {
+      my $got = $orig->{$this};
+      if ( is_single_key_hash( $got, 'alias' ) ) {
+        $orig->{$this} = $got->{alias} if $i > 1;
+      }
+      else {
+        $orig->{$this} = instantiate($got)
+      }
+    }
+  }
+}
+
+=head3 select_from
+
+  # given this config:
+
+  schemata:
+    default:
+      "[Complicated] configuration: can_be->[string, hash, whatever]"
+    schema_generic:
+      alias: default
+
+  # if your class has
+  sub schema { select_from schemata => @_ }
+
+  # then you can do
+  $self->schema;
+  $self->schema('default'); # same thing
+  $self->schema('schema_generic'); # same thing, because of alias
+  $self->schemata->{default}; # This is what they all do in practice
+
+Implements a user-friendly selection mechanism like the one implemented by C<Dancer::Plugin::DBIC::schema>.
+
+=cut
+
+sub select_from {
+  my ($attribute, $self, $which) = @_;
+  $which        //= 'default';
+  my $this        = $which;
+  my $selectables = $self->$attribute;
+  for ( 1..5 ) { # if more than this then you probably have recusion
+    my $got = $selectables->{$this};
+    if ( is_single_key_hash( $got, 'alias' ) ) {
+      $this = $got->{alias};
+      next;
+    }
+    return $got;
+  }
+}
+
+=head3 is_single_key_hash
+
+  is_single_key_hash ( { foo => 123 } ); # returns 1
+  is_single_key_hash ( { foo => 123 }, 'foo' ); # returns 1
+  is_single_key_hash ( { foo => 123 }, 'bar' ); # returns 0
+
+Returns 1 if the first argument is a hashref with exactly one key. If a second argument is provided, then the key, if it exists, must be equal to that argument, or the return value will be 0.
+
+=cut
+
+sub is_single_key_hash {
+  my $got = shift;
+  my $key = shift;
+  return 1 if (  defined $key and ref $got eq ref {} and 1 == scalar keys %$got and $key eq [keys %$got]->[0] );
+  return 1 if ( !defined $key and ref $got eq ref {} and 1 == scalar keys %$got );
+  return 0;
 }
 
 1;

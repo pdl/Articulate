@@ -1,5 +1,12 @@
 use Test::More;
-use Articulate::Syntax qw(instantiate instantiate_array dpath_get dpath_set);
+use Articulate::Syntax qw(
+  instantiate instantiate_array instantiate_selection
+  loc         locspec
+  dpath_get   dpath_set
+  throw_error
+  select_from
+  is_single_key_hash
+);
 use strict;
 use warnings;
 
@@ -41,5 +48,13 @@ is ( dpath_get( $structure, '/baz/*[0]' ), 3);
 
 is ( dpath_set( $structure, '/baz/*', 5 ), 5);
 is ( $structure->{baz}->[0], 5);
+
+is ( is_single_key_hash( undef ), 0 );
+is ( is_single_key_hash( [ foo => 123 ] ), 0 );
+is ( is_single_key_hash( { foo => 123 } ), 1 );
+is ( is_single_key_hash( { foo => 123, bar => 123} ), 0 );
+is ( is_single_key_hash( { foo => 123 }, 'foo' ), 1 );
+is ( is_single_key_hash( { bar => 123 }, 'foo' ), 0 );
+is ( is_single_key_hash( { foo => 123, bar => 123}, 'foo', ), 0 );
 
 done_testing;
