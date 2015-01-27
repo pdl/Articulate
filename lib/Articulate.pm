@@ -1,4 +1,7 @@
 package Articulate;
+use strict;
+use warnings;
+
 use Dancer::Plugin;
 use Articulate::Service;
 use Module::Load ();
