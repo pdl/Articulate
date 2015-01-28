@@ -1,6 +1,6 @@
 use Test::More;
 use Articulate::Syntax qw(
-  instantiate instantiate_array instantiate_selection
+  instantiate instantiate_array instantiate_selection instantiate_array_selection
   loc         locspec
   dpath_get   dpath_set
   throw_error
@@ -66,6 +66,19 @@ subtest instantiate_selection => sub {
     is (ref ($selection->{default}), 'MadeUp::Class');
     is (ref ($selection->{foo}    ), 'MadeUp::Class');
     is (ref ($selection->{bar}    ), 'MadeUp::Class');
+};
+
+subtest instantiate_array_selection => sub {
+    my $selection = {
+      default => 'MadeUp::Class',
+      foo     => { alias => 'default' },
+      bar     => { alias => 'foo' },
+    };
+    instantiate_array_selection($selection);
+    is (ref ($selection->{default}     ), ref [] );
+    is (ref ($selection->{default}->[0]), 'MadeUp::Class');
+    is (ref ($selection->{foo}    ->[0]), 'MadeUp::Class');
+    is (ref ($selection->{bar}    ->[0]), 'MadeUp::Class');
 };
 
 subtest dpath => sub {

@@ -7,7 +7,7 @@ use Module::Load ();
 
 use Exporter::Declare;
 default_exports qw(
-  instantiate instantiate_array instantiate_selection
+  instantiate instantiate_array instantiate_selection instantiate_array_selection
   loc         locspec
   dpath_get   dpath_set
   throw_error
