@@ -85,7 +85,7 @@ sub instantiate {
   elsif ( ref $original eq ref {} ) {
     my $class = $original->{class};
     my $args  = $original->{args};
-    if ( 1 == keys %$original and join ( '', keys %$original ) !~ /^[a-z_]/ ) { # single key that does not look like a class
+    if ( 1 == keys %$original and join ( '', keys %$original ) !~ /^[a-z_]/ ) { # single key that looks like a class
       $class = join '', keys $original;
       $args  = $original->{$class};
     }
