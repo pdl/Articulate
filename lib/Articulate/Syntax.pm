@@ -156,27 +156,76 @@ sub dpath_set {
 
 =head3 instantiate_selection
 
+  # in config:
+
+  rules:
+    default:
+      alias: main_schema
+    main_schema:
+      dsn: 'csv:main.csv'
+      utf8: 1
+
   has schemata =>
     is      => 'rw',
     default => sub { {} },
     coerce  => sub { instantiate_selection @_ };
 
+Expects a hash. If any of the values are single-key hashes with the key 'alias' then the alias is resolved. Otherwise the value is instantiated.
 
+If a value other than a hash is given, returns a hash with the key 'default' and the original value instantiated.
 
 =cut
 
 sub instantiate_selection {
   my $orig = shift;
-  for my $i ( 1..5 ) {
-    foreach my $this ( keys %$orig ) {
-      my $got = $orig->{$this};
-      if ( is_single_key_hash( $got, 'alias' ) ) {
-        $orig->{$this} = $got->{alias} if $i > 1;
-      }
-      else {
-        $orig->{$this} = instantiate($got)
+  _instantiate_selection( $orig, \&instantiate );
+}
+
+=head3 instantiate_array_selection
+
+  rules:
+    default:
+      alias: two_rules
+    two_rules:
+      - Some::Rule
+      - Some::Other::Rule
+
+  has rules =>
+    is      => 'rw',
+    default => sub { {} },
+    coerce  => sub { instantiate_array_selection @_ };
+
+Expects a hash. If any of the values are single-key hashes with the key 'alias' then the alias is resolved. Otherwise the value is instantiated as an array (see C<instantiate_aray>).
+
+If a value other than a hash is given, returns a hash with the key 'default' and the original value instantiated as an array.
+
+=cut
+
+
+sub instantiate_array_selection {
+  my $orig = shift;
+  _instantiate_selection( $orig, \&instantiate_array );
+}
+
+sub _instantiate_selection {
+  my $orig        = shift;
+  my $instantiate = shift;
+  if ( ref $orig eq ref {} ) {
+    for my $i ( 1..5 ) {
+      foreach my $this ( keys %$orig ) {
+        my $got = $orig->{$this};
+        if ( is_single_key_hash( $got, 'alias' ) ) {
+          $orig->{$this} = $got->{alias} if $i > 1;
+        }
+        else {
+          $orig->{$this} = $instantiate->($got);
+        }
       }
     }
+    return $orig;
+  }
+  else {
+    return { default => $instantiate->($orig) };
   }
 }
 
