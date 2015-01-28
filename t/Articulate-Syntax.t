@@ -56,6 +56,18 @@ subtest instantiate_array => sub {
   is ( ref ( instantiate_array( $_make_array->() )->[1]  ), 'MadeUp::Class::Singleton' );
 };
 
+subtest instantiate_selection => sub {
+    my $selection = {
+      default => 'MadeUp::Class',
+      foo     => { alias => 'default' },
+      bar     => { alias => 'foo' },
+    };
+    instantiate_selection($selection);
+    is (ref ($selection->{default}), 'MadeUp::Class');
+    is (ref ($selection->{foo}    ), 'MadeUp::Class');
+    is (ref ($selection->{bar}    ), 'MadeUp::Class');
+};
+
 subtest dpath => sub {
   my $structure = { foo => {bar => 2}, baz => [ 3, 4 ] };
 

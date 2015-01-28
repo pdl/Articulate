@@ -215,7 +215,7 @@ sub _instantiate_selection {
       foreach my $this ( keys %$orig ) {
         my $got = $orig->{$this};
         if ( is_single_key_hash( $got, 'alias' ) ) {
-          $orig->{$this} = $got->{alias} if $i > 1;
+          $orig->{$this} = $orig->{ $got->{alias} } if $i > 1;
         }
         else {
           $orig->{$this} = $instantiate->($got);
