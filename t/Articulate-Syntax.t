@@ -66,6 +66,9 @@ subtest instantiate_selection => sub {
     is (ref ($selection->{default}), 'MadeUp::Class');
     is (ref ($selection->{foo}    ), 'MadeUp::Class');
     is (ref ($selection->{bar}    ), 'MadeUp::Class');
+
+    $selection = instantiate_selection('MadeUp::Class');
+    is (ref ($selection->{default}), 'MadeUp::Class');
 };
 
 subtest instantiate_array_selection => sub {
@@ -79,6 +82,10 @@ subtest instantiate_array_selection => sub {
     is (ref ($selection->{default}->[0]), 'MadeUp::Class');
     is (ref ($selection->{foo}    ->[0]), 'MadeUp::Class');
     is (ref ($selection->{bar}    ->[0]), 'MadeUp::Class');
+
+    $selection = instantiate_array_selection('MadeUp::Class');
+    is (ref ($selection->{default}), ref []);
+    is (ref ($selection->{default}->[0]), 'MadeUp::Class');
 };
 
 subtest dpath => sub {
