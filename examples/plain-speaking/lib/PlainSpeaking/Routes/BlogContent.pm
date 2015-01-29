@@ -3,7 +3,7 @@ package PlainSpeaking::Routes::BlogContent;
 use Moo;
 with 'Articulate::Role::Routes';
 
-use Dancer qw(:syntax !after !before);
+use Articulate::Syntax::Routes;
 use Articulate::Service;
 
 my $zone_id = 'blog';

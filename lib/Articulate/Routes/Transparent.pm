@@ -4,8 +4,7 @@ use warnings;
 
 use Moo;
 with 'Articulate::Role::Routes';
-
-use Dancer qw(:syntax !after !before);
+use Articulate::Syntax::Routes;
 use Articulate::Service;
 
 my $service = articulate_service;
