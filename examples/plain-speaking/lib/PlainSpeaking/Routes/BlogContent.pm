@@ -8,8 +8,6 @@ use Articulate::Service;
 
 my $zone_id = 'blog';
 
-my $service = articulate_service;
-
 get '/' => sub {
   my $service    = shift;
   my $request    = shift;
