@@ -13,7 +13,7 @@ my $service = articulate_service;
 get '/' => sub {
   my $service    = shift;
   my $request    = shift;
-  my $article_id = $request->param ('article_id');
+  my $article_id = $request->params->{'article_id'};
   $service->process_request(
     list => {
       location => "zone/$zone_id/article",
@@ -28,7 +28,7 @@ get '/' => sub {
 get '/article/:article_id' => sub {
   my $service    = shift;
   my $request    = shift;
-  my $article_id = $request->param ('article_id');
+  my $article_id = $request->params->{'article_id'};
   $service->process_request(
     read => {
       location => "zone/$zone_id/article/$article_id",
@@ -37,9 +37,11 @@ get '/article/:article_id' => sub {
 };
 
 post '/article/:article_id' => sub {
-  my $article_id = param ('article_id');
-  my $title      = param ('title');
-  my $content    = param ('content');
+  my $service    = shift;
+  my $request    = shift;
+  my $article_id = $request->params->{'article_id'};
+  my $title      = $request->params->{'title'};
+  my $content    = $request->params->{'content'};
   $service->process_request(
     update => {
       location => "zone/$zone_id/article/$article_id",
@@ -50,12 +52,16 @@ post '/article/:article_id' => sub {
 };
 
 get '/login' => sub {
+  my $service    = shift;
+  my $request    = shift;
   $service->process_request(
     login_form => {}
   )->serialise;
 };
 
 get '/create' => sub {
+  my $service    = shift;
+  my $request    = shift;
   $service->process_request(
     create_form => {
       location => "zone/$zone_id",
@@ -64,9 +70,11 @@ get '/create' => sub {
 };
 
 post '/create' => sub {
-  my $article_id = param ('article_id');
-  my $title      = param ('title');
-  my $content    = param ('content');
+  my $service    = shift;
+  my $request    = shift;
+  my $article_id = $request->params->{'article_id'};
+  my $title      = $request->params->{'title'};
+  my $content    = $request->params->{'content'};
   return $service->process_request( error => {
     simple_message => 'Parameter article_id is required'
   } ) unless defined $article_id and $article_id ne '';
@@ -90,12 +98,14 @@ post '/create' => sub {
 };
 
 post '/preview' => sub {
-  my $title      = param ('title');
-  my $article_id = param ('article_id');
+  my $service    = shift;
+  my $request    = shift;
+  my $title      = $request->params->{'title'};
+  my $article_id = $request->params->{'article_id'};
   return $service->process_request( error => {
     simple_message => 'Parameter article_id is required'
   } ) unless defined $article_id and $article_id ne '';
-  my $content    = param ('content');
+  my $content    = $request->params->{'content'};
   $service->process_request(
     preview => {
       location =>"zone/$zone_id/article/$article_id",
@@ -107,7 +117,9 @@ post '/preview' => sub {
 
 
 get '/article/:article_id/edit' => sub {
-  my $article_id = param ('article_id');
+  my $service    = shift;
+  my $request    = shift;
+  my $article_id = $request->params->{'article_id'};
   $service->process_request(
     edit_form => {
       location => "zone/$zone_id/article/$article_id",
@@ -116,6 +128,8 @@ get '/article/:article_id/edit' => sub {
 };
 
 get '/upload' => sub {
+  my $service    = shift;
+  my $request    = shift;
   $service->process_request(
     upload_form => {
       location => "assets/images",
@@ -124,9 +138,11 @@ get '/upload' => sub {
 };
 
 post '/upload' => sub {
-  my $image_id   = param ('image_id');
-  my $title      = param ('title');
-  my $content    = upload('image');
+  my $service    = shift;
+  my $request    = shift;
+  my $image_id   = $request->params->{'image_id'};
+  my $title      = $request->params->{'title'};
+  my $content    = $request->upload('image');
   return $service->process_request( error => {
     simple_message => 'Parameter image_id is required'
   } ) unless defined $image_id and $image_id ne '';
@@ -149,7 +165,9 @@ post '/upload' => sub {
 };
 
 get '/image/:image_id' => sub {
-  my $image_id = param ('image_id');
+  my $service    = shift;
+  my $request    = shift;
+  my $image_id = $request->params->{'image_id'};
   $service->process_request(
     read => {
       location => "assets/images/image/$image_id",

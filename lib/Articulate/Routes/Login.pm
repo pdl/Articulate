@@ -9,9 +9,9 @@ use Articulate::Service;
 
 post '/login' => sub {
   my ($service, $request) = @_;
-  my $user_id  = param('user_id');
-  my $password = param('password');
-  my $redirect = param('redirect') // '/';
+  my $user_id  = $request->params->{'user_id'};
+  my $password = $request->params->{'password'};
+  my $redirect = $request->params->{'redirect'} // '/';
   $service->process_request(
     login => {
       user_id  => $user_id,
@@ -22,7 +22,7 @@ post '/login' => sub {
 
 post '/logout' => sub {
   my ($service, $request) = @_;
-  my $redirect = param('redirect') // '/';
+  my $redirect = $request->params->{'redirect'} // '/';
   $service->process_request(
     logout => {}
   )->serialise;

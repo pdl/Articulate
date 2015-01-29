@@ -9,12 +9,12 @@ use Articulate::Service;
 
 post '/zone/:zone_id/preview' => sub {
   my ($service, $request) = @_;
-  my $zone_id    = param ('zone_id');
-  my $article_id = param ('article_id');
+  my $zone_id    = $request->params->{'zone_id'};
+  my $article_id = $request->params->{'article_id'};
   return $service->process_request( error => {
     simple_message => 'Parameter article_id is required'
   } ) unless defined $article_id and $article_id ne '';
-  my $content    = param ('content');
+  my $content    = $request->params->{'content'};
   $service->process_request(
     preview => {
       location =>"zone/$zone_id/article/$article_id",
