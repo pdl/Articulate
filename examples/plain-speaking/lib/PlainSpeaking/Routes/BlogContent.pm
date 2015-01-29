@@ -11,7 +11,9 @@ my $zone_id = 'blog';
 my $service = articulate_service;
 
 get '/' => sub {
-  my $article_id = param ('article_id');
+  my $service    = shift;
+  my $request    = shift;
+  my $article_id = $request->param ('article_id');
   $service->process_request(
     list => {
       location => "zone/$zone_id/article",
@@ -24,7 +26,9 @@ get '/' => sub {
 };
 
 get '/article/:article_id' => sub {
-  my $article_id = param ('article_id');
+  my $service    = shift;
+  my $request    = shift;
+  my $article_id = $request->param ('article_id');
   $service->process_request(
     read => {
       location => "zone/$zone_id/article/$article_id",

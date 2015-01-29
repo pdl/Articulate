@@ -7,9 +7,8 @@ with 'Articulate::Role::Routes';
 use Articulate::Syntax::Routes;
 use Articulate::Service;
 
-my $service = articulate_service;
-
 get '/zone/:zone_id/article/:article_id' => sub {
+  my ($service, $request) = @_;
   my $zone_id    = param ('zone_id');
   my $article_id = param ('article_id');
   $service->process_request(
@@ -20,6 +19,7 @@ get '/zone/:zone_id/article/:article_id' => sub {
 };
 
 post '/zone/:zone_id/article/:article_id' => sub {
+  my ($service, $request) = @_;
   my $zone_id    = param ('zone_id');
   my $article_id = param ('article_id');
   my $content    = param ('content');
@@ -32,6 +32,7 @@ post '/zone/:zone_id/article/:article_id' => sub {
 };
 
 post '/zone/:zone_id/article/:article_id/edit' => sub {
+  my ($service, $request) = @_;
   my $zone_id    = param ('zone_id');
   my $article_id = param ('article_id');
   my $content    = param ('content');
