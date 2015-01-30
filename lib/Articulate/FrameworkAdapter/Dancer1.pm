@@ -17,7 +17,7 @@ sub appdir {
 }
 
 sub session {
-  #my $self = shift; # todo: make sure it works when we put this in
+  my $self = shift;
   Dancer::session(@_);
 }
 
