@@ -5,7 +5,7 @@ use warnings;
 use Moo;
 with 'Articulate::Role::Sortation::AllYouNeedIsCmp';
 
-use Articulate::Syntax qw(instantiate);
+use Articulate::Syntax qw(instantiate dpath_get);
 use Dancer::Plugin;
 
 =head1 NAME
@@ -25,30 +25,18 @@ has options => (
     my $orig         = shift;
     $orig->{cmp}   //= 'Articulate::Sortation::String';
     $orig->{cmp}     = instantiate ( $orig->{cmp} );
-    $orig->{field} //= [];
-    $orig->{field}   = [ grep { $_ ne '' } split ( qr~/~, $orig->{field} ) ] if !ref $orig->{field};
+    $orig->{field} //= '/';
+    $orig->{field}   =~ s~^([^/].*)$~/$1~;
     $orig->{order} //= 'asc';
     return $orig;
   },
 );
 
-sub dive {
-  my $self  = shift;
-  my $item  = shift;
-  my $field = shift;
-  my $meta  = $item->meta;
-  my $curr  = [$meta];
-  foreach my $key ( @$field ) {
-    return '' unless exists $curr->[0]->{$key};
-    $curr = [ $curr->[0]->{$key} ];
-  }
-  return $curr->[0];
-}
 
 sub decorate {
   my $self = shift;
   my $item = shift;
-  return $self->dive( $item, $self->options->{field} )
+  return ( dpath_get( $item->meta, $self->options->{field} ) // '' )
 }
 
 sub cmp {
