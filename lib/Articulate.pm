@@ -191,9 +191,8 @@ register articulate_app => sub {
 
 sub enable {
 	my $self = shift;
-	foreach my $route_class (@{ $self->routes }){
-		Module::Load::load($route_class);
-		$route_class->new()->enable;
+	foreach my $route (@{ $self->routes }){
+		$route->enable;
 	}
 	$self->enabled(1);
 }
@@ -202,13 +201,16 @@ has enabled =>
 	is      => 'rw',
 	default => sub { 0 };
 
-has routes =>
+has routes => (
 	is      => 'rw',
-	default => sub { [] };
+	default => sub { [] },
+	coerce  => sub { Module::Load::load('Articulate::Syntax'); Articulate::Syntax::instantiate_array ( @_ ) },
+);
 
 has service =>
 	is      => 'rw',
 	default => sub { articulate_service };
+
 
 register_plugin;
 
