@@ -25,48 +25,48 @@ sub on_enable(&) {
 }
 
 sub get {
-  my $route = shift;
+  my $path = shift;
   my $code  = pop;
   on_enable {
     my $service = shift;
-    Dancer::get $route => sub { perform_request( $code, [ $service, request ] ) };
+    $service->framework->declare_route( get => $path => sub { perform_request( $code, [ $service, request ] ) } );
   }
 }
 
 
 sub post {
-  my $route = shift;
+  my $path = shift;
   my $code  = shift;
   on_enable {
     my $service = shift;
-    Dancer::post $route => sub { perform_request( $code, [ $service, request ] ) };
+    $service->framework->declare_route( post => $path => sub { perform_request( $code, [ $service, request ] ) } );
   }
 }
 
 sub patch {
-  my $route = shift;
+  my $path = shift;
   my $code  = shift;
   on_enable {
     my $service = shift;
-    Dancer::patch $route => sub { perform_request( $code, [ $service, request ] ) };
+    $service->framework->declare_route( patch => $path => sub { perform_request( $code, [ $service, request ] ) } );
   }
 }
 
 sub del {
-  my $route = shift;
+  my $path = shift;
   my $code  = shift;
   on_enable {
     my $service = shift;
-    Dancer::del $route => sub { perform_request( $code, [ $service, request ] ) };
+    $service->framework->declare_route( del => $path => sub { perform_request( $code, [ $service, request ] ) } );
   }
 }
 
 sub put {
-  my $route = shift;
+  my $path = shift;
   my $code  = shift;
   on_enable {
     my $service = shift;
-    Dancer::put $route => sub { perform_request( $code, [ $service, request ] ) };
+    $service->framework->declare_route( put => $path => sub { perform_request( $code, [ $service, request ] ) } );
   }
 }
 

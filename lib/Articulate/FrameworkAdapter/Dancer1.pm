@@ -17,8 +17,21 @@ sub appdir {
 }
 
 sub session {
+  #my $self = shift; # todo: make sure it works when we put this in
   Dancer::session(@_);
 }
 
+sub declare_route {
+  my ($self, $verb, $path, $code) = @_;
+  if ($verb =~ s/^(get|put|post|patch|del|any|options)$/'Dancer::'.lc $1;/ge) {
+    {
+      no strict 'refs';
+      &$verb($path, $code);
+    }
+  }
+  else {
+    die ('Unknown HTTP verb '.$verb);
+  }
+}
 
 1;
