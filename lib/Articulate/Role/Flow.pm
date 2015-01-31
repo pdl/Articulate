@@ -21,10 +21,34 @@ where C<$providers> and C<$args> are arrayrefs.
 
 =cut
 
+=head1 METHODS
+
+=cut
+
+=head3 enrich
+
+  $self->enrich($item);
+
+Does
+
+  $self->process_method( enrich => $item );
+
+=cut
+
 sub enrich {
   my $self = shift;
-  $self->process_method( enrich => @_);
+  $self->process_method( enrich => @_ );
 }
+
+=head3 augment
+
+  $self->augment($item);
+
+Does
+
+  $self->process_method( augment => $item );
+
+=cut
 
 sub augment {
   my $self = shift;
