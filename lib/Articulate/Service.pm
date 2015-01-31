@@ -80,6 +80,7 @@ sub process_request {
     foreach my $provider (
       @{ $self->providers }
     ) {
+      $provider->app($self->app);
       my $resp = $provider->process_request($request);
       if (defined $resp) {
         $response = $resp;

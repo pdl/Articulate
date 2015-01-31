@@ -5,13 +5,14 @@ use warnings;
 
 # the order is important
 use Articulate::TestEnv;
+use Articulate;
 use Scalar::Util qw(blessed);
 
 my $class = 'Articulate::Storage::Local';
 
 use_ok $class;
 
-my $storage = $class->new();
+my $storage = $class->new( { app=>articulate_app } );
 
 isa_ok ( $storage, $class );
 

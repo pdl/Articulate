@@ -4,7 +4,7 @@ use warnings;
 
 use Moo;
 use Dancer::Plugin;
-use Articulate::Serialisation ();
+#use Articulate::Serialisation ();
 
 use Scalar::Util qw(blessed);
 
@@ -68,7 +68,8 @@ Note: the behaviour of this method may change!
 =cut
 
 sub serialise { # this is convenient as it is probably the next thing which will always be done.
-  Articulate::Serialisation::serialisation->serialise (shift);
+#  Articulate::Serialisation::serialisation->serialise (shift);
+  shift;
 }
 
 

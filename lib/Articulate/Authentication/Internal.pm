@@ -6,7 +6,6 @@ use Moo;
 with 'MooX::Singleton';
 
 use Digest::SHA;
-use Articulate::Storage;
 use Time::HiRes; # overrides time()
 
 =head1 NAME
@@ -77,7 +76,7 @@ Returns the result of C<eq>.
 sub verify_password {
   my ($self, $user_id, $plaintext_password) = @_;
 
-  my $user_meta               = storage->get_meta ("/users/$user_id");
+  my $user_meta               = $self->storage->get_meta ("/users/$user_id");
   my $real_encrypted_password = $user_meta->{encrypted_password};
   my $salt                    = $user_meta->{salt};
 
@@ -106,7 +105,7 @@ sub set_password {
   my ($self, $user_id, $plaintext_password) = @_;
   return undef unless $plaintext_password; # as empty passwords will only cause trouble.
   my $new_salt = $self->_generate_salt;
-  storage->patch_meta ( "/user/$user_id", {
+  $self->storage->patch_meta ( "/user/$user_id", {
     encrypted_password => $self->_password_salt_and_hash ($plaintext_password, $new_salt),
     salt               => $new_salt
   } );
@@ -122,8 +121,8 @@ Creates a new user and sets the  C<encrypted_password> and C<salt> fields of the
 
 sub create_user {
   my ( $self, $user_id, $plaintext_password ) = @_;
-  storage->create("/user/$user_id");
-  storage->set_password( $user_id, $plaintext_password );
+  $self->storage->create("/user/$user_id");
+  $self->storage->set_password( $user_id, $plaintext_password );
 }
 
 1;
