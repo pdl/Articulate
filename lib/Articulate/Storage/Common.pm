@@ -52,7 +52,6 @@ my $re_slug = qr~$s_slug~;
   $s_location =~ s~^\|~~;
   $re_location = qr/$s_location/;
 }
-#die $re_location;
 
 sub good_location {
   my $location  = shift;

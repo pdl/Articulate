@@ -227,8 +227,6 @@ has components => (
 		my $self = shift;
 		my $orig = shift;
 		$orig->{$_}->app($self) foreach keys %$orig;
-		use YAML;
-#		die Dump $self;
 	},
 );
 

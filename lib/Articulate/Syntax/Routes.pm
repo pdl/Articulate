@@ -76,7 +76,6 @@ sub put {
 }
 
 sub perform_request {
-  #die to_yaml [@_];
   $_[0]->(@{ $_[1] });
 }
 

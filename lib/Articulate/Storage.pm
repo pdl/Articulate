@@ -6,7 +6,6 @@ use Dancer::Plugin;
 use Moo;
 extends 'Articulate::Storage::Local'; # let's cheat
 with 'Articulate::Role::Component';
-#use Articulate::Syntax qw(instantiate);
 
 =head1 NAME
 

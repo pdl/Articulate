@@ -4,7 +4,6 @@ use warnings;
 
 use Moo;
 use Dancer::Plugin;
-#use Articulate::Serialisation ();
 
 use Scalar::Util qw(blessed);
 
