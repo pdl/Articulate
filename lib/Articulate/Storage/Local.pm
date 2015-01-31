@@ -6,11 +6,10 @@ use Articulate::Storage::Common;
 use Dancer::Plugin;
 use Moo;
 with 'MooX::Singleton';
+with 'Articulate::Role::Component';
 use File::Path;
 use IO::All;
 use YAML;
-use Articulate::Construction;
-use Articulate::FrameworkAdapter;
 use Articulate::Syntax;
 use Scalar::Util qw(blessed);
 use FindBin;
@@ -40,9 +39,12 @@ Caching is not implemented: get_content_cached simpy calls get_content.
 
 has content_base => (
 	is      => 'rw',
+	lazy    => 1, # because depends on app
 	default => sub {
+		my $self = shift;
 		return (
-			framework->appdir
+			undef
+		#	$self->framework->appdir
 			// $FindBin::Bin
 		).'/content/';
 	},
@@ -83,9 +85,9 @@ Retrieves the metadata for the content at that location.
 sub get_item {
 	my $self     = shift;
 	my $location = shift->location;
-	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless $self->navigation->good_location( $location );
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
-	my $item = construction->construct( { location => $location } );
+	my $item = $self->construction->construct( { location => $location } );
 	$item->meta    ( $self->get_meta($item) );
 	$item->content ( $self->get_content($item) );
 	return $item;
@@ -103,7 +105,7 @@ sub get_meta {
 	my $self     = shift;
 	my $item     = shift;
 	my $location = $item->location;
-	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless $self->navigation->good_location( $location );
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->true_location ( $location . '/meta.yml' );
 	return YAML::LoadFile($fn) if -e $fn;
@@ -122,7 +124,7 @@ sub set_meta {
 	my $self     = shift;
 	my $item     = shift;
 	my $location = $item->location;
-	throw_error Internal => "Bad location ".$location unless good_location $location;
+	throw_error Internal => "Bad location ".$location unless $self->navigation->good_location( $location );
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml' ) );
 	YAML::DumpFile($fn, $item->meta);
@@ -143,7 +145,7 @@ sub patch_meta {
 	my $self     = shift;
 	my $item     = shift;
 	my $location = $item->location;
-	throw_error Internal => "Bad location ".$location unless good_location $location;
+	throw_error Internal => "Bad location ".$location unless $self->navigation->good_location( $location );
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml') );
 	my $old_data = {};
@@ -164,7 +166,7 @@ sub get_settings {
 	my $self     = shift;
 	my $item     = shift;
 	my $location = $item->location;
-	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless $self->navigation->good_location( $location );
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->true_location ( $location . '/settings.yml' );
 	return YAML::LoadFile($fn) if -e $fn;
@@ -183,7 +185,7 @@ sub set_settings {
 	my $self     = shift;
 	my $location = shift->location;
 	my $settings = shift;
-	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless $self->navigation->good_location( $location );
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/settings.yml' ) );
 	YAML::DumpFile($fn, $settings);
@@ -201,7 +203,7 @@ Retrieves the settings for the content at that location.
 sub get_settings_complete {
 	my $self     = shift;
 	my $location = shift->location;
-	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless $self->navigation->good_location( $location );
 	my @paths = split /\//, $location;
 	my $current_path = $self->true_location( '' ).'/';
 	my $settings = {};
@@ -226,7 +228,7 @@ Retrieves the content at that location.
 sub get_content {
 	my $self = shift;
 	my $location = shift->location;
-	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless $self->navigation->good_location( $location );
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->true_location( $location . '/content.blob' );
 	open my $fh, '<', $fn or throw_error Internal => "Cannot open file $fn to read";
@@ -274,7 +276,7 @@ sub set_content {
 	my $self = shift;
 	my $item = shift;
 	my $location = $item->location;
-	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless $self->navigation->good_location( $location );
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/content.blob' ) );
 	_write_content( $item->content, $fn );
@@ -294,7 +296,7 @@ sub create_item {
 	my $self = shift;
 	my $item = shift;
 	my $location = $item->location;
-	throw_error Internal => "Bad location ".$location unless good_location $location;
+	throw_error Internal => "Bad location ".$location unless $self->navigation->good_location( $location );
 	throw_error AlreadyExists => "Cannot create: item already exists at ".$location if $self->item_exists($location);
 	{
 		my $fn = $self->ensure_exists( $self->true_location( $location . '/content.blob' ) );
@@ -322,7 +324,7 @@ Determines if the item has been created (only the C<meta.yml> is tested).
 sub item_exists {
 	my $self = shift;
 	my $location = shift->location;
-	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless $self->navigation->good_location( $location );
 	return -e $self->true_location( $location . '/meta.yml' );
 }
 
@@ -338,7 +340,7 @@ Returns a list of items in the.
 sub list_items {
 	my $self = shift;
 	my $location = shift->location;
-	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless $self->navigation->good_location( $location );
 	my $true_location = $self->true_location( $location );
 	my @contents;
 	return @contents unless -d $true_location;
@@ -346,7 +348,7 @@ sub list_items {
 	while (my $fn = readdir $dh) {
 		my $child_dn = $true_location.'/'.$fn;
 		next unless -d $child_dn;
-		push @contents, $fn if good_location $location.'/'.$fn and $self->item_exists( loc $location.'/'.$fn );
+		push @contents, $fn if $self->navigation->good_location( $location .'/'.$fn ) and $self->item_exists( loc $location.'/'.$fn );
 	}
 	return @contents;
 }
@@ -379,7 +381,7 @@ sub delete_item {
 	my $location = shift->location;
 
 	throw_error Internal => "Use empty_all_content instead to delete the root" if "$location" eq '/';
-	throw_error Internal => "Bad location $location" unless good_location $location;
+	throw_error Internal => "Bad location $location" unless $self->navigation->good_location( $location );
 	throw_error NotFound => "No content at $location" unless $self->item_exists($location);
 
 	my $true_location = $self->true_location( $location );

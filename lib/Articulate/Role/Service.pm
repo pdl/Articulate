@@ -4,15 +4,6 @@ use warnings;
 use Moo::Role;
 
 # The following provide plugins which should be singletons within an application
-use Articulate::Storage          ();
-use Articulate::Authentication   ();
-use Articulate::Authorisation    ();
-use Articulate::Enrichment       ();
-use Articulate::Augmentation     ();
-use Articulate::Validation       ();
-use Articulate::Construction     ();
-use Articulate::FrameworkAdapter ();
-
 use Class::Inspector;
 
 has verbs => (
@@ -48,61 +39,6 @@ sub process_request {
   }
   return undef; # whatever else the user wants, we can't provide it
 }
-
-has storage => (
-  is      => 'rw',
-  default => sub {
-    Articulate::Storage::storage;
-  }
-);
-
-has authentication => (
-  is      => 'rw',
-  default => sub {
-    Articulate::Authentication::authentication;
-  }
-);
-
-has authorisation => (
-  is      => 'rw',
-  default => sub {
-    Articulate::Authorisation::authorisation;
-  }
-);
-
-has construction => (
-  is      => 'rw',
-  default => sub {
-    Articulate::Construction::construction;
-  }
-);
-
-has augmentation => (
-  is      => 'rw',
-  default => sub {
-    Articulate::Augmentation::augmentation;
-  }
-);
-
-has enrichment => (
-  is      => 'rw',
-  default => sub {
-    Articulate::Enrichment::enrichment;
-  }
-);
-
-has framework => (
-  is      => 'rw',
-  default => sub {
-    Articulate::FrameworkAdapter::framework;
-  }
-);
-
-has validation => (
-  is      => 'rw',
-  default => sub {
-    Articulate::Validation::validation;
-  }
-);
+with 'Articulate::Role::Component';
 
 1;

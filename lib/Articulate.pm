@@ -2,6 +2,9 @@ package Articulate;
 use strict;
 use warnings;
 
+use Moo;
+with 'MooX::Singleton';
+
 use Dancer::Plugin;
 use Articulate::Service;
 use Module::Load ();
@@ -183,15 +186,14 @@ Currently Articulate is bundled with versions of other software whose license in
 
 =cut
 
-use Moo;
-
 register articulate_app => sub {
-	__PACKAGE__->new(plugin_setting);
+	__PACKAGE__->instance(plugin_setting);
 };
 
 sub enable {
 	my $self = shift;
 	foreach my $route (@{ $self->routes }){
+		$route->app($self);
 		$route->enable;
 	}
 	$self->enabled(1);
@@ -205,12 +207,30 @@ has routes => (
 	is      => 'rw',
 	default => sub { [] },
 	coerce  => sub { Module::Load::load('Articulate::Syntax'); Articulate::Syntax::instantiate_array ( @_ ) },
+	trigger => sub {
+		my $self = shift;
+		my $orig = shift;
+		$_->app($self) foreach @$orig;
+	},
 );
 
-has service =>
+has components => (
 	is      => 'rw',
-	default => sub { articulate_service };
+	default => sub { {} },
+	coerce  => sub {
+		my $orig = shift;
+		Module::Load::load('Articulate::Syntax');
+		Articulate::Syntax::instantiate_selection ( $orig );
 
+	},
+	trigger => sub {
+		my $self = shift;
+		my $orig = shift;
+		$orig->{$_}->app($self) foreach keys %$orig;
+		use YAML;
+#		die Dump $self;
+	},
+);
 
 register_plugin;
 

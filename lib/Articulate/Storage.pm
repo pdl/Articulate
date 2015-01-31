@@ -4,7 +4,9 @@ use warnings;
 
 use Dancer::Plugin;
 use Moo;
-use Articulate::Syntax qw(instantiate);
+extends 'Articulate::Storage::Local'; # let's cheat
+with 'Articulate::Role::Component';
+#use Articulate::Syntax qw(instantiate);
 
 =head1 NAME
 
@@ -16,18 +18,6 @@ This provides a single function, storage, which returns the storage object to wh
 
 By default, this will return an instance of C<Articulate::Storage::Local>.
 
-=head1 FUNCTIONS
-
-=head1 storage
-
-Returns an instance of the storage class defined in your C<config.yml>.
-
 =cut
-
-register storage => sub {
-  instantiate (plugin_setting->{storage_class} // 'Articulate::Storage::Local');
-};
-
-register_plugin();
 
 1;

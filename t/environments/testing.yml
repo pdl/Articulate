@@ -37,44 +37,52 @@ plugins:
       - Articulate::Routes::TransparentForms
       - Articulate::Routes::TransparentPreviews
       - Articulate::Routes::Login
-  Articulate::Construction:
-    constructors:
-      - class: Articulate::Construction::LocationBased
-        args:
-          types:
-            article: Articulate::Item::Article
-  Articulate::Navigation:
-    locations:
-      - zone/*/article/*
-      - user/*
-      - []
-  Articulate::Service:
-    providers:
-      - Articulate::Service::Error
-      - Articulate::Service::Simple
-      - Articulate::Service::SimpleForms
-      - Articulate::Service::SimplePreviews
-      - Articulate::Service::Login
-  Articulate::Authentication:
-    providers:
-      - Articulate::Authentication::Internal
-  Articulate::Authorisation:
-    rules:
-      - Articulate::Authorisation::OwnerOverride
-      - Articulate::Authorisation::AlwaysAllow
-  Articulate::Enrichment:
-    enrichments:
-      - Articulate::Enrichment::DateCreated
-      - Articulate::Enrichment::DateUpdated
-  Articulate::Storage:
-    storage_class: Articulate::Storage::Local
-  Articulate::Interpreter:
-    interpreters:
-      - Articulate::Interpreter::Markdown
-  Articulate::Validation:
-    validators: []
-#      - Articulate::Validation::NoScript
-  Articulate::Serialisation:
-    serialisers:
-      - Articulate::Serialisation::StatusSetter
-      - Articulate::Serialisation::TemplateToolkit
+    components:
+      construction:
+        Articulate::Construction:
+          constructors:
+            - class: Articulate::Construction::LocationBased
+              args:
+                types:
+                  article: Articulate::Item::Article
+      navigation:
+        Articulate::Navigation:
+          locations:
+            - zone/*/article/*
+            - user/*
+            - []
+      service:
+        Articulate::Service:
+          providers:
+            - Articulate::Service::Error
+            - Articulate::Service::Simple
+            - Articulate::Service::SimpleForms
+            - Articulate::Service::SimplePreviews
+            - Articulate::Service::Login
+      authentication:
+        Articulate::Authentication:
+          providers:
+            - Articulate::Authentication::Internal
+      authorisation:
+        Articulate::Authorisation:
+          rules:
+            - Articulate::Authorisation::OwnerOverride
+            - Articulate::Authorisation::AlwaysAllow
+      enrichment:
+        Articulate::Enrichment:
+          enrichments:
+            - Articulate::Enrichment::DateCreated
+            - Articulate::Enrichment::DateUpdated
+      storage:
+        Articulate::Storage:
+          storage_class: Articulate::Storage::Local
+      validation:
+        Articulate::Validation:
+          validators: []
+      #      - Articulate::Validation::NoScript
+      framework: 'Articulate::FrameworkAdapter::Dancer1'
+      serialisation:
+        Articulate::Serialisation:
+          serialisers:
+            - Articulate::Serialisation::StatusSetter
+            - Articulate::Serialisation::TemplateToolkit

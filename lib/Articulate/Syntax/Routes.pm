@@ -28,8 +28,9 @@ sub get {
   my $path = shift;
   my $code  = pop;
   on_enable {
-    my $service = shift;
-    $service->framework->declare_route( get => $path => sub { perform_request( $code, [ $service, request ] ) } );
+    my $self = shift;
+    my $wrapped = sub{ $self->serialisation->serialise( $code->( @_ ) ) };
+    $self->framework->declare_route( get => $path => sub { perform_request( $wrapped, [ $self, request ] ) } );
   }
 }
 
@@ -38,8 +39,9 @@ sub post {
   my $path = shift;
   my $code  = shift;
   on_enable {
-    my $service = shift;
-    $service->framework->declare_route( post => $path => sub { perform_request( $code, [ $service, request ] ) } );
+    my $self = shift;
+    my $wrapped = sub{ $self->serialisation->serialise( $code->( @_ ) ) };
+    $self->framework->declare_route( post => $path => sub { perform_request( $wrapped, [ $self, request ] ) } );
   }
 }
 
@@ -47,8 +49,9 @@ sub patch {
   my $path = shift;
   my $code  = shift;
   on_enable {
-    my $service = shift;
-    $service->framework->declare_route( patch => $path => sub { perform_request( $code, [ $service, request ] ) } );
+    my $self = shift;
+    my $wrapped = sub{ $self->serialisation->serialise( $code->( @_ ) ) };
+    $self->framework->declare_route( patch => $path => sub { perform_request( $wrapped, [ $self, request ] ) } );
   }
 }
 
@@ -56,8 +59,9 @@ sub del {
   my $path = shift;
   my $code  = shift;
   on_enable {
-    my $service = shift;
-    $service->framework->declare_route( del => $path => sub { perform_request( $code, [ $service, request ] ) } );
+    my $self = shift;
+    my $wrapped = sub{ $self->serialisation->serialise( $code->( @_ ) ) };
+    $self->framework->declare_route( del => $path => sub { perform_request( $wrapped, [ $self, request ] ) } );
   }
 }
 
@@ -65,8 +69,9 @@ sub put {
   my $path = shift;
   my $code  = shift;
   on_enable {
-    my $service = shift;
-    $service->framework->declare_route( put => $path => sub { perform_request( $code, [ $service, request ] ) } );
+    my $self = shift;
+    my $wrapped = sub{ $self->serialisation->serialise( $code->( @_ ) ) };
+    $self->framework->declare_route( put => $path => sub { perform_request( $wrapped , [ $self, request ] ) } );
   }
 }
 

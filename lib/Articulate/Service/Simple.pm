@@ -23,7 +23,6 @@ use Moo;
 sub handle_create {
   my $self    = shift;
   my $request = shift;
-
   my $item = blessed $request->data ? $request->data : $self->construction->construct( {
     meta => {},
     (%{$request->data} ? %{$request->data} : ()),

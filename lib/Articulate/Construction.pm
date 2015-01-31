@@ -6,6 +6,8 @@ use Moo;
 use Articulate::Syntax qw(instantiate_array);
 use Articulate::Item;
 with 'MooX::Singleton';
+with 'Articulate::Role::Component';
+
 
 use Dancer::Plugin;
 use YAML;
@@ -22,18 +24,6 @@ Articulate::Construction - create appropriate content item objects given locatio
     Articulate::Construction:
       constructors:
       - Articulate::Construction::LocationBased
-
-=head1 FUNCTION
-
-=head3 construction
-
-Returns a new instance of this object.
-
-=cut
-
-register construction => sub {
-  __PACKAGE__->instance(plugin_setting);
-};
 
 =head1 ATTRIBUTE
 
