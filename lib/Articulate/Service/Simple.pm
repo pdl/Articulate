@@ -18,7 +18,52 @@ with 'MooX::Singleton';
 use Try::Tiny;
 use Scalar::Util qw(blessed);
 
-use Moo;
+=head1 NAME
+
+Articulate::Service::Simple - provide create, read, update, delete
+
+=cut
+
+=head1 METHODS
+
+=head3 handle_create
+
+
+  create => {
+    meta     => {}
+    content  => '...',
+    location => '...'
+  }
+
+Creates new content. Throws an error if the content already exists or if the user has no write permission on that location.
+
+=head3 handle_read
+
+  read => {
+    location => '...'
+  }
+
+Retrieves the content at that location. Throws an error if the content does not exist or if the user has no read permission on that location.
+
+=head3 handle_update
+
+  update => {
+    meta     => {}
+    content  => '...',
+    location => '...'
+  }
+
+Updates the content at that location. Throws an error if the content does not exist or if the user has no write permission on that location.
+
+=head3 handle_read
+
+  delete => {
+    location => '...'
+  }
+
+Deletes the content at that location. Throws an error if the content does not exist or if the user has no write permission on that location.
+
+=cut
 
 sub handle_create {
   my $self    = shift;
