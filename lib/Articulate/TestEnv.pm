@@ -10,10 +10,12 @@ set environment => 'testing';
 
 Dancer::Config->load; #::load_settings_from_yaml($FindBin::Bin.'/config.yml');
 
-use Articulate;
+use Dancer::Plugin::Articulate;
 
-articulate_app->enable;
+my $app = articulate_app;
 
-articulate_app->components->{'storage'}->empty_all_content;
+$app->enable;
+
+$app->components->{'storage'}->empty_all_content;
 
 1;

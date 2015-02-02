@@ -5,6 +5,7 @@ use warnings;
 
 # the order is important
 use Articulate::TestEnv;
+use Dancer::Plugin::Articulate;
 use Articulate;
 use Scalar::Util qw(blessed);
 

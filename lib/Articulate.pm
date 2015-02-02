@@ -5,7 +5,6 @@ use warnings;
 use Moo;
 with 'MooX::Singleton';
 
-use Dancer::Plugin;
 use Articulate::Service;
 use Module::Load ();
 our $VERSION = '0.001';
@@ -22,7 +21,7 @@ This is very much in alpha. Things will change. Feel free to build things and ha
 
 	# (in bin/app.pl)
 	use Dancer;
-	use Articulate;
+	use Dancer::Plugin::Articulate;
 	articulate_app->enable;
 	dance;
 
@@ -186,10 +185,6 @@ Currently Articulate is bundled with versions of other software whose license in
 
 =cut
 
-register articulate_app => sub {
-	__PACKAGE__->instance(plugin_setting);
-};
-
 sub enable {
 	my $self = shift;
 	foreach my $route (@{ $self->routes }){
@@ -229,7 +224,5 @@ has components => (
 		$orig->{$_}->app($self) foreach keys %$orig;
 	},
 );
-
-register_plugin;
 
 1;
