@@ -2,7 +2,6 @@ package Articulate::Permission;
 use strict;
 use warnings;
 
-use Dancer::Plugin;
 use Moo;
 use Devel::StackTrace;
 
@@ -24,9 +23,13 @@ Creates a new request, using the verb and data supplied as the respective argume
 
 =cut
 
-register permission => sub {
+use Exporter::Declare;
+default_exports qw(permission);
+
+
+sub permission {
   __PACKAGE__->new( {
-     user_id   => shift // '[guest]',
+     user_id  => shift // '[guest]',
      verb     => shift,
      location => shift
   } );
@@ -142,7 +145,5 @@ Please do not explicitly set this. Use C<grant> or C<deny> instead.
 has stack_trace =>
   is      => 'rw',
   default => sub { '' };
-
-register_plugin();
 
 1;

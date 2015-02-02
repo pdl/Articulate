@@ -3,7 +3,6 @@ use strict;
 use warnings;
 
 use Moo;
-use Dancer::Plugin;
 use Articulate::Service;
 
 =head1 NAME
@@ -22,7 +21,10 @@ Creates a new request, using the verb and data supplied as the respective argume
 
 =cut
 
-register articulate_request => sub {
+use Exporter::Declare;
+default_exports qw(articulate_request);
+
+sub articulate_request {
   __PACKAGE__->new( {
      verb => shift,
      data => shift
@@ -70,7 +72,5 @@ The information passed along with the request, e.g. C<< { location => '/zone/pub
 has data =>
   is      => 'rw',
   default => sub { { } };
-
-register_plugin();
 
 1;

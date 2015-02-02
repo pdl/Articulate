@@ -3,9 +3,10 @@ use strict;
 use warnings;
 
 use Moo;
-use Dancer::Plugin;
-
 use Scalar::Util qw(blessed);
+
+use Exporter::Declare;
+default_exports qw(response);
 
 =head1 NAME
 
@@ -24,7 +25,7 @@ Creates a new response, using the type and data supplied as the respective argum
 
 =cut
 
-register response => sub {
+sub response {
   my ($type, $data) = @_;
   my $http_code =
     $type eq 'error'
@@ -116,7 +117,5 @@ The actual content of the response, including any metadata. Typically this will 
 has data =>
   is      => 'rw',
   default => sub { { } };
-
-register_plugin();
 
 1;
