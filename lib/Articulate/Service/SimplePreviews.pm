@@ -19,6 +19,28 @@ use Scalar::Util qw(blessed);
 
 use Moo;
 
+=head1 NAME
+
+Articulate::Service::SimplePreviews - provide preview
+
+=cut
+
+=head1 METHODS
+
+=head3 handle_preview
+
+  preview => {
+    meta     => {}
+    content  => '...',
+    location => '...'
+  }
+
+This is in almost all respects identical to the C<create> verb in L<Articulate::Service::Simple> with the exception that nothing is written.
+
+Throws an error if the content already exists or if the user has no write permission on that location.
+
+=cut
+
 sub handle_preview {
   my $self    = shift;
   my $request = shift;
