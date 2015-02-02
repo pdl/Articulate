@@ -8,10 +8,6 @@ use Articulate::Item;
 with 'MooX::Singleton';
 with 'Articulate::Role::Component';
 
-
-use Dancer::Plugin;
-use YAML;
-
 =head1 NAME
 
 Articulate::Construction - create appropriate content item objects given location, meta, content.
@@ -66,7 +62,5 @@ sub construct {
   }
   return Articulate::Item->new($args);
 }
-
-register_plugin;
 
 1;

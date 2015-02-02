@@ -2,7 +2,6 @@ package Articulate::Storage;
 use strict;
 use warnings;
 
-use Dancer::Plugin;
 use Moo;
 extends 'Articulate::Storage::Local'; # let's cheat
 with 'Articulate::Role::Component';

@@ -3,8 +3,10 @@ use strict;
 use warnings;
 
 use Moo;
-use Dancer::Plugin;
 use Articulate::Syntax qw(instantiate_array);
+
+use Exporter::Declare;
+default_exports qw(sortation);
 
 =head1 NAME
 
@@ -31,9 +33,8 @@ This is a functional constructor: it returns an Articulate::Sortation object.
 
 =cut
 
-register sortation => sub {
+sub sortation {
   return __PACKAGE__->new(@_) if @_;
-  return __PACKAGE__->new(plugin_setting);
 };
 
 =head1 ATTRIBUTES
@@ -65,7 +66,5 @@ sub sort {
   }
   return $items;
 }
-
-register_plugin();
 
 1;
