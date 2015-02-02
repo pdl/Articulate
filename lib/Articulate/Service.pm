@@ -2,7 +2,6 @@ package Articulate::Service;
 use strict;
 use warnings;
 
-use Dancer::Plugin;
 use Articulate::Syntax;
 
 # The following provide objects which must be created on a per-request basis
@@ -14,6 +13,9 @@ with 'MooX::Singleton';
 with 'Articulate::Role::Service';
 use Try::Tiny;
 use Scalar::Util qw(blessed);
+
+use Exporter::Declare;
+default_exports qw(articulate_service);
 
 =head1 NAME
 
@@ -36,8 +38,8 @@ However, you may also want to call it from one-off scripts, tests, etc., especia
 
 =cut
 
-register articulate_service => sub {
-  __PACKAGE__->new(plugin_setting);
+sub articulate_service {
+  __PACKAGE__->new(@_);
 };
 
 has providers => (
@@ -116,7 +118,5 @@ sub enumerate_verbs {
   }
   return [ sort keys %$verbs ];
 }
-
-register_plugin;
 
 1;
