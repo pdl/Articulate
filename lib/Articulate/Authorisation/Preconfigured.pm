@@ -3,9 +3,7 @@ use strict;
 use warnings;
 
 use Moo;
-with 'MooX::Singleton';
-
-use Articulate::LocationSpecification; # provides locspec
+use Articulate::Syntax qw( locspec );
 
 =head1 NAME
 
