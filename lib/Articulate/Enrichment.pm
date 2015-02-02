@@ -6,7 +6,6 @@ use Moo;
 with 'MooX::Singleton';
 with 'Articulate::Role::Component';
 
-use Dancer::Plugin;
 use Articulate::Syntax qw(instantiate_array);
 
 =head1 NAME
@@ -56,7 +55,5 @@ sub enrich {
   }
   return $item;
 }
-
-register_plugin();
 
 1;

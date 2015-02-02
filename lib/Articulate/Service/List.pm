@@ -3,7 +3,6 @@ package Articulate::Service::List;
 use strict;
 use warnings;
 
-use Dancer::Plugin;
 use Articulate::Syntax;
 use Articulate::Sortation::MetaDelver;
 # The following provide objects which must be created on a per-request basis
@@ -16,8 +15,6 @@ with 'MooX::Singleton';
 
 use Try::Tiny;
 use Scalar::Util qw(blessed);
-
-use Moo;
 
 sub handle_list {
   my $self    = shift;

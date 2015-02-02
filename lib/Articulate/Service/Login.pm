@@ -3,10 +3,6 @@ package Articulate::Service::Login;
 use strict;
 use warnings;
 
-use Dancer::Plugin;
-
-use Articulate::Service;
-
 use Articulate::Request;
 use Articulate::Response;
 use Articulate::Syntax;
@@ -17,8 +13,6 @@ with 'MooX::Singleton';
 
 use Try::Tiny;
 use Scalar::Util qw(blessed);
-
-use Moo;
 
 =head1 NAME
 

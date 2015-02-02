@@ -3,7 +3,6 @@ use strict;
 use warnings;
 
 use Articulate::Storage::Common;
-use Dancer::Plugin;
 use Moo;
 with 'MooX::Singleton';
 with 'Articulate::Role::Component';
@@ -387,7 +386,5 @@ sub delete_item {
 	my $true_location = $self->true_location( $location );
 	File::Path::remove_tree( $true_location );
 }
-
-register_plugin();
 
 1;

@@ -2,9 +2,6 @@ package Articulate::Service::Simple;
 
 use strict;
 use warnings;
-
-use Dancer::Plugin;
-
 use Articulate::Syntax;
 
 # The following provide objects which must be created on a per-request basis
