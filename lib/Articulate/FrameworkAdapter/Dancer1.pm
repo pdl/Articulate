@@ -9,7 +9,7 @@ use Dancer qw(:syntax !after !before !session);
 
 sub user_id {
   my $self = shift;
-  session ('user_id', @_);
+  Dancer::session ('user_id', @_);
 }
 
 sub appdir {
