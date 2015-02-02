@@ -12,7 +12,7 @@ post '/login' => sub {
   my $user_id  = $request->params->{'user_id'};
   my $password = $request->params->{'password'};
   my $redirect = $request->params->{'redirect'} // '/';
-  $self->process_request(
+  $self->service->process_request(
     login => {
       user_id  => $user_id,
       password => $password
@@ -23,7 +23,7 @@ post '/login' => sub {
 post '/logout' => sub {
   my ($self, $request) = @_;
   my $redirect = $request->params->{'redirect'} // '/';
-  $self->process_request(
+  $self->service->process_request(
     logout => {}
   );
 };
