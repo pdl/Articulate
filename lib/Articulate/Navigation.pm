@@ -3,13 +3,10 @@ use strict;
 use warnings;
 
 use Moo;
-use Dancer::Plugin;
+with 'Articulate::Role::Component';
+
 use Articulate::Location;
 use Articulate::LocationSpecification;
-
-register navigation => sub {
-  __PACKAGE__->new(plugin_setting);
-};
 
 #has provider => (is => 'rw',)
 
@@ -65,7 +62,5 @@ sub valid_location {
   }
   return undef;
 }
-
-register_plugin;
 
 1;

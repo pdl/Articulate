@@ -4,7 +4,8 @@ use warnings;
 
 use Moo;
 with 'MooX::Singleton';
-use Dancer::Plugin;
+with 'Articulate::Role::Component';
+
 use Articulate::Syntax qw(instantiate_array);
 
 =head1 NAME
@@ -19,18 +20,6 @@ Articulate::Serialisation - transform a data structure into user-facing output.
 Go through all the defined serialisers and have them attempt to serialise the response object. The first defined result will be returned. The result be of any data type, although in practice the purpose is to use a string.
 
 Provides a serialisation function which creates an instance of this class.
-
-=head1 FUNCTION
-
-=head3 validation
-
-This is a functional constructor: it returns an Articulate::Serialisation object.
-
-=cut
-
-register serialisation => sub {
-  __PACKAGE__->instance( plugin_setting() );
-};
 
 =head1 FUNCTION
 
@@ -59,13 +48,14 @@ Sends to each of the C<serialisers> in turn. If any of them return a defined val
 sub serialise {
   my $self     = shift;
   my $response = shift;
+  # If the user has done templating themselves already, all well and good.
+  return $response unless ref $response;
   my $text;
   foreach my $serialiser (@{ $self->serialisers }) {
+    $serialiser->app($self->app) if $serialiser->can('app'); # or does Articulate::Role::Component?
     return $text if defined ( $text = $serialiser->serialise($response) );
   }
   return undef;
 }
-
-register_plugin;
 
 1;

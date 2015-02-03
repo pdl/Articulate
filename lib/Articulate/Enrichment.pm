@@ -4,7 +4,8 @@ use warnings;
 
 use Moo;
 with 'MooX::Singleton';
-use Dancer::Plugin;
+with 'Articulate::Role::Component';
+
 use Articulate::Syntax qw(instantiate_array);
 
 =head1 NAME
@@ -23,18 +24,6 @@ Services should typically invoke enrichment when they create or update content, 
 Note: the item passed in is not cloned so this will typically mutate the item.
 
 Enrichments should not mutate the request, however there is no technical barrier to them doing so.
-
-=head1 FUNCTION
-
-=head3 enrichment
-
-This is a functional constructor: it returns an Articulate::Enrichment object.
-
-=cut
-
-register enrichment => sub {
-  __PACKAGE__->instance(plugin_setting);
-};
 
 =head1 ATTRIBUTES
 
@@ -66,7 +55,5 @@ sub enrich {
   }
   return $item;
 }
-
-register_plugin();
 
 1;

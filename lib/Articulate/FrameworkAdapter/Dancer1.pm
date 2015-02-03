@@ -3,12 +3,12 @@ use strict;
 use warnings;
 
 use Moo;
-with 'MooX::Singleton';
+with 'Articulate::Role::Component';
 use Dancer qw(:syntax !after !before !session);
 
 sub user_id {
   my $self = shift;
-  session ('user_id', @_);
+  Dancer::session ('user_id', @_);
 }
 
 sub appdir {
@@ -19,6 +19,12 @@ sub appdir {
 sub session {
   my $self = shift;
   Dancer::session(@_);
+}
+
+sub template_process {
+  my $self = shift;
+  my $view = shift . '.tt';
+  template ( $view, @_ );
 }
 
 sub declare_route {

@@ -1,9 +1,7 @@
 package Articulate::Item;
 use strict;
 use warnings;
-
 use Moo;
-use Dancer::Plugin;
 
 =head1 NAME
 

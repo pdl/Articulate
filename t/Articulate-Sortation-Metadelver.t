@@ -68,7 +68,6 @@ foreach my $case (@$test_suite) {
   my $why = $case->{why} // '';
   my $items = [ map { item ($_) } @{ $case->{input} } ];
   my $sorter = $class->new( { options => $case->{config} } );
-  #use YAML; die Dump $items;
   verify ( $sorter->sort( $items ), $why . '(sort)');
   $items = [ map { item ($_) } @{ $case->{input} } ];
   verify ( $sorter->schwartz( $items ), $why . '(schwartz)' );

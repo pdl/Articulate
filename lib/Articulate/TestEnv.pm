@@ -7,17 +7,15 @@ set envdir      => $FindBin::Bin.'/environments';
 set public      => $FindBin::Bin.'/public';
 set views       => $FindBin::Bin.'/views';
 set environment => 'testing';
-#set require_environment => 'testing';
 
 Dancer::Config->load; #::load_settings_from_yaml($FindBin::Bin.'/config.yml');
 
-use Articulate;
+use Dancer::Plugin::Articulate;
 
-articulate_app->enable;
+my $app = articulate_app;
 
-use Articulate::Storage;
-storage->empty_all_content;
+$app->enable;
 
-#use YAML;
+$app->components->{'storage'}->empty_all_content;
 
 1;

@@ -5,8 +5,10 @@ use warnings;
 use Moo;
 use Scalar::Util qw(blessed);
 use overload  '""' => \&to_file_path, '@{}' => sub{ shift->path };
-use Dancer::Plugin ();
 use Articulate::Location;
+
+use Exporter::Declare;
+default_exports qw(locspec);
 
 =head1 NAME
 
@@ -33,7 +35,7 @@ C<locspec> is a constructor. It takes either a string (in the form of a path) or
 
 =cut
 
-Dancer::Plugin::register locspec => sub {
+sub locspec {
   if ( 1 == scalar @_ ) {
     if ( blessed $_[0] and $_[0]->isa('Articulate::LocationSpecification') ) {
       return $_[0];
@@ -172,7 +174,5 @@ sub matches_descendant_of {
   }
   return 1;
 }
-
-Dancer::Plugin::register_plugin;
 
 1;

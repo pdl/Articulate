@@ -6,7 +6,6 @@ use Moo;
 with 'Articulate::Role::Sortation::AllYouNeedIsCmp';
 
 use Articulate::Syntax qw(instantiate dpath_get);
-use Dancer::Plugin;
 
 =head1 NAME
 

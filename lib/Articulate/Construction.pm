@@ -6,9 +6,7 @@ use Moo;
 use Articulate::Syntax qw(instantiate_array);
 use Articulate::Item;
 with 'MooX::Singleton';
-
-use Dancer::Plugin;
-use YAML;
+with 'Articulate::Role::Component';
 
 =head1 NAME
 
@@ -22,18 +20,6 @@ Articulate::Construction - create appropriate content item objects given locatio
     Articulate::Construction:
       constructors:
       - Articulate::Construction::LocationBased
-
-=head1 FUNCTION
-
-=head3 construction
-
-Returns a new instance of this object.
-
-=cut
-
-register construction => sub {
-  __PACKAGE__->instance(plugin_setting);
-};
 
 =head1 ATTRIBUTE
 
@@ -76,7 +62,5 @@ sub construct {
   }
   return Articulate::Item->new($args);
 }
-
-register_plugin;
 
 1;

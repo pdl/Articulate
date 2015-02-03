@@ -2,9 +2,6 @@ package Articulate::Service::Simple;
 
 use strict;
 use warnings;
-
-use Dancer::Plugin;
-
 use Articulate::Syntax;
 
 # The following provide objects which must be created on a per-request basis
@@ -68,7 +65,6 @@ Deletes the content at that location. Throws an error if the content does not ex
 sub handle_create {
   my $self    = shift;
   my $request = shift;
-
   my $item = blessed $request->data ? $request->data : $self->construction->construct( {
     meta => {},
     (%{$request->data} ? %{$request->data} : ()),

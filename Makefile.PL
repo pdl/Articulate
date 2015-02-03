@@ -22,6 +22,7 @@ WriteMakefile(
         'Dancer'            => 1.3118,
         'File::Path'        => 0, #implied by IO::All but just in case
         'Module::Load'      => 0,
+        'Try::Tiny'         => 0,
         'IO::All'           => 0,
         'Digest::SHA'       => 0,
         'Data::DPath'       => 0.50,

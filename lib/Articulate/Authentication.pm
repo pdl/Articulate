@@ -4,12 +4,9 @@ use warnings;
 
 use Moo;
 with 'MooX::Singleton';
-use Dancer::Plugin;
-use Articulate::Syntax qw(instantiate_array);
+with 'Articulate::Role::Component';
 
-register authentication => sub {
-  __PACKAGE__->instance(plugin_setting);
-};
+use Articulate::Syntax qw(instantiate_array);
 
 has providers =>
   is      => 'rw',
@@ -43,8 +40,5 @@ sub create_user {
   }
   return (undef);
 }
-
-
-register_plugin();
 
 1;

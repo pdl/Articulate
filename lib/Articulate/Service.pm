@@ -2,7 +2,6 @@ package Articulate::Service;
 use strict;
 use warnings;
 
-use Dancer::Plugin;
 use Articulate::Syntax;
 
 # The following provide objects which must be created on a per-request basis
@@ -14,6 +13,9 @@ with 'MooX::Singleton';
 with 'Articulate::Role::Service';
 use Try::Tiny;
 use Scalar::Util qw(blessed);
+
+use Exporter::Declare;
+default_exports qw(articulate_service);
 
 =head1 NAME
 
@@ -29,15 +31,15 @@ Mostly, you will want to be calling the service in routes, for instance:
 
   get 'zone/:zone_name/article/:article_name' => sub{
     my ($zone_name, $article_name) = param('zone_name'), param('article_name');
-    $service->process_request ( read => "/zone/$zone_name/article/$article_name' )->serialise;
+    $self->process_request ( read => "/zone/$zone_name/article/$article_name' )->serialise;
   }
 
 However, you may also want to call it from one-off scripts, tests, etc., especially where you want to perform tasks which you don't want to make available in routes, or where you are already in a perl environment and mapping to the HTTP layer would be a distraction. In theory you could create an application which did not have any web interface at all using this service, e.g. a command-line app on a shared server.
 
 =cut
 
-register articulate_service => sub {
-  __PACKAGE__->new(plugin_setting);
+sub articulate_service {
+  __PACKAGE__->new(@_);
 };
 
 has providers => (
@@ -80,6 +82,7 @@ sub process_request {
     foreach my $provider (
       @{ $self->providers }
     ) {
+      $provider->app($self->app);
       my $resp = $provider->process_request($request);
       if (defined $resp) {
         $response = $resp;
@@ -101,7 +104,7 @@ sub process_request {
 
 =head3 enumerate_verbs
 
-  my @verbs = @{ $service->enumerate_verbs };
+  my @verbs = @{ $self->enumerate_verbs };
 
 Returns an arrayref of verbs which at list one provider will process.
 
@@ -115,7 +118,5 @@ sub enumerate_verbs {
   }
   return [ sort keys %$verbs ];
 }
-
-register_plugin;
 
 1;

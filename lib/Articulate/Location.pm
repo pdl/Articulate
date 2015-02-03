@@ -5,7 +5,9 @@ use warnings;
 use Moo;
 use Scalar::Util qw(blessed);
 use overload  '""' => \&to_file_path, '@{}' => sub{ shift->path };
-use Dancer::Plugin ();
+
+use Exporter::Declare;
+default_exports qw(loc);
 
 =head1 NAME
 
@@ -30,7 +32,7 @@ C<loc> is a constructor. It takes either a string (in the form of a path) or an 
 
 =cut
 
-Dancer::Plugin::register loc => sub {
+sub loc {
   if ( 1 == scalar @_ ) {
     if ( blessed $_[0] and $_[0]->can('location') ) {
       return $_[0];
@@ -85,7 +87,5 @@ Joins the contents of C<path> on C</> and returns the result. This is used for o
 sub to_file_path {
   return join '/', @{ $_[0]->path }
 };
-
-Dancer::Plugin::register_plugin;
 
 1;

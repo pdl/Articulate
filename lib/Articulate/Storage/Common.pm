@@ -52,11 +52,10 @@ my $re_slug = qr~$s_slug~;
   $s_location =~ s~^\|~~;
   $re_location = qr/$s_location/;
 }
-#die $re_location;
 
 sub good_location {
   my $location  = shift;
-  return navigation->valid_location($location);
+  return Articulate->instance->components->{'navigation'}->valid_location($location);
   return undef unless $location =~ $re_location;#m~^zone/$re_slug/article/$re_slug$~;
   return $location;
 }

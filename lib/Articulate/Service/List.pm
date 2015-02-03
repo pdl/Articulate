@@ -3,7 +3,6 @@ package Articulate::Service::List;
 use strict;
 use warnings;
 
-use Dancer::Plugin;
 use Articulate::Syntax;
 use Articulate::Sortation::MetaDelver;
 # The following provide objects which must be created on a per-request basis
@@ -17,24 +16,12 @@ with 'MooX::Singleton';
 use Try::Tiny;
 use Scalar::Util qw(blessed);
 
-use Moo;
-
 sub handle_list {
   my $self    = shift;
   my $request = shift;
 
   my $location = loc $request->data->{location};
   my $sort     = $request->data->{sort}; # needs careful validation as this can do all sorts of fun constructor logic
-
-  my $get_sort_field = sub {
-    my $meta = shift->meta;
-    my $curr = [$meta];
-    foreach my $key ( split qr~/~, $sort->{field} ) {
-      return '' unless exists $curr->[0]->{$key};
-      $curr = [ $curr->[0]->{$key} ];
-    }
-    return $curr->[0];
-  };
 
   my $user       = $self->framework->user_id;
   my $permission = $self->authorisation->permitted ( $user, read => $location );

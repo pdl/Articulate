@@ -8,9 +8,11 @@ Articulate::Error - represent an error or exception in processing a request
 
 =cut
 
-use Dancer::Plugin;
 use Module::Load;
 use overload '""' => sub { my $self = shift; $self->http_code() . ' ' . $self->simple_message };
+
+use Exporter::Declare;
+default_exports qw(throw_error);
 
 =head1 FUNCTIONS
 
@@ -23,7 +25,7 @@ This creates an error of the type provided and throws it immediately. These are 
 
 =cut
 
-register throw_error => sub {
+sub throw_error {
   my ( $type, $message ) = @_;
   my $class   = __PACKAGE__ . ( $type ? '::' . $type : '' );
   $class->throw( { ( $message ? ( simple_message => $message) : () ) } );
@@ -75,8 +77,6 @@ has http_code =>
 has caller =>
   is      => 'rw',
   default => sub{ ( [caller(0)]->[0] =~ m/Throwable/) ? ['hmm',caller(2)] : [caller(1)] };
-
-register_plugin();
 
 # This needs to go at the end, because of Class::XSAccessor stuff
 

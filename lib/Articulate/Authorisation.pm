@@ -3,9 +3,8 @@ use strict;
 use warnings;
 
 use Moo;
-with 'MooX::Singleton';
-use Dancer::Plugin;
-use Module::Load ();
+with 'Articulate::Role::Component';
+
 use Articulate::Syntax qw(instantiate_array);
 use Articulate::Permission;
 
@@ -23,19 +22,8 @@ Articulate::Authorisation
       - Articulate::Authorisation::OwnerOverride
       - Articulate::Authorisation::AlwaysAllow
 
-=head1 FUNCTION
-
-=head3 authorisation
-
-Returns a new instance of this object.
-
-B<Warning: In the future this might return a singleton.>
 
 =cut
-
-register authorisation => sub {
-  __PACKAGE__->instance(plugin_setting);
-};
 
 has rules =>
   is      => 'rw',
@@ -63,15 +51,14 @@ sub permitted {
     if (
       $rule->permitted( $p )
     ) {
-      return ($p);
+      return $p;
     }
     elsif ( $p->denied ) {
       return $p;
     }
   }
-  return ($p->deny('No rule granted this permission'));
+  return ( $p->deny('No rule granted this permission') );
 }
 
-register_plugin();
 
 1;
