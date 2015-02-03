@@ -22,6 +22,12 @@ sub session {
   Dancer::session(@_);
 }
 
+sub template_process {
+  my $self = shift;
+  my $view = shift . '.tt';
+  template ( $view, @_ );
+}
+
 sub declare_route {
   my ($self, $verb, $path, $code) = @_;
   if ($verb =~ s/^(get|put|post|patch|del|any|options)$/'Dancer::'.lc $1;/ge) {

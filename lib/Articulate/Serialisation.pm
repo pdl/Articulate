@@ -50,6 +50,7 @@ sub serialise {
   my $response = shift;
   my $text;
   foreach my $serialiser (@{ $self->serialisers }) {
+    $serialiser->app($self->app) if $serialiser->can('app'); # or does Articulate::Role::Component?
     return $text if defined ( $text = $serialiser->serialise($response) );
   }
   return undef;
