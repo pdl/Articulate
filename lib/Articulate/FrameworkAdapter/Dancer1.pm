@@ -3,7 +3,6 @@ use strict;
 use warnings;
 
 use Moo;
-with 'MooX::Singleton';
 with 'Articulate::Role::Component';
 use Dancer qw(:syntax !after !before !session);
 

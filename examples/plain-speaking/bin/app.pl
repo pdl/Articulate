@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
 use Dancer;
+set environment => "dancer1";
 use FindBin;
 use lib ("$FindBin::Bin/../lib");
 use lib ("$FindBin::Bin/../../../lib");

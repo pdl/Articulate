@@ -48,6 +48,8 @@ Sends to each of the C<serialisers> in turn. If any of them return a defined val
 sub serialise {
   my $self     = shift;
   my $response = shift;
+  # If the user has done templating themselves already, all well and good.
+  return $response unless ref $response;
   my $text;
   foreach my $serialiser (@{ $self->serialisers }) {
     $serialiser->app($self->app) if $serialiser->can('app'); # or does Articulate::Role::Component?
