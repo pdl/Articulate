@@ -6,7 +6,7 @@ Articulate provides a content management service for your web app. Lightweight m
 
 You don't need to redesign your app around Articulate, it's a service that you call on when you need it, and all the 'moving parts' can be switched out if you want to do things your way.
 
-It's written in Perl, the fast, reliable 'glue language' that's perfect for agile web development projects.
+It's written in Perl, the fast, reliable 'glue language' that's perfect for agile web development projects, and currently runs on the Dancer1 and Dancer2 web frameworks.
 
 ## Caveat
 
@@ -37,8 +37,7 @@ High-level milestones:
 - Write some Proof of Concept applications in order to test out the core interface
 - Finalise the interfaces as far as possible and provide sufficient documentation and test coverage for a CPAN release
 - Flesh out the default plugin infrastructure, develop some recommendations for writing plugins
-- Refactor out the framework interactions so as to support Dancer2, maybe another framework or even standalone use.
 
-Right now it runs atop Dancer1, but the intention is to ensure it also supports Dancer2 and maybe some other frameworks if there is demand.
+Right now it runs atop Dancer1, and (as of February 2015) Dancer2, and support for other frameworks is a goal.
 
 Initial concept work on Articulate started in early 2014 and it was rewritten from scratch in November 2014.

@@ -25,11 +25,11 @@ This is very much in alpha. Things will change. Feel free to build things and ha
 	articulate_app->enable;
 	dance;
 
-Articulate provides a content management service for your web app. It's lightweight, i.e. it places minimal demands on your app while maximising 'whipuptitude': it gives you a single interface in code to a framework that's totally modular underneath, and it won't claim any URL endpoints for itself.
+B<Articulate> provides a content management service for your web app. It's lightweight, i.e. it places minimal demands on your app while maximising 'whipuptitude': it gives you a single interface in code to a framework that's totally modular underneath, and it won't claim any URL endpoints for itself.
 
 You don't need to redesign your app around Articulate, it's a service that you call on when you need it, and all the 'moving parts' can be switched out if you want to do things your way.
 
-It's written in Perl, the fast, reliable 'glue language' that's perfect for agile web development projects.
+It's written in Perl, the fast, reliable 'glue language' that's perfect for agile web development projects, and currently runs on the L<Dancer> and L<Dancer2> web frameworks.
 
 =head1 GETTING STARTED
 
@@ -41,7 +41,7 @@ To add Articulate to your own app, you'll need to:
 
 =over
 
-=item * add it to your C<bin/app.pl> or similar (see example above)
+=item * add it to your C<bin/app.pl> or similar (see example above) using either L<Dancer::Pluugin::Articulate> or L<Dancer2::Pluugin::Articulate>.
 
 =item * edit your C<config.yml> to configure the components you want (check each of the components for a description of their config options - or just borrow a config from one of the examples)
 
@@ -55,7 +55,7 @@ Curious about how it all fits together? Read on...
 
 =head1 DESCRIPTION
 
-Articulate is a set of plugins which work together to create a content management service that will sit alongside an existing Dancer app or form the basis of a new one.
+Articulate is a set of components that work together to provide a content management service that will sit alongside an existing Dancer app or form the basis of a new one.
 
 If you want to see one in action, try running:
 
@@ -90,7 +90,7 @@ Finally, after items are retrieved from storage, there is the opportunity to B<a
 
 =head2 Components
 
-The following classes are persistent, configurable components of the system:
+The following classes are persistent, configurable B<components> of the system:
 
 =over
 
@@ -143,6 +143,12 @@ The following classes are used for passing request data between components:
 =over
 
 =item * L<Articulate::Syntax>
+
+=item * L<Articulate::Syntax::Routes>
+
+=item * L<Articulate::Role::Component>
+
+=item * L<Articulate::Role::Routes>
 
 =item * L<Articulate::Role::Service>
 
