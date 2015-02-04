@@ -5,7 +5,7 @@ use Articulate::Service::Error;
 
 my $class = 'Articulate::Service::Error';
 
-my $provider = $class->instance();
+my $provider = $class->new();
 
 isa_ok ( $provider, $class );
 can_ok ( $provider, 'verbs' );

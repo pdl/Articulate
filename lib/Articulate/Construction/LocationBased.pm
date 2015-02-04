@@ -37,7 +37,7 @@ If the location is root or not a multiple of 2 (e.g. C<zone/public> is even and 
 =cut
 
 use Moo;
-with 'MooX::Singleton';
+
 
 use Articulate::Syntax;
 

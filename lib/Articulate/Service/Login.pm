@@ -9,7 +9,7 @@ use Articulate::Syntax;
 
 use Moo;
 with 'Articulate::Role::Service';
-with 'MooX::Singleton';
+
 
 use Try::Tiny;
 use Scalar::Util qw(blessed);

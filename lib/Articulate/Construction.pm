@@ -5,7 +5,7 @@ use warnings;
 use Moo;
 use Articulate::Syntax qw(instantiate_array);
 use Articulate::Item;
-with 'MooX::Singleton';
+
 with 'Articulate::Role::Component';
 
 =head1 NAME

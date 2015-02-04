@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Moo;
-with 'MooX::Singleton';
+
 
 use Digest::SHA;
 use Time::HiRes; # overrides time()

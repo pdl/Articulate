@@ -4,7 +4,7 @@ use warnings;
 use Articulate::Authorisation::OwnerOverride;
 use Articulate::Permission;
 
-my $rule = Articulate::Authorisation::OwnerOverride->instance;
+my $rule = Articulate::Authorisation::OwnerOverride->new;
 
 subtest "For some given user who is not owner..." => sub{
   my $nobody_result = $rule->permitted(permission 'nobody', read => 'data' );

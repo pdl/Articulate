@@ -4,7 +4,7 @@ use warnings;
 
 use Text::Markdown;
 use Moo;
-with 'MooX::Singleton';
+
 
 =head1 NAME
 

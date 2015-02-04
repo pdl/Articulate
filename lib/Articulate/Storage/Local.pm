@@ -4,7 +4,7 @@ use warnings;
 
 use Articulate::Storage::Common;
 use Moo;
-with 'MooX::Singleton';
+
 with 'Articulate::Role::Component';
 use File::Path;
 use IO::All;

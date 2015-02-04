@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Moo;
-with 'MooX::Singleton';
+
 with 'Articulate::Role::Component';
 use Articulate::Syntax qw(instantiate_array);
 

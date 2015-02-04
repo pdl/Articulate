@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Moo;
-with 'MooX::Singleton';
+
 
 use Dancer qw(:syntax); # for status
 

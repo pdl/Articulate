@@ -4,7 +4,7 @@ use warnings;
 use Articulate::Authorisation::AlwaysAllow;
 use Articulate::Permission;
 
-my $rule = Articulate::Authorisation::AlwaysAllow->instance;
+my $rule = Articulate::Authorisation::AlwaysAllow->new;
 
 my $result = $rule->permitted(permission 'anybody', read => 'data' );
 isa_ok ($result, 'Articulate::Permission');

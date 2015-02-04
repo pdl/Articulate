@@ -11,7 +11,7 @@ use Articulate::Response;
 
 use Moo;
 with 'Articulate::Role::Service';
-with 'MooX::Singleton';
+
 
 sub handle_login_form {
   my $self     = shift;

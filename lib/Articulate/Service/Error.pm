@@ -26,7 +26,7 @@ use Articulate::Syntax;
 
 use Moo;
 with 'Articulate::Role::Service';
-with 'MooX::Singleton';
+
 
 sub handle_error {
   my $self     = shift;
