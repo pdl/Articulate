@@ -2,8 +2,10 @@ package Articulate::Augmentation::Interpreter::Markdown;
 use strict;
 use warnings;
 
-use Text::Markdown;
 use Moo;
+with 'Articulate::Role::Component';
+use Articulate::Syntax qw (instantiate);
+use Text::Markdown;
 
 =head1 NAME
 
@@ -17,19 +19,22 @@ Converts markdown in the content of the response into HTML.
 
 =cut
 
+=head1 ATTRIBUTES
+
+=head3 markdown_parser
+
+The parser which will be used. This is instantiated and defaults to L<Text::Markdown> - but note that L<Text::Markdown> expects a plain hash, not a reference, so it will need to be configured as an array.
+
+=cut
+
 has markdown_parser =>
   is      => 'rw',
   lazy    => 1,
   default => sub {
-    my $self = shift;
-    Text::Markdown->new (%{ $self->markdown_parser_options });
-  }
-;
-
-has markdown_parser_options =>
-  is      => 'rw',
-  default => sub {
-    {}
+    'Text::Markdown'
+  },
+  coerce  => sub {
+    instantiate( $_[0] )
   }
 ;
 
