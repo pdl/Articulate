@@ -8,6 +8,7 @@ use Module::Load ();
 use Exporter::Declare;
 default_exports qw(
   instantiate instantiate_array instantiate_selection instantiate_array_selection
+  response    articulate_request
   loc         locspec
   dpath_get   dpath_set
   throw_error
@@ -22,6 +23,8 @@ use Articulate::Item;
 use Articulate::Error;
 use Articulate::Location;
 use Articulate::LocationSpecification;
+use Articulate::Request;
+use Articulate::Response;
 
 # sub throw_error { Articulate::Error::throw_error(@_) };
 # sub loc         { Articulate::Location::loc(@_) };

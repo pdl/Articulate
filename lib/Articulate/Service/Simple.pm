@@ -4,10 +4,6 @@ use strict;
 use warnings;
 use Articulate::Syntax;
 
-# The following provide objects which must be created on a per-request basis
-use Articulate::Request;
-use Articulate::Response;
-
 use Moo;
 with 'Articulate::Role::Service';
 

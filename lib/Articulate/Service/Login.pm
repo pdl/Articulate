@@ -3,8 +3,6 @@ package Articulate::Service::Login;
 use strict;
 use warnings;
 
-use Articulate::Request;
-use Articulate::Response;
 use Articulate::Syntax;
 
 use Moo;
