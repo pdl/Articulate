@@ -83,12 +83,7 @@ plugins:
               args:
                 where:
                   "text/markdown":
-                    - class: Articulate::Augmentation::Interpreter
-                      args:
-                        interpreters:
-                          "text/markdown":
-                            - Articulate::Augmentation::Interpreter::Markdown
-                        default_format: "text/markdown"
+                    - Articulate::Augmentation::Interpreter::Markdown
       validation:
         Articulate::Validation:
           validators: []
@@ -116,6 +111,8 @@ plugins:
                       text: Log In
                     - href: /create
                       text: New Post
+                    - href: /upload
+                      text: New File
             - Articulate::Serialisation::StatusSetter
             - Articulate::Serialisation::Asset
             - Articulate::Serialisation::TemplateToolkit

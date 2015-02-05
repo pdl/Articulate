@@ -5,23 +5,31 @@ use warnings;
 use Text::Markdown;
 use Moo;
 
-
 =head1 NAME
 
 Articulate::Augmentation::Interpreter::Markdown - convert markdown to HTML
 
 =head1 METHODS
 
-=head3 interpret
+=head3 augment
 
 Converts markdown in the content of the response into HTML.
 
 =cut
 
 has markdown_parser =>
-  is => 'rw',
+  is      => 'rw',
+  lazy    => 1,
   default => sub {
-    Text::Markdown->new ();
+    my $self = shift;
+    Text::Markdown->new (%{ $self->markdown_parser_options });
+  }
+;
+
+has markdown_parser_options =>
+  is      => 'rw',
+  default => sub {
+    {}
   }
 ;
 

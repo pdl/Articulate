@@ -15,7 +15,7 @@ get '/' => sub {
       sort     => {
         field => "schema/core/dateCreated",
         order => 'desc',
-     },
+      },
     }
   );
 };
@@ -41,7 +41,7 @@ post '/article/:article_id' => sub {
     update => {
       location => "zone/$zone_id/article/$article_id",
       content  => $content,
-      meta     => $title
+      meta     => { schema => { core => { content_type => 'text/markdown', title => $title } } },
     }
   );
 };
@@ -78,7 +78,7 @@ post '/create' => sub {
     create => {
       location => $location,
       content  => $content,
-      meta     => { schema => { core => { title => $title } } },
+      meta     => { schema => { core => { content_type => 'text/markdown', title => $title } } },
     }
   );
   # if ($response) {
@@ -105,7 +105,7 @@ post '/preview' => sub {
     preview => {
       location =>"zone/$zone_id/article/$article_id",
       content  => $content,
-      meta     => { schema => { core => { title => $title } } },
+      meta     => { schema => { core => { content_type => 'text/markdown', title => $title } } },
     }
   );
 };
