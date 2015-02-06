@@ -2,10 +2,10 @@ package Articulate::Storage::Local;
 use strict;
 use warnings;
 
-use Articulate::Storage::Common;
 use Moo;
-
 with 'Articulate::Role::Component';
+use Articulate::Syntax qw(hash_merge);
+
 use File::Path;
 use IO::All;
 use YAML;
@@ -149,7 +149,7 @@ sub patch_meta {
 	my $fn = $self->ensure_exists( $self->true_location( $location . '/meta.yml') );
 	my $old_data = {};
 	$old_data = YAML::LoadFile($fn) if -e $fn;
-	return YAML::DumpFile($fn, merge_settings($old_data, $item->meta));
+	return YAML::DumpFile($fn, hash_merge($old_data, $item->meta));
 }
 
 
@@ -210,7 +210,7 @@ sub get_settings_complete {
 		my $fn = $current_path . 'settings.yml';
 		my $lvl_settings = {};
 		$lvl_settings =	YAML::LoadFile($fn) if -e $fn;
-		$settings = merge_settings ($settings, $lvl_settings)
+		$settings = hash_merge ($settings, $lvl_settings)
 	}
 	return $settings;
 }

@@ -11,6 +11,7 @@ default_exports qw(
   response    articulate_request
   loc         locspec
   dpath_get   dpath_set
+  hash_merge
   throw_error
   select_from
   is_single_key_hash
@@ -286,6 +287,11 @@ sub is_single_key_hash {
   return 1 if (  defined $key and ref $got eq ref {} and 1 == scalar keys %$got and $key eq [keys %$got]->[0] );
   return 1 if ( !defined $key and ref $got eq ref {} and 1 == scalar keys %$got );
   return 0;
+}
+
+sub hash_merge { # very naive, will change to something like Hash::Merge
+  my ($parent, $child) = @_;
+  return {%$parent, %$child}; # todo: more
 }
 
 1;
