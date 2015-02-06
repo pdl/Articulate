@@ -9,7 +9,10 @@ use Dancer::Plugin::Articulate;
 use Articulate;
 use Scalar::Util qw(blessed);
 
-my $class = 'Articulate::Storage::Local';
+foreach my $class ( qw(
+  Articulate::Storage::Local
+  Articulate::Storage::DBIC::Simple
+) ) {
 
 use_ok $class;
 
@@ -70,5 +73,6 @@ throws_ok ( sub { $storage->create_item($new_item->()) }, 'Articulate::Error::Al
 $storage->empty_all_content;
 ok ( !$storage->item_exists( $item->location ), 'empty_all_content deletes the item' );
 
+}
 
 done_testing();

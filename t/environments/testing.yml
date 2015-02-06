@@ -76,7 +76,8 @@ plugins:
             - Articulate::Enrichment::DateUpdated
       storage:
         Articulate::Storage:
-          storage_class: Articulate::Storage::Local
+#          storage_class: Articulate::Storage::Local
+          storage_class: Articulate::Storage::DBIC::Simple
       validation:
         Articulate::Validation:
           validators: []
