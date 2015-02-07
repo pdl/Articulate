@@ -65,7 +65,7 @@ sub dbic_to_real { # internal method
 sub real_to_dbic { # internal method
 	my $self      = shift;
 	my $item      = shift;
-	my $dbic_item = $self->schema->resultset('Articulate::Item')->create( {
+	my $dbic_item = $self->schema->resultset('Articulate::Item')->new_result( {
 		location => '' . $item->location,
 		content  => '' . $item->content,
 		meta     => to_json ( $item->meta ),
@@ -214,6 +214,7 @@ sub set_content {
 }
 =head3 create_item
 
+
 	$storage->create_item('zone/public/article/hello-world', $meta, $blob);
 
 Places meta and content at that location.
@@ -227,6 +228,7 @@ sub create_item {
 	throw_error Internal => "Bad location ".$location unless $self->navigation->valid_location( $location );
 	throw_error AlreadyExists => "Cannot create: item already exists at ".$location if $self->item_exists($location);
 	my $dbic_item = $self->real_to_dbic ( $item );
+	$dbic_item->insert();
 	return $item;
 }
 
@@ -258,7 +260,15 @@ Returns a list of items in the.
 
 
 sub list_items {
-	die 'not implemented'
+	my $self        = shift;
+	my $item        = shift;
+	my $location    = $item->location;
+	my $qm_location = $item->location;
+	#throw_error Internal => "Bad location $location" unless $self->navigation->valid_location( $location ); # actually, no, because /zone fails but /zone/foo passes
+	my $dbic_items = $self->schema->resultset('Articulate::Item')->search( { location => { like => $qm_location.'%' } } );
+	# todo: check direct parenthood
+	#use YAML; print YAML::Dump $dbic_items;
+	return map { loc($_->location)->[-1] } $dbic_items->all;
 }
 
 sub get_content_cached {
@@ -277,12 +287,13 @@ sub empty_all_content {
 }
 
 sub delete_item {
-	my $self     = shift;
-	my $item     = shift;
+	my $self        = shift;
+	my $item        = shift;
 	my $qm_location = $item->location;
-	my $dbic_item = $self->schema->resultset('Articulate::Item')->search( { location => { like => "$qm_location" } } );
-	$dbic_item->count or throw_error NotFound => 'Item does not exist at '.$item->location;
-	$dbic_item->delete();
+	my $dbic_items  = $self->schema->resultset('Articulate::Item')->search( { location => { like => "$qm_location\%" } } );
+	# todo: fix case of "foo" matches "foobar"
+	$dbic_items->count or throw_error NotFound => 'Item does not exist at '.$item->location;
+	$dbic_items->delete();
 }
 
 1;

@@ -7,13 +7,14 @@ use warnings;
 use Articulate::TestEnv;
 use Dancer::Plugin::Articulate;
 use Articulate;
+use Articulate::Syntax qw(loc);
 use Scalar::Util qw(blessed);
 
 foreach my $class ( qw(
   Articulate::Storage::Local
   Articulate::Storage::DBIC::Simple
 ) ) {
-
+subtest $class => sub {
 use_ok $class;
 
 my $storage = $class->new( { app=>articulate_app } );
@@ -64,6 +65,9 @@ ok ( $storage->item_exists( $item->location ), 'create_item results in the item 
 isa_ok ( $storage->get_item($item->location), 'Articulate::Item', 'get_item returns an item' );
 is ( $storage->get_item($item->location)->content, "Hello, World!", 'get_item returns an item with the same content' );
 is ( $storage->get_content($item->location), "Hello, World!", 'get_content returns the same content' );
+my @list = $storage->list_items( loc('zone/public/article') );
+is ( scalar @list, 1, 'list returns one item' );
+is ( $list[0], 'hello-world', '... which is hello-world' );
 $storage->delete_item($item->location);
 ok ( !$storage->item_exists( $item->location ), 'delete_item deletes the item' );
 
@@ -73,6 +77,7 @@ throws_ok ( sub { $storage->create_item($new_item->()) }, 'Articulate::Error::Al
 $storage->empty_all_content;
 ok ( !$storage->item_exists( $item->location ), 'empty_all_content deletes the item' );
 
+}
 }
 
 done_testing();

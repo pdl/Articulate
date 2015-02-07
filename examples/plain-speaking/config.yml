@@ -75,7 +75,8 @@ plugins:
             - zone/*/article/
             - zone/*/article/*
             - user/*
-      storage: Articulate::Storage::Local
+#      storage: Articulate::Storage::Local
+      storage: Articulate::Storage::DBIC::Simple
       augmentation:
         Articulate::Augmentation:
           augmentations:

@@ -339,7 +339,7 @@ Returns a list of items in the.
 sub list_items {
 	my $self = shift;
 	my $location = shift->location;
-	throw_error Internal => "Bad location $location" unless $self->navigation->valid_location( $location );
+	# throw_error Internal => "Bad location $location" unless $self->navigation->valid_location( $location ); # actually, no, because /zone fails but /zone/foo passes
 	my $true_location = $self->true_location( $location );
 	my @contents;
 	return @contents unless -d $true_location;
