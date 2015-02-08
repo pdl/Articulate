@@ -68,6 +68,10 @@ is ( $storage->get_content($item->location), "Hello, World!", 'get_content retur
 my @list = $storage->list_items( loc('zone/public/article') );
 is ( scalar @list, 1, 'list returns one item' );
 is ( $list[0], 'hello-world', '... which is hello-world' );
+$storage->create_item(  Articulate::Item->new( { content => "Foo", location => 'zone/public' } ) );
+my @list = $storage->list_items( loc('zone') );
+is ( scalar @list, 1, 'list returns one item' );
+is ( $list[0], 'public', '... which is public' );
 $storage->delete_item($item->location);
 ok ( !$storage->item_exists( $item->location ), 'delete_item deletes the item' );
 

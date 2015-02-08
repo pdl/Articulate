@@ -48,6 +48,7 @@ plugins:
       navigation:
         Articulate::Navigation:
           locations:
+            - zone/*
             - zone/*/article/*
             - user/*
             - []

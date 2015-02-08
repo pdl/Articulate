@@ -264,11 +264,9 @@ sub list_items {
 	my $item        = shift;
 	my $location    = $item->location;
 	my $qm_location = $item->location;
-	#throw_error Internal => "Bad location $location" unless $self->navigation->valid_location( $location ); # actually, no, because /zone fails but /zone/foo passes
 	my $dbic_items = $self->schema->resultset('Articulate::Item')->search( { location => { like => $qm_location.'%' } } );
-	# todo: check direct parenthood
-	#use YAML; print YAML::Dump $dbic_items;
-	return map { loc($_->location)->[-1] } $dbic_items->all;
+	my $locspec = locspec ( $location.'/*' );
+	return map { $_->[-1] } grep { $locspec->matches( $_ ); } map { loc( $_->location ) } $dbic_items->all;
 }
 
 sub get_content_cached {
