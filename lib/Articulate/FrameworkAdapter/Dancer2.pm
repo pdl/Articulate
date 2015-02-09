@@ -35,6 +35,8 @@ The following methods are implemented:
 
 =head3 session
 
+=head3 status
+
 =head3 template_process
 
 =head3 declare_route
@@ -82,6 +84,11 @@ sub appdir {
 sub session {
   my $self = shift;
   Dancer2::Core::DSL::session( $self->d2app, @_);
+}
+
+sub status {
+  my $self = shift;
+  Dancer2::Core::DSL::status( $self->d2app, @_);
 }
 
 sub template_process {

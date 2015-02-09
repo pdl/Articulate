@@ -3,9 +3,7 @@ use strict;
 use warnings;
 
 use Moo;
-
-
-use Dancer qw(:syntax); # for status
+with 'Articulate::Role::Component';
 
 =head1 NAME
 
@@ -23,10 +21,10 @@ sub serialise {
   my $self     = shift;
   my $response = shift;
   if ( ref $response and $response->can('http_code') ) {
-		status $response->http_code // 500;
+		$self->framework->status($response->http_code // 500);
 	}
   else {
-    status $response->http_code // 500;
+		$self->framework->status( 500 );
   }
   return undef; # we want to continue with other serialisations
 }

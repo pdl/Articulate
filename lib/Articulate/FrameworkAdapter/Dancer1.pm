@@ -4,7 +4,7 @@ use warnings;
 
 use Moo;
 with 'Articulate::Role::Component';
-use Dancer qw(:syntax !after !before !session);
+use Dancer qw(:syntax !after !before !session !status);
 
 =head1 NAME
 
@@ -30,6 +30,8 @@ The following methods are implemented:
 =head3 appdir
 
 =head3 session
+
+=head3 status
 
 =head3 template_process
 
@@ -64,6 +66,11 @@ sub appdir {
 sub session {
   my $self = shift;
   Dancer::session(@_);
+}
+
+sub status {
+  my $self = shift;
+  Dancer::status(@_);
 }
 
 sub template_process {
