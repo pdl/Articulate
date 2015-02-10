@@ -16,11 +16,13 @@ Articulate::Content::DBIC::Simple - store your content in a simple database
 
 =head1 DESCRIPTION
 
-This content storage interface works by placing content and metadata in a DBIC table.
+This content storage interface works by placing content and metadata in a database table, to which it connects using L<DBIx::Class>.
 
 All content items are stored in a single table defined in L<Articulate::Storage::DBIC::Simple::Schema::Result::Articulate::Item>, and rows contain meta, content and location. Meta is stored in JSON.
 
-It is left up to the application, not the database to maintain referential integrity.
+It is left up to the application, not the database to maintain referential integrity (although there is a rudimentary cascade deletion for descendant items).
+
+On the other hand, you can make changes to your dat structure freely without making schema changes.
 
 By default, this will create an SQLite database in memory and deploy the schema (i.e. no persistence), but you can alter this using the C<schema> attribute. You can also make your own schema, provided it is a superset of the existing schema.
 
@@ -297,10 +299,27 @@ sub get_meta_cached {
 	$self->get_meta(@_);
 }
 
+
+=head3 empty_all_content
+
+	$storage->empty_all_content;
+
+Removes all content. This is totally irreversible, unless you took a backup!
+
+=cut
+
 sub empty_all_content {
 	my $self = shift;
 	$self->schema->resultset('Articulate::Item')->delete();
 }
+
+=head3 delete_item
+
+	$storage->delete_item ('/zone/public');
+
+Deletes the item and all its descendants.
+
+=cut
 
 sub delete_item {
 	my $self        = shift;
@@ -311,5 +330,23 @@ sub delete_item {
 	$dbic_items->count or throw_error NotFound => 'Item does not exist at '.$item->location;
 	$dbic_items->delete();
 }
+
+=head1 SEE ALSO
+
+=over
+
+=item * L<Articulate>
+
+=item * L<DBI>
+
+=item * L<DBIx::Class>
+
+=item * L<Articulate::Storage::Local>
+
+=item * L<Articulate::Storage::DBIC::Simple::Schema>
+
+=back
+
+=cut
 
 1;

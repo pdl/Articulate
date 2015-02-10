@@ -367,6 +367,14 @@ sub get_meta_cached {
 	$self->get_meta(@_);
 }
 
+=head3 empty_all_content
+
+	$storage->empty_all_content;
+
+Removes all content. This is totally irreversible, unless you took a backup!
+
+=cut
+
 sub empty_all_content {
 	my $self          = shift;
 	my $true_location = $self->content_base;
@@ -380,6 +388,14 @@ sub empty_all_content {
 	File::Path::remove_tree( $self->content_base, {keep_root => 1} );
 }
 
+=head3 delete_item
+
+	$storage->delete_item ('/zone/public');
+
+Deletes the item and all its descendants.
+
+=cut
+
 sub delete_item {
 	my $self = shift;
 	my $location = shift->location;
@@ -391,5 +407,17 @@ sub delete_item {
 	my $true_location = $self->true_location( $location );
 	File::Path::remove_tree( $true_location );
 }
+
+=head1 SEE ALSO
+
+=over
+
+=item * L<Articulate>
+
+=item * L<Articulate::Storage::DBIC::Simple>
+
+=back
+
+=cut
 
 1;
