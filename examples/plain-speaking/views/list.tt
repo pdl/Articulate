@@ -13,7 +13,7 @@
     No content has been written yet, which is why you are seeing this message.
   </p>
   <p>
-    There's a button to create new content. If you try clicking on it before you're logged in it won't work though.
+    There's a button to create new content. If you try clicking on it before you're logged in, though, it won't work.
   </p>
   <p>
     So, to get started:
@@ -29,10 +29,10 @@
     <li>Create content - that's another button. Make sure you fill out all the fields.</li>
   </ol>
   <p>
-    <b>That's it!</b>. Once you're done admiring your content, head over to the file
+    <b>That's it!</b> Once you're done admiring your content, head over to the file
   </p>
-  <pre>examples/plain-speaking/content.yml</pre>
-  <p>To see how it's all been put together.</p>
+  <pre>examples/plain-speaking/config.yml</pre>
+  <p>... to see how it's all been put together.</p>
 </div>
 [% END %]
 </section>
