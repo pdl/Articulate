@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Moo;
-
+with 'Articulate::Role::Component';
 
 =head1 NAME
 

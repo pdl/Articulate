@@ -4,7 +4,8 @@ use warnings;
 
 use Moo;
 with 'Articulate::Role::Component';
-use Dancer qw(:syntax !after !before !session !status);
+use Dancer qw(:syntax !after !before !session !status !send_file !content_type !upload);
+use IO::All ();
 
 =head1 NAME
 
@@ -66,6 +67,29 @@ sub appdir {
 sub session {
   my $self = shift;
   Dancer::session(@_);
+}
+
+sub upload {
+  my $self = shift;
+  return (map {
+    $_->file_handle->binmode(':raw');
+    Articulate::File->new ( {
+      content_type => $_->type,
+      headers      => $_->headers,
+      filename     => $_->filename,
+      io           => $_->file_handle,
+    } )
+  } Dancer::upload(@_))[0];
+}
+
+sub set_content_type {
+  my $self = shift;
+  Dancer::content_type(@_);
+}
+
+sub send_file {
+  my $self = shift;
+  Dancer::send_file(@_);
 }
 
 sub status {

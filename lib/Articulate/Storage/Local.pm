@@ -246,7 +246,7 @@ Places content at that location.
 
 sub _is_upload {
 	my $content = shift;
-	return ( blessed $content and $content->isa('Dancer::Request::Upload') ); # todo: have this wrapped by an articulate class which interfaces with the FrameworkAdapter
+	return ( blessed $content and $content->isa('Articulate::File') ); # todo: have this wrapped by an articulate class which interfaces with the FrameworkAdapter
 }
 
 sub _write_data {
@@ -258,7 +258,12 @@ sub _write_data {
 
 sub _copy_upload {
 	my ($content, $fn) = @_;
-	$content->copy_to($fn);
+	my $content_fh = $content->io;
+	local $/;
+	open my $fh, '>', $fn or throw_error Internal => "Cannot open file $fn to write";
+	binmode $fh, ':raw';
+	print $fn while <$content_fh>;
+	close $fh;
 }
 
 sub _write_content {

@@ -22,6 +22,7 @@ use Data::DPath qw(dpath dpathr);
 
 use Articulate::Item;
 use Articulate::Error;
+use Articulate::File;
 use Articulate::Location;
 use Articulate::LocationSpecification;
 use Articulate::Request;

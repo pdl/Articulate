@@ -29,7 +29,7 @@ sub _declare_route {
   on_enable ( sub {
     my $self = shift;
     my $wrapped = sub{ $self->serialisation->serialise( $code->( @_ ) ) };
-    $self->framework->declare_route( $http_verb => $path => sub { perform_request( $wrapped, [ $self, request ] ) } );
+    $self->framework->declare_route( $http_verb => $path => sub { perform_request( $wrapped, [ $self, $self->framework->request ] ) } );
   } );
 }
 

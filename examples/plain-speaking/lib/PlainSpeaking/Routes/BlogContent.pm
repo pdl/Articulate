@@ -137,7 +137,7 @@ post '/upload' => sub {
   my $request    = shift;
   my $image_id   = $request->params->{'image_id'};
   my $title      = $request->params->{'title'};
-  my $content    = $request->upload('image');
+  my $content    = $self->framework->upload('image');
   return $self->service->process_request( error => {
     simple_message => 'Parameter image_id is required'
   } ) unless defined $image_id and $image_id ne '';
@@ -150,13 +150,17 @@ post '/upload' => sub {
         schema => {
           core => {
             file => 1,
-            content_type => $content->type
+            content_type => $content->content_type
           }
         }
       }
     }
   );
-  return $response;
+  return $response ? $self->service->process_request(
+    read => {
+      location => $location,
+    }
+  ) : $response;
 };
 
 get '/image/:image_id' => sub {

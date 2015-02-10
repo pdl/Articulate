@@ -73,7 +73,7 @@ has d2app =>
 ;
 sub user_id {
   my $self = shift;
-  Dancer2::Core::DSL::session( $self->d2app, user_id => @_);
+  Dancer2::Core::DSL::session( $self->d2app, user_id => @_ );
 }
 
 sub appdir {
@@ -83,12 +83,35 @@ sub appdir {
 
 sub session {
   my $self = shift;
-  Dancer2::Core::DSL::session( $self->d2app, @_);
+  Dancer2::Core::DSL::session( $self->d2app, @_ );
+}
+
+sub set_content_type {
+  my $self = shift;
+  Dancer2::Core::DSL::content_type( $self->d2app, @_ );
+}
+
+sub send_file {
+  my $self = shift;
+  Dancer2::Core::DSL::send_file( $self->d2app, @_ );
+}
+
+sub upload {
+  my $self = shift;
+  return (map {
+    $_->file_handle->binmode(':raw');
+    Articulate::File->new ( {
+      content_type => $_->type,
+      headers      => $_->headers,
+      filename     => $_->filename,
+      io           => $_->file_handle,
+    } )
+  } Dancer2::Core::DSL::upload( $self->d2app, @_) )[0];
 }
 
 sub status {
   my $self = shift;
-  Dancer2::Core::DSL::status( $self->d2app, @_);
+  Dancer2::Core::DSL::status( $self->d2app, @_ );
 }
 
 sub template_process {

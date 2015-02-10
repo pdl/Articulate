@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Moo;
-
+with 'Articulate::Role::Component';
 
 =head1 NAME
 
@@ -26,10 +26,9 @@ sub serialise {
   my $type     = $response->type;
   if ( $response->data->{$type} and ref $response->data->{$type} eq ref {} and $response->data->{$type}->{schema}->{core}->{file} ) {
     my $content_type = $response->data->{$type}->{schema}->{core}->{content_type} // $type ;
-    content_type ( $content_type );
+    $self->framework->set_content_type ( $content_type );
     my $content = $response->data->{$type}->{content} // '';
-    send_file \$content, content_type => $content_type; # todo: permit sending raw blob?
-    return 1;
+    return $content;
   }
   return undef;
 }
