@@ -21,7 +21,7 @@ Articulate::Content::Local - store your content locally
 
 =head1 DESCRIPTION
 
-This content storage interface works by placing content and metadata in folder structure.
+This content storage interface works by placing content and metadata in a folder structure.
 
 For a given location, metadata is stored in C<meta.yml>, content in C<content.blob>.
 

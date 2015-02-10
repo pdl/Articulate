@@ -10,23 +10,37 @@ use Scalar::Util qw(blessed);
 
 =head1 NAME
 
-Articulate::Content::Local - store your content locally
+Articulate::Content::DBIC::Simple - store your content in a simple database
 
 =cut
 
 =head1 DESCRIPTION
 
-This content storage interface works by placing content and metadata in folder structure.
+This content storage interface works by placing content and metadata in a DBIC table.
 
-For a given location, metadata is stored in C<meta.yml>, content in C<content.blob>.
+All content items are stored in a single table defined in L<Articulate::Storage::DBIC::Simple::Schema::Result::Articulate::Item>, and rows contain meta, content and location. Meta is stored in JSON.
 
-Set C<content_base> in your config to specify where to place the content.
+It is left up to the application, not the database to maintain referential integrity.
 
-Caching is not implemented: get_content_cached simpy calls get_content.
+By default, this will create an SQLite database in memory and deploy the schema (i.e. no persistence), but you can alter this using the C<schema> attribute. You can also make your own schema, provided it is a superset of the existing schema.
 
 =cut
 
-=head1 METHODS
+=head1 ATTRIBUTE
+
+=head3 schema
+
+	components:
+		Articulate::Storage::DBIC::Simple:
+			schema:
+				class: Articulate::Storage::DBIC::Simple::Schema
+				constructor: connect
+				args:
+					- dbi:SQLite:somefile.db
+					- user_name
+					- notverysecretpassword
+
+Allows you to specify how to connect to your database. By default, it connects to an SQLite :memory: DB and uses the connect_and_deploy constructor from the L<Articulate::Storage::DBIC::Simple::Schema> schema.
 
 =cut
 
@@ -45,6 +59,11 @@ has schema => (
 		instantiate $_[0],
 	},
 );
+
+
+=head1 METHODS
+
+=cut
 
 sub dbic_find { # internal method
 	my $self      = shift;
@@ -213,7 +232,6 @@ sub set_content {
 	return $item;
 }
 =head3 create_item
-
 
 	$storage->create_item('zone/public/article/hello-world', $meta, $blob);
 
