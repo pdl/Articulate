@@ -13,10 +13,9 @@ Articulate::Item - represent an item
 
 =head3 location
 
-Returns the location of the item, as a location object. Coerces into a location.
+Returns the location of the item, as a location object (see L<Articulate::Location>). Coerces into a location using C<Articulate::Location::loc>.
 
 =cut
-
 
 has location => (
   is      => 'rw',
@@ -37,10 +36,9 @@ has meta => (
 
 =head3 content
 
-Returns the item's content. What it might look like depends entirely on the content.
+Returns the item's content. What it might look like depends entirely on the content. Typically this is an unblessed scalar value, but it MAY contain binary data or an L<Articulate::File> object.
 
 =cut
-
 
 has content => (
   is      => 'rw',

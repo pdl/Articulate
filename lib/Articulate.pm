@@ -124,6 +124,8 @@ The following classes are used for passing request data between components:
 
 =item * L<Articulate::Error>
 
+=item * L<Articulate::File>
+
 =item * L<Articulate::Item>
 
 =item * L<Articulate::Location>
