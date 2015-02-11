@@ -181,15 +181,27 @@ Typically, one class delegates to a series of providers, which are each passed t
 
 Occasionally, only one provider is possible, for instance L<Articulate::FrameworkAdapter>. In this case there is a substitution rather than a delegation.
 
-=head1 BUGS
+=cut
 
-Bugs should be reported to the L<github issue tracker|https://github.com/pdl/Articulate/issues>. Pull Requests welcome!
+=head1 METHOD
 
-=head1 COPYRIGHT
+=head3 enable
 
-Articulate is Copyright 2014-2015 Daniel Perrett. You are free to use it subject to the same terms as perl: see the LICENSE.txt file included in this distribution for what this means.
+Sets up the routes. This does not happen at construction so you can control the point at which routes are declared.
 
-Currently Articulate is bundled with versions of other software whose license information you can access from the LICENSE.txt file.
+=head1 ATTRIBUTES
+
+=head3 enabled
+
+Please do not set this directly, use C<enable> instead.
+
+=head3 routes
+
+The packages which provide routes for Articulate. See L<Articulate::Syntax::Routes> and L<Articulate::Role::Routes> for more details.
+
+=head3 components
+
+The different working pieces of the Articulate app. Components all have access to each other indirectly and they provide features across Articulate; see L<Articulate::Role::Component> for more details.
 
 =cut
 
@@ -232,5 +244,17 @@ has components => (
 		$orig->{$_}->app($self) foreach keys %$orig;
 	},
 );
+
+=head1 BUGS
+
+Bugs should be reported to the L<github issue tracker|https://github.com/pdl/Articulate/issues>. Pull Requests welcome!
+
+=head1 COPYRIGHT
+
+Articulate is Copyright 2014-2015 Daniel Perrett. You are free to use it subject to the same terms as perl: see the LICENSE.txt file included in this distribution for what this means.
+
+Currently Articulate is bundled with versions of other software whose license information you can access from the LICENSE.txt file.
+
+=cut
 
 1;
