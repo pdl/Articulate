@@ -35,6 +35,12 @@ It's written in Perl, the fast, reliable 'glue language' that's perfect for agil
 
 Don't forget to install Articulate - remember, it's a library, not an app.
 
+	# From source:
+	perl Makefile.PL
+	make
+	make test
+	make install
+
 Check out the examples in the C<examples> folder of the distribution.
 
 To add Articulate to your own app, you'll need to:
@@ -60,17 +66,21 @@ Articulate is a set of components that work together to provide a content manage
 If you want to see one in action, try running:
 
 	cd examples/plain-speaking
-	perl bin/app.pl
+	perl bin/app.pl -e dancer1
+
+	# Or, if you have Dancer2 installed:
+	cd examples/plain-speaking
+	perl bin/app.psgi
 
 You can see how it's configured by looking at
 
 	examples/plain-speaking/config.yml
 
-Notice that bin/app.pl doesn't directly load anything but Articulate. Everything you need is in config.yml, and you can replace components with ones you've written if your app needs to do different things.
+Notice that C<bin/app.pl> doesn't directly load anything but the Articulate plugin (which loads config into this module). Everything you need is in C<config.yml>, and you can replace components with ones you've written if your app needs to do different things.
 
 =head2 Response/Request lifecycle summary
 
-In a B<route>, you parse user input and pick the parameters you want to send to the service. Have a look at L<Articulate::Routes::Transparent> for some examples. The intention is that routes are as 'thin' as possible: business logic should all be done by some part of the service and not in the route handler. The route handler maps endpoints (URLs) to service requests and serialises the structured response.
+In a B<route>, you parse user input and pick the parameters you want to send to the B<service>. Have a look at L<Articulate::Routes::Transparent> for some examples. The intention is that routes are as 'thin' as possible: business logic should all be done by some part of the service and not in the route handler. The route handler maps endpoints (URLs) to service requests; structured responses are passed back as return values and are picked up by the B<serialiser>.
 
 B<Routes> pass B<requests> to B<services>. A B<request> contains a B<verb> (like C<create>) and B<data> (like the B<location> you want to create it at and the B<content> you want to place there). See L<Articulate::Request> for more details.
 
@@ -82,11 +92,11 @@ Content is stored in a structure called an B<item> (see L<Articulate::Item>), wh
 
 Before items can be placed in storage, the service should take care to run them through B<validation>. C<Articulate::Validation> delegates this to validators, and if there are any applicable validators, they will check if the content is valid. The content may also be B<enriched>, i.e. further metadata added, like the time at which the request was made.
 
+After items are retrieved from storage, there is the opportunity to B<augment> them, for instance by including relevant content from elsewhere which belongs in the response. See L<Articulate::Augmentation> for details on this.
+
 If at any time uncaught errors are thrown, including recognised C<Articulate::Error> objects, they are caught and handled by C<Articulate::Service>. C<Articulate::Service> should therefore always return an C<Articulate::Response> object.
 
 Once the request finds it back to the Route it will typically be B<serialised> immediately (see L<Articulate::Serialiser>), and the resulting response passed back to the user.
-
-Finally, after items are retrieved from storage, there is the opportunity to B<augment> them, for instance by including relevant content from elsewhere which belongs in the response. See L<Articulate::Augmentation> for details on this.
 
 =head2 Components
 
