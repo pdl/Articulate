@@ -15,21 +15,31 @@ WriteMakefile(
     ($eumm_version >= 6.3001
       ? ('LICENSE'=> 'perl')
       : ()),
+    META_MERGE    => {
+      resources => {
+        repository => 'http://github.com/pdl/Articulate',
+        bugtracker => 'http://github.com/pdl/Articulate/issues',
+        homepage   => 'http://github.com/pdl/Articulate',
+      },
+    },
     PL_FILES            => {},
     PREREQ_PM => {
-        'Test::More'        => 0.98, # needs a reasonably modern version
-        'YAML'              => 0,
-        'Dancer'            => 1.3118,
-        'File::Path'        => 0, #implied by IO::All but just in case
-        'Module::Load'      => 0,
-        'Try::Tiny'         => 0,
-        'IO::All'           => 0,
-        'Digest::SHA'       => 0,
+        'Class::Inspector'  => 0,      # Used by Articulate::Role::Service
+        'Dancer'            => 1.3118, # Until we separate out the plugin and framework adapter
+        'Dancer2'           => 0.158,  # Until we separate out the plugin and framework adapter
         'Data::DPath'       => 0.50,
-        'Class::Inspector'  => 0, # Used by Articulate::Role::Service
+        'DBIx::Class'       => 0.082,  # Until we separate out Storage::Local
+        'DBD::SQLite'       => 1.46,   # Until we separate out Storage::Local
+        'Digest::SHA'       => 0,
         'Exporter::Declare' => 0,
-        'Text::Markdown'    => 0, # chances are you'll need it
-        'MooX::Singleton'   => 0, # for now at least
+        'File::Path'        => 0,      # implied by IO::All but just in case
+        'IO::All'           => 0,
+        'Module::Load'      => 0,
+        'MooX::Singleton'   => 0,      # for now at least
+        'Test::More'        => 0.98,   # needs a reasonably modern version for things like subtest
+        'Text::Markdown'    => 0,      # chances are you'll need it
+        'Try::Tiny'         => 0,
+        'YAML'              => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Articulate-*' },
