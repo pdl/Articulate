@@ -1,4 +1,6 @@
 package Dancer::Plugin::Articulate;
+use strict;
+use warnings;
 
 use Dancer::Plugin;
 use Articulate;
