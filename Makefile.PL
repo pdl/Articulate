@@ -33,6 +33,7 @@ WriteMakefile(
         'Digest::SHA'       => 0,
         'Exporter::Declare' => 0,
         'File::Path'        => 0,      # implied by IO::All but just in case
+        'Hash::Merge'       => 0.2,
         'IO::All'           => 0,
         'Module::Load'      => 0,
         'MooX::Singleton'   => 0,      # for now at least

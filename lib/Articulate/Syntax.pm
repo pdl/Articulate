@@ -19,6 +19,7 @@ default_exports qw(
 
 use Articulate::Error;
 use Data::DPath qw(dpath dpathr);
+use Hash::Merge ();
 
 use Articulate::Item;
 use Articulate::Error;
@@ -27,6 +28,7 @@ use Articulate::Location;
 use Articulate::LocationSpecification;
 use Articulate::Request;
 use Articulate::Response;
+
 
 # sub throw_error { Articulate::Error::throw_error(@_) };
 # sub loc         { Articulate::Location::loc(@_) };
@@ -290,9 +292,19 @@ sub is_single_key_hash {
   return 0;
 }
 
+=head3 hash_merge
+
+  my $merged = hash_merge ($parent, $child)
+
+Returns a new hashref whose values represent a union of the parent's and the child's. The child's values overwrite the parent, in case of conflict. The merge is deep (i.e. it handles nested hashes), using L<Hash::Merge> with right precedence.
+
+=cut
+
+my $hash_merger = Hash::Merge->new('RIGHT_PRECEDENT');
+
 sub hash_merge { # very naive, will change to something like Hash::Merge
   my ($parent, $child) = @_;
-  return {%$parent, %$child}; # todo: more
+  return $hash_merger->merge($parent, $child); # todo: more
 }
 
 1;
