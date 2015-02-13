@@ -4,7 +4,7 @@ use warnings;
 
 use Moo;
 with 'Articulate::Role::Component';
-use Articulate::Syntax qw(instantiate_array);
+use Articulate::Syntax qw(credentials instantiate_array);
 
 =head1 NAME
 
@@ -48,17 +48,13 @@ If the login attempt succeeds, framework->user is set.
 =cut
 
 sub login {
-  my $self       = shift;
-  my $user_id    = shift;
-  my $password   = shift;
+  my $self        = shift;
+  my $credentials = credentials @_;
   foreach my $provider ( @{ $self->providers } ) {
-    if (
-      defined ( $provider->authenticate( $user_id, $password ) )
-    ) {
-      return ($user_id);
-    }
+    return $credentials if $provider->authenticate( $credentials );
+    return $credentials if $credentials->rejected;
   }
-  return (undef);
+  return $credentials->deny('No provider authenticated these credentials');
 }
 
 =head3 create_user

@@ -22,9 +22,7 @@ It is suitable only for getting a project started, and should be promptly remove
 
 =head1 CONFIGURATION
 
-In your C<development.yaml>.
-
-  plugins:
+  authentication:
     Articulate::Authentication:
       providers:
         - class: Articulate::Authentication::Preconfigured
@@ -47,24 +45,25 @@ has passwords => (
 
 =head3 authenticate
 
-  $self->authenticate( $user_id, $password );
+  $self->authenticate( $credentials );
 
-Returns the user id if the password matches. Returns undef otherwise.
+Accepts and returns the credentials if the C<password> matches the C<user_id>. Always returns the credentials passed in.
 
 =cut
 
 sub authenticate {
-  my $self     = shift;
-  my $user_id  = shift;
-  my $password = shift;
+  my $self        = shift;
+  my $credentials = shift;
+  my $user_id     = $credentials->fields->{user_id}  // return;
+  my $password    = $credentials->fields->{password} // return;
 
-  if ( exists $self->passwords->{$user_id} ) {
-    return $user_id if $password eq $self->passwords->{$user_id};
+  if ( exists $self->passwords->{ $user_id } ) {
+    return $credentials->accept('Passwords match') if $password eq $self->passwords->{$user_id};
   }
   # if we ever need to know if the user does not exist, now is the time to ask,
   # but we do not externally expose the difference between
   # "user not found" and "password doesn't match"
-  return undef;
+  return $credentials;
 }
 
 1;

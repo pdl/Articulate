@@ -20,9 +20,9 @@ Articulate::Authentication::Internal
 
 =head3 authenticate
 
-  $self->authenticate( $user_id, $password );
+  $self->authenticate( $credentials );
 
-Returns the user id if the password matches. Returns undef otherwise.
+Accepts and returns the credentials if the C<password> matches the C<user_id>. Always returns the credentials passed in.
 
 =cut
 
@@ -32,17 +32,18 @@ has extra_salt => (
 );
 
 sub authenticate {
-  my $self     = shift;
-  my $user_id  = shift;
-  my $password = shift;
+  my $self        = shift;
+  my $credentials = shift;
+  my $user_id     = $credentials->fields->{user_id}  // return;
+  my $password    = $credentials->fields->{password} // return;
 
   if ( $self->verify_password ( $user_id, $password ) ) {
-    return $user_id;
+    return $credentials->accept('Passwords match');
   }
   # if we ever need to know if the user does not exist, now is the time to ask,
   # but we do not externally expose the difference between
   # "user not found" and "password doesn't match"
-  return undef;
+  return $credentials;
 }
 
 sub _password_salt_and_hash {
@@ -66,7 +67,7 @@ sub _generate_salt {
 
   $self->verify_password( $user_id, $password );
 
-Hashes the password provided with the user's salt and checks to see if the string matches the encrypted password in the user's meta..
+Hashes the password provided with the user's salt and checks to see if the string matches the encrypted password in the user's meta.
 
 Returns the result of C<eq>.
 

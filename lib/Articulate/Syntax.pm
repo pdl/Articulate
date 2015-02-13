@@ -9,6 +9,7 @@ use Exporter::Declare;
 default_exports qw(
   instantiate instantiate_array instantiate_selection instantiate_array_selection
   response    articulate_request
+  credentials permission
   loc         locspec
   dpath_get   dpath_set
   hash_merge
@@ -21,11 +22,13 @@ use Articulate::Error;
 use Data::DPath qw(dpath dpathr);
 use Hash::Merge ();
 
-use Articulate::Item;
 use Articulate::Error;
+use Articulate::Credentials;
 use Articulate::File;
+use Articulate::Item;
 use Articulate::Location;
 use Articulate::LocationSpecification;
+use Articulate::Permission;
 use Articulate::Request;
 use Articulate::Response;
 
