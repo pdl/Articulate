@@ -4,11 +4,12 @@ use strict;
 use warnings;
 
 # the order is important
-use Articulate::TestEnv;
-use Dancer::Plugin::Articulate;
 use Articulate;
+use Articulate::TestEnv;
 use Articulate::Syntax qw(loc);
 use Scalar::Util qw(blessed);
+
+my $app = app_from_config();
 
 foreach my $class ( qw(
   Articulate::Storage::Local
@@ -17,7 +18,7 @@ foreach my $class ( qw(
   subtest $class => sub {
     use_ok $class;
 
-    my $storage = $class->new( { app=>articulate_app } );
+    my $storage = $class->new( { app => $app } );
 
     isa_ok ( $storage, $class );
 

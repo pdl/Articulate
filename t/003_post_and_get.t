@@ -1,4 +1,4 @@
-use Test::More;
+use Test::More skip_all => 'Not part of the core';
 use strict;
 use warnings;
 

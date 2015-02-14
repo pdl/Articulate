@@ -83,7 +83,6 @@ plugins:
         Articulate::Validation:
           validators: []
       #      - Articulate::Validation::NoScript
-      framework: 'Articulate::FrameworkAdapter::Dancer1'
       serialisation:
         Articulate::Serialisation:
           serialisers:

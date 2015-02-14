@@ -4,8 +4,6 @@ use warnings;
 
 use_ok $_ for qw(
   Articulate
-  Dancer2::Plugin::Articulate
-  Dancer::Plugin::Articulate
   Articulate::Syntax
   Articulate::Authentication
   Articulate::Service
@@ -55,8 +53,6 @@ use_ok $_ for qw(
   Articulate::Serialisation::SiteConfig
   Articulate::Serialisation::StatusSetter
   Articulate::File
-  Articulate::FrameworkAdapter::Dancer2
-  Articulate::FrameworkAdapter::Dancer1
   Articulate::Storage::Local
   Articulate::Storage::DBIC::Simple::Schema
   Articulate::Storage::DBIC::Simple::Schema::Result::Articulate::Item
