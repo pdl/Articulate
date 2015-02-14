@@ -146,4 +146,17 @@ has stack_trace =>
   is      => 'rw',
   default => sub { '' };
 
+=head1 SEE ALSO
+
+=over
+
+=item * L<Articulate::Authorisation>
+
+=item * L<Articulate::Credentials> (which performs a similar function for L<Articulate::Authentication>)
+
+=back
+
+=cut
+
+
 1;

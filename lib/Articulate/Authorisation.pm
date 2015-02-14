@@ -60,5 +60,17 @@ sub permitted {
   return ( $p->deny('No rule granted this permission') );
 }
 
+=head1 SEE ALSO
+
+=over
+
+=item * L<Articulate::Authentication>
+
+=item * L<Articulate::Permission>
+
+=back
+
+=cut
+
 
 1;

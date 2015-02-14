@@ -132,6 +132,8 @@ The following classes are used for passing request data between components:
 
 =over
 
+=item * L<Articulate::Credentials>
+
 =item * L<Articulate::Error>
 
 =item * L<Articulate::File>

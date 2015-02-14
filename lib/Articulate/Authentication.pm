@@ -20,6 +20,7 @@ Articulate::Authentication - determine if a user who they claim to be
           - Articulate::Authentication::AlwaysAllow
 
   # then any component can dp
+  $component->authentication->login($credentials);
   $component->authentication->login($user_id, $password);
 
 =head1 ATTRIBUTE
@@ -37,13 +38,12 @@ has providers =>
 
 =head3 login
 
+  $authentication->login($credentials);
   $authentication->login( $user_id, $password );
 
-Asks each provider if the credentials supplied match a known user
+Asks each provider if the credentials supplied match a known user. Credentials may be in whatever form will satisfy the C<credentials> function in L<Articulate::Credentials> (username and password, hashref or credentials object).
 
 Each provider must respond true, false, or undef. A true value means the user is authenticated. A false value means that the user exists but is explicitly refused access (this should only be used in exceptional circumstances) and an undef value means the user cannot be authenticated by the provider (but could be authenticated by some other provider).
-
-If the login attempt succeeds, framework->user is set.
 
 =cut
 
@@ -78,5 +78,17 @@ sub create_user {
   }
   return (undef);
 }
+
+=head1 SEE ALSO
+
+=over
+
+=item * L<Articulate::Authorisation>
+
+=item * L<Articulate::Credentials>
+
+=back
+
+=cut
 
 1;
