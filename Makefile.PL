@@ -11,7 +11,7 @@ WriteMakefile(
     NAME                => 'Articulate',
     AUTHOR              => q{Daniel Perrett <perrettdl@googlemail.com>},
     VERSION_FROM        => 'lib/Articulate.pm',
-    ABSTRACT            => 'Lightweight Perl+Dancer CMS Framework',
+    ABSTRACT            => 'Lightweight Perl CMS Framework',
     ($eumm_version >= 6.3001
       ? ('LICENSE'=> 'perl')
       : ()),
@@ -25,8 +25,6 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Class::Inspector'  => 0,      # Used by Articulate::Role::Service
-        'Dancer'            => 1.3118, # Until we separate out the plugin and framework adapter
-        'Dancer2'           => 0.158,  # Until we separate out the plugin and framework adapter
         'Data::DPath'       => 0.50,
         'DBIx::Class'       => 0.082,  # Until we separate out Storage::Local
         'DBD::SQLite'       => 1.46,   # Until we separate out Storage::Local

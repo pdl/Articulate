@@ -53,7 +53,6 @@ lib/Articulate/Error/NotFound.pm
 lib/Articulate/Error/Unauthorised.pm
 lib/Articulate/Flow/ContentType.pm
 lib/Articulate/FrameworkAdapter.pm
-lib/Articulate/FrameworkAdapter/Dancer1.pm
 lib/Articulate/Item.pm
 lib/Articulate/Item/Article.pm
 lib/Articulate/Location.pm
@@ -89,7 +88,6 @@ lib/Articulate/Sortation/Numeric.pm
 lib/Articulate/Sortation/Slug.pm
 lib/Articulate/Sortation/String.pm
 lib/Articulate/Storage.pm
-lib/Articulate/Storage/Common.pm
 lib/Articulate/Storage/Local.pm
 lib/Articulate/Syntax.pm
 lib/Articulate/TestEnv.pm
@@ -104,7 +102,7 @@ t/Articulate-Role-Service.t
 t/Articulate-Service.t
 t/Articulate-Sortation-Metadelver.t
 t/Articulate-Sortation-Slug.t
-t/Articulate-Storage-Local.t
+t/Articulate-Storage.t
 t/Articulate-Syntax.t
 t/config.yml
 t/environments/development.yml
