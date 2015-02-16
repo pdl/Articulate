@@ -43,6 +43,14 @@ An unremarkable Moo constructor.
 
 =cut
 
+=head3 grant
+
+  $permission->grant('Anybody can do that!');
+
+Declares that the user has that permission, for the reason given; sets C<granted> and C<denied> and populates the stack trace.
+
+=cut
+
 sub grant {
   my $self   = shift;
   my $reason = shift;
@@ -52,6 +60,14 @@ sub grant {
   $self->stack_trace(Devel::StackTrace->new);
   return $self;
 }
+
+=head3 deny
+
+  $permission->deny('Don\t touch that!');
+
+Declares that the user does not have that permission, for the reason given; sets C<granted> and C<denied> and populates the stack trace.
+
+=cut
 
 sub deny {
   my $self   = shift;
