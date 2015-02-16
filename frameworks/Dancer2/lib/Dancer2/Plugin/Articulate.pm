@@ -4,6 +4,7 @@ use warnings;
 
 use Dancer2::Plugin;
 use Articulate;
+our $VERSION = '0.001';
 
 =head1 NAME
 
@@ -44,5 +45,15 @@ register articulate_app => sub {
 }, { is_global => 1};
 
 register_plugin for_versions => [2];
+
+=head1 BUGS
+
+Bugs should be reported to the L<github issue tracker|https://github.com/pdl/Articulate/issues>. Pull Requests welcome!
+
+=head1 COPYRIGHT
+
+Articulate is Copyright 2014-2015 Daniel Perrett. You are free to use it subject to the same terms as perl: see the LICENSE file included in this distribution for what this means.
+
+=cut
 
 1;

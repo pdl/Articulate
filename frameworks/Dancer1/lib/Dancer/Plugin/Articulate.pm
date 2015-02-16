@@ -4,6 +4,7 @@ use warnings;
 
 use Dancer::Plugin;
 use Articulate;
+our $VERSION = '0.001';
 
 =head1 NAME
 

@@ -2,7 +2,7 @@
 
 ## License for Articulate
 
-Articulate is Copyright (C) 2014 by Daniel Perrett.
+Articulate is Copyright (C) 2014-2015 Daniel Perrett.
 
 Articulate is free software; you can redistribute it and/or modify it under the same terms as perl itself, namely the Artistic License or the GPL.
 
