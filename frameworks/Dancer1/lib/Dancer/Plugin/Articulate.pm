@@ -49,4 +49,14 @@ register articulate_app => sub {
 
 register_plugin();
 
+=head1 BUGS
+
+Bugs should be reported to the L<github issue tracker|https://github.com/pdl/Articulate/issues>. Pull Requests welcome!
+
+=head1 COPYRIGHT
+
+Articulate is Copyright 2014-2015 Daniel Perrett. You are free to use it subject to the same terms as perl: see the LICENSE file included in this distribution for what this means.
+
+=cut
+
 1;
