@@ -263,9 +263,9 @@ Bugs should be reported to the L<github issue tracker|https://github.com/pdl/Art
 
 =head1 COPYRIGHT
 
-Articulate is Copyright 2014-2015 Daniel Perrett. You are free to use it subject to the same terms as perl: see the LICENSE.txt file included in this distribution for what this means.
+Articulate is Copyright 2014-2015 Daniel Perrett. You are free to use it subject to the same terms as perl: see the LICENSE file included in this distribution for what this means.
 
-Currently Articulate is bundled with versions of other software whose license information you can access from the LICENSE.txt file.
+Currently Articulate is bundled with versions of other software whose license information you can access from the LICENSE file.
 
 =cut
 
