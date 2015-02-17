@@ -45,4 +45,31 @@ has content => (
   default => sub { '' },
 );
 
+=head3 _meta_accessor
+
+  # In a subclass of Item
+  sub author { shift->meta_accessor('schema/article/author')->(@_) }
+
+  # Then, on that subclass
+  $article->author('user/alice');
+  $article->author;
+
+Uses dpath_set or dpath_get from L<Atticulate::Syntax> to find or assign the relevant field in the metadata.
+
+=cut
+
+sub _meta_accessor {
+  my $self = shift;
+  my $path = shift;
+  return sub {
+    if (@_) {
+      dpath_set ($self->meta, $path, @_)
+    }
+    else {
+      dpath_get ($self->meta, $path)
+    }
+  }
+}
+
+
 1;

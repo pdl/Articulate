@@ -7,15 +7,7 @@ extends 'Articulate::Item';
 #with 'Articulate::Role::Item::Format';
 
 sub original_format {
-  my $write = $#_;
-  my $self = shift;
-  if ($write) {
-    my $val = shift;
-    $self->meta->{schema}->{core}->{originalFormat} = $val;
-  }
-  else {
-    return $self->meta->{schema}->{core}->{originalFormat}; # todo: capacity for setting defaults
-  }
+  shift->_meta_accessor('schema/core/originalFormat')->(@_);
 };
 
 sub article_id {
