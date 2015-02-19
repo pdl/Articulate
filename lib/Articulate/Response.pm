@@ -17,6 +17,7 @@ Articulate::Response - represent a response
 =head1 FUNCTIONS
 
 =head3 response
+
 =head3 articulate_response
 
   my $response = response type => $data;
