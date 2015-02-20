@@ -48,7 +48,7 @@ Retrieves the content at that location. Throws an error if the content does not 
 
 Updates the content at that location. Throws an error if the content does not exist or if the user has no write permission on that location.
 
-=head3 handle_read
+=head3 handle_delete
 
   delete => {
     location => '...'
@@ -67,7 +67,7 @@ sub handle_create {
   } );
   my $location = $item->location;
 
-  my $user       = $self->framework->user_id;
+  my $user       = $request->user_id;
   my $permission = $self->authorisation->permitted ( $user, write => $location );
   if ( $permission ) {
 
@@ -98,7 +98,7 @@ sub handle_read {
   my $self       = shift;
   my $request    = shift;
   my $location   = loc $request->data->{location};
-  my $user       = $self->framework->user_id;
+  my $user       = $request->user_id;
   my $permission = $self->authorisation->permitted ( $user, read => $location );
   if ( $permission ) {
     throw_error 'NotFound' unless $self->storage->item_exists($location);
@@ -134,7 +134,7 @@ sub handle_update {
   } );
   my $location = $item->location;
 
-  my $user       = $self->framework->user_id;
+  my $user       = $request->user_id;
   my $permission = $self->authorisation->permitted ( $user, write => $location );
   if ( $permission ) {
 
@@ -166,10 +166,9 @@ sub handle_delete {
   my $self    = shift;
   my $request = shift;
 
-  my $item = $request->data;
-  my $location = $item->location;
+  my $location = loc $request->data->{location};
 
-  my $user       = $self->framework->user_id;
+  my $user       = $request->user_id;
   my $permission = $self->authorisation->permitted ( $user, write => $location );
   if ( $permission ) {
     throw_error 'NotFound' unless $self->storage->item_exists($location);

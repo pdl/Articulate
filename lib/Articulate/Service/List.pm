@@ -23,7 +23,7 @@ sub handle_list {
   my $location = loc $request->data->{location};
   my $sort     = $request->data->{sort}; # needs careful validation as this can do all sorts of fun constructor logic
 
-  my $user       = $self->framework->user_id;
+  my $user       = $request->user_id;
   my $permission = $self->authorisation->permitted ( $user, read => $location );
 
   if ( $permission ) {

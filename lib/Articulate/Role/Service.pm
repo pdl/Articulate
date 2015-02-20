@@ -2,8 +2,8 @@ package Articulate::Role::Service;
 use strict;
 use warnings;
 use Moo::Role;
+with 'Articulate::Role::Component';
 
-# The following provide plugins which should be singletons within an application
 use Class::Inspector;
 
 has verbs => (
@@ -35,10 +35,12 @@ sub process_request {
   my $verb    = $request->verb;
   if ( exists $verbs->{ $verb } ) {
     my $method = $verbs->{ $verb };
+    $request->app($self->app);
     return $self->$method($request, @_);
   }
   return undef; # whatever else the user wants, we can't provide it
 }
+
 with 'Articulate::Role::Component';
 
 1;

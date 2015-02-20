@@ -73,4 +73,32 @@ has data =>
   is      => 'rw',
   default => sub { { } };
 
+=head3 app
+
+The app for which the request has been made.
+
+=cut
+
+has app => (
+  is       => 'rw',
+  weak_ref => 1,
+);
+
+=head3 user_id
+
+The user_id making the request. This is typically inferred from the framework.
+
+=cut
+
+has user_id => (
+  is      => 'rw',
+  lazy    => 1,
+  default => sub{
+    my $self = shift;
+    return undef unless $self->app;
+    return undef unless $self->app->components->{framework};
+    return $self->app->components->{framework}->user_id;
+  }
+);
+
 1;
