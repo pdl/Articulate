@@ -8,7 +8,30 @@ with 'Articulate::Role::Component';
 use Articulate::Location;
 use Articulate::LocationSpecification;
 
-#has provider => (is => 'rw',)
+=head1 NAME
+
+Articulate::Navigation - determine valid locations
+
+=head1 SYNOPSIS
+
+  components:
+    navigation:
+      Articulate::Navigation:
+        locations:
+          - zone/*
+          - zone/*/article/*
+          - user/*
+          - []
+
+Provides validation for locations.
+
+=head1 ATTRIBUTE
+
+=head3 locations
+
+Any location specifications configured in the locations attribute are valid locations for deposition and retrieval of items from storage.
+
+=cut
 
 has locations => (
   is      => 'rw', # rwp?
@@ -25,6 +48,40 @@ has locations => (
 
 # A locspec is like a location except it can contain "*": "/zone/*/article/"
 
+=head1 METHODS
+
+=cut
+
+=head3 valid_location
+
+  do_something if $self->valid_location('zone/public')
+  do_something if $self->valid_location($location_object)
+
+Returns the location if valid (matches one of the locspecs in C<locations>), undef otherwise.
+
+=cut
+
+sub valid_location {
+  my $self     = shift;
+  my $location = loc shift;
+  foreach my $defined_location ( @{ $self->locations } ) {
+    if ( $defined_location->matches($location) ) {
+      return $location;
+    }
+  }
+  return undef;
+}
+
+=head3 define_locspec
+
+  $self->define_locspec('zone/*')
+  $self->define_locspec($locspec)
+
+Adds a locspec to C<locations>, unless it is already there
+
+=cut
+
+
 sub define_locspec {
   my $self     = shift;
   my $location = locspec shift;
@@ -35,6 +92,16 @@ sub define_locspec {
   }
   push $self->locations, $location;
 }
+
+=head3 undefine_locspec
+
+  $self->undefine_locspec('zone/*')
+  $self->undefine_locspec($locspec)
+
+Removes a locspec from C<locations>.
+
+=cut
+
 
 sub undefine_locspec {
   my $self     = shift;
@@ -52,15 +119,16 @@ sub undefine_locspec {
   return $removed;
 }
 
-sub valid_location {
-  my $self     = shift;
-  my $location = loc shift;
-  foreach my $defined_location ( @{ $self->locations } ) {
-    if ( $defined_location->matches($location) ) {
-      return $location;
-    }
-  }
-  return undef;
-}
+=head1 SEE ALSO
+
+=over
+
+=item * L<Articulate::Location>
+
+=item * L<Articulate::LocationSpecification>
+
+=back
+
+=cut
 
 1;
