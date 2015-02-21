@@ -90,7 +90,7 @@ sub define_locspec {
       return undef;
     }
   }
-  push $self->locations, $location;
+  push @{ $self->locations }, $location;
 }
 
 =head3 undefine_locspec
@@ -109,10 +109,10 @@ sub undefine_locspec {
   my ($removed, $kept) = ([], []);
   foreach my $defined_location ( @{ $self->locations } ){
     if ( ( $location eq $defined_location ) or $defined_location->matches_descendant_of($location) ) {
-      push $removed, $location;
+      push @$removed, $location;
     }
     else {
-      push $kept, $location;
+      push @$kept, $location;
     }
   }
   $self->locations($kept);

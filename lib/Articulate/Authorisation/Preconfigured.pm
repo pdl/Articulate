@@ -62,7 +62,7 @@ sub permitted {
   my $rules      = $self->rules;
   my $access     = undef;
 
-  foreach my $rule_location ( sort {$#$a <=> $#$b } map { locspec $_ } keys $rules) {
+  foreach my $rule_location ( sort {$#$a <=> $#$b } map { locspec $_ } keys %$rules) {
     if ( $rule_location->matches_ancestor_of($location) ) {
       if ( grep { $_ eq $user_id } keys %{ $rules->{$rule_location} } ){
         if ( ref $rules->{$rule_location}->{$user_id} ) {

@@ -36,7 +36,7 @@ sub handle_list {
           content  => $self->storage->get_content($item_location),
         } );
         $self->augmentation->augment  ($item); # this will throw if it fails
-        push $items, $item;
+        push @$items, $item;
       }
     }
     my $sorter = Articulate::Sortation::MetaDelver->new( $sort );
