@@ -47,7 +47,7 @@ To add Articulate to your own app, you'll need to:
 
 =over
 
-=item * add it to your C<bin/app.pl> or similar (see example above) using either L<Dancer::Pluugin::Articulate> or L<Dancer2::Pluugin::Articulate>.
+=item * add it to your C<bin/app.pl> or similar (see example above) using either L<Dancer::Plugin::Articulate> or L<Dancer2::Plugin::Articulate>.
 
 =item * edit your C<config.yml> to configure the components you want (check each of the components for a description of their config options - or just borrow a config from one of the examples)
 
@@ -65,10 +65,11 @@ Articulate is a set of components that work together to provide a content manage
 
 If you want to see one in action, try running:
 
+	# If you have Dancer and Dancer::Plugin::Articulate installed:
 	cd examples/plain-speaking
 	perl bin/app.pl -e dancer1
 
-	# Or, if you have Dancer2 installed:
+	# Or, if you have Dancer2 and Dancer2::Plugin::Articulate installed:
 	cd examples/plain-speaking
 	perl bin/app.psgi
 
