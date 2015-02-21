@@ -49,7 +49,7 @@ sub authenticate {
 sub _password_salt_and_hash {
   my $self = shift;
   return Digest::SHA::sha512_base64 (
-    shift . shift
+    $_[0] . $_[1] #:5.10 doesn't like shift . shift
   );
 }
 

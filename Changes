@@ -1,6 +1,7 @@
 Revision history for Articulate
 
 v0.003 Unreleased changes
+ - Fix for gh #33; now works on 5.10.0 - thanks to http://www.cpantesters.org/
  - Documentation fixes - amazing what you notice when it's formatted differently!
 
 v0.002 2015-02-21

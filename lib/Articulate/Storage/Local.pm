@@ -60,7 +60,8 @@ has content_base => (
 sub ensure_exists { # internal method
 	my $self = shift;
 	my $true_location_full = shift // return undef;
-	my $true_location = $true_location_full =~ s~[^/]+\.[^/]+$~~r;
+	my $true_location = $true_location_full;
+	$true_location =~ s~[^/]+\.[^/]+$~~; #:5.12 doesn't have s///r
 	unless (-d $true_location) {
 		File::Path::make_path $true_location;
 	}
