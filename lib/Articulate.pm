@@ -79,7 +79,7 @@ You can see how it's configured by looking at
 
 Notice that C<bin/app.pl> doesn't directly load anything but the Articulate plugin (which loads config into this module). Everything you need is in C<config.yml>, and you can replace components with ones you've written if your app needs to do different things.
 
-=head2 Response/Request lifecycle summary
+=head2 Request/Response lifecycle summary
 
 In a B<route>, you parse user input and pick the parameters you want to send to the B<service>. Have a look at L<Articulate::Routes::Transparent> for some examples. The intention is that routes are as 'thin' as possible: business logic should all be done by some part of the service and not in the route handler. The route handler maps endpoints (URLs) to service requests; structured responses are passed back as return values and are picked up by the B<serialiser>.
 
@@ -91,11 +91,11 @@ B<Storage> is controlled by L<Articulate::Storage>. It delegates to a storage cl
 
 Content is stored in a structure called an B<item> (see L<Articulate::Item>), which has a C<location> (see L<Articulate::Location>), the B<content> (which could be a binary blob like an image, plain text, markdown, XML, etc.) and the associated B<metadata> or B<meta> (which is a hashref).
 
-Before items can be placed in storage, the service should take care to run them through B<validation>. C<Articulate::Validation> delegates this to validators, and if there are any applicable validators, they will check if the content is valid. The content may also be B<enriched>, i.e. further metadata added, like the time at which the request was made.
+Before items can be placed in storage, the service should take care to run them through B<validation>. L<Articulate::Validation> delegates this to validators, and if there are any applicable validators, they will check if the content is valid. The content may also be B<enriched>, i.e. further metadata added, like the time at which the request was made (consult L<Articulate::Enrichment> for details).
 
 After items are retrieved from storage, there is the opportunity to B<augment> them, for instance by including relevant content from elsewhere which belongs in the response. See L<Articulate::Augmentation> for details on this.
 
-If at any time uncaught errors are thrown, including recognised C<Articulate::Error> objects, they are caught and handled by C<Articulate::Service>. C<Articulate::Service> should therefore always return an C<Articulate::Response> object.
+If at any time uncaught errors are thrown, including recognised L<Articulate::Error> objects, they are caught and handled by L<Articulate::Service>. L<Articulate::Service> should therefore always return an L<Articulate::Response> object.
 
 Once the request finds it back to the Route it will typically be B<serialised> immediately (see L<Articulate::Serialiser>), and the resulting response passed back to the user.
 

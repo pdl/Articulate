@@ -25,13 +25,13 @@ Articulate::Service - provide an API to all the core Articulate features.
 
 =head1 DESCRIPTION
 
-The Articulate Service provides programmatic access to all the core features of Articulate.
+The Articulate Service provides programmatic access to all the core features of the Articulate app. It is the intermediary between the B<routes> and all other B<components>.
 
 Mostly, you will want to be calling the service in routes, for instance:
 
-  get 'zone/:zone_name/article/:article_name' => sub{
+  get 'zone/:zone_name/article/:article_name' => sub {
     my ($zone_name, $article_name) = param('zone_name'), param('article_name');
-    $self->process_request ( read => "/zone/$zone_name/article/$article_name' )->serialise;
+    return $self->process_request ( read => "/zone/$zone_name/article/$article_name' )
   }
 
 However, you may also want to call it from one-off scripts, tests, etc., especially where you want to perform tasks which you don't want to make available in routes, or where you are already in a perl environment and mapping to the HTTP layer would be a distraction. In theory you could create an application which did not have any web interface at all using this service, e.g. a command-line app on a shared server.
@@ -64,8 +64,6 @@ Providers can decline to process the request by returning undef, which will caus
 Note that a provider MAY act on a request and still return undef, e.g. to perform logging, however it is discouraged to perform acctions which a user would typically expect a response from (e.g. a create action should return a response and not just pass to a get to confirm it has successfully created what it was suppsed to).
 
 =cut
-
-use YAML;
 
 sub process_request {
   my $self = shift;
@@ -118,5 +116,19 @@ sub enumerate_verbs {
   }
   return [ sort keys %$verbs ];
 }
+
+=head1 SEE ALSO
+
+=over
+
+=item * L<Articulate::Role::Service>
+
+=item * L<Articulate::Request>
+
+=item * L<Articulate::Response>
+
+=back
+
+=cut
 
 1;
