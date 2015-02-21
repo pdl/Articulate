@@ -17,9 +17,6 @@ If the meta schema.core.file is true, send the file as a schema.core.content_typ
 
 =cut
 
-
-use Dancer qw(:syntax);
-
 sub serialise {
   my $self     = shift;
   my $response = shift;
