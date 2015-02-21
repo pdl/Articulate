@@ -24,19 +24,23 @@ WriteMakefile(
     },
     PL_FILES            => {},
     PREREQ_PM => {
-        'Class::Inspector'  => 0,      # Used by Articulate::Role::Service
+        'Class::Inspector'  => 0,        # Used by Articulate::Role::Service
+	'DateTime'          => 1.18,
         'Data::DPath'       => 0.50,
-        'DBIx::Class'       => 0.082,  # Until we separate out Storage::Local
-        'DBD::SQLite'       => 1.46,   # Until we separate out Storage::Local
+        'DBIx::Class'       => 0.082,    # Until we separate out Storage::Local
+        'DBD::SQLite'       => 1.46,     # Until we separate out Storage::Local
         'Digest::SHA'       => 0,
-        'Exporter::Declare' => 0,
-        'File::Path'        => 0,      # implied by IO::All but just in case
+        'Exporter::Declare' => 0.113,
+        'File::Path'        => 0,        # implied by IO::All but just in case
         'Hash::Merge'       => 0.2,
         'IO::All'           => 0,
+	'JSON'              => 0,
         'Module::Load'      => 0,
-        'MooX::Singleton'   => 0,      # for now at least
-        'Test::More'        => 0.98,   # needs a reasonably modern version for things like subtest
-        'Text::Markdown'    => 0,      # chances are you'll need it
+        'MooX::Singleton'   => 0,        # for now at least
+	'SQL::Translator'   => 0.11018,
+        'Test::More'        => 0.98,     # needs a reasonably modern version for things like subtest
+        'Text::Markdown'    => 0,        # chances are you'll need it
+	'Throwable'         => 0.200012,
         'Try::Tiny'         => 0,
         'YAML'              => 0,
     },
