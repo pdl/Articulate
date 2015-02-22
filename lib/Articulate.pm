@@ -63,7 +63,7 @@ Curious about how it all fits together? Read on...
 
 Articulate is a set of components that work together to provide a content management service that will sit alongside an existing Dancer app or form the basis of a new one.
 
-If you want to see one in action, try running:
+If you want to see one in action, grab the source and run:
 
 	# If you have Dancer and Dancer::Plugin::Articulate installed:
 	cd examples/plain-speaking
