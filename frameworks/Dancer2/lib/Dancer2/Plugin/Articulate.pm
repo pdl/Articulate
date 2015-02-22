@@ -15,9 +15,10 @@ Dancer2::Plugin::Articulate - use Articulate in your Dancer2 App
 	# in config.yml
 	plugins:
 		Articulate:
-			framework:
-				Articulate::FrameworkAdapter::Dancer2:
-					appname: MyApp
+			components:
+				framework:
+					Articulate::FrameworkAdapter::Dancer2:
+						appname: MyApp
 			# Other Articulate config goes here
 
 Creates an instance of L<Articulate> using your Dancer2 config, and enables the app, declaring routes, etc.

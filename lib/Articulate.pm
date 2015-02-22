@@ -171,7 +171,7 @@ The following classes are used for passing request data between components:
 
 =head2 Instantiation
 
-Articulate provides a very handy way of creating (or C<instantiating>) objects through your config. The following config, for instance, assignes to the providers attribute (on some other object), an arrayref of four objects, the first created without no arguments, two created with arguments, and a final one created without arguments but using an unusual constructor.
+Articulate provides a very handy way of creating (or B<instantiating>) objects through your config. The following config, for instance, assignes to the providers attribute (on some other object), an arrayref of four objects, the first created without no arguments, two created with arguments, and a final one created without arguments but using an unusual constructor.
 
 	providers:
 		- MyProvider::Simple
