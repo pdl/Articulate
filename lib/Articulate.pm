@@ -7,7 +7,7 @@ with 'MooX::Singleton';
 
 use Articulate::Service;
 use Module::Load ();
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 =head1 NAME
 
