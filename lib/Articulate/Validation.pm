@@ -14,7 +14,7 @@ Articulate::Validation - ensure content is valid before accepting it.
 =head1 DESCRIPTION
 
   use Articulate::Validation;
-  $validation->validate($meta, $content) or throw_error;
+  $validation->validate($item) or throw_error;
 
 Validators should return a true argument if either a) The item is valid, or b) The validator has no opinion on the item.
 
@@ -40,11 +40,10 @@ has validators =>
   coerce  => sub { instantiate_array @_ };
 
 sub validate {
-  my $self    = shift;
-  my $meta    = shift;
-  my $content = shift;
+  my $self = shift;
+  my $item = shift;
   foreach my $validator (@{ $self->validators }) {
-    my $result = $validator->validate($meta, $content);
+    my $result = $validator->validate($item);
     return $result unless $result;
   }
   return 1;
