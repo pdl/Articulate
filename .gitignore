@@ -21,3 +21,4 @@ content/
 t/content/
 sessions/
 logs/
+*.tar.gz

@@ -13,3 +13,4 @@ Makefile$
 ^sessions/
 ^.*/sessions/
 ^frameworks/
+.*.tar.gz
