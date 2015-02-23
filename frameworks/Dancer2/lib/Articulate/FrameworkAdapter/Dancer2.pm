@@ -9,7 +9,7 @@ require Dancer2;
 
 =head1 NAME
 
-Articulate::FramwworkAdapter::Dancer1 - Access Dancer1 features though a common interface
+Articulate::FramwworkAdapter::Dancer2 - Access Dancer2 features though a common interface
 
 =head1 SYNOPSIS
 

@@ -11,7 +11,7 @@ WriteMakefile(
     NAME                => 'Dancer::Plugin::Articulate',
     AUTHOR              => q{Daniel Perrett <perrettdl@googlemail.com>},
     VERSION_FROM        => 'lib/Dancer/Plugin/Articulate.pm',
-    ABSTRACT            => 'Dancer interface to a lightweight Perl+Dancer CMS Framework',
+    ABSTRACT            => 'Dancer interface to a lightweight Perl CMS Framework',
     ($eumm_version >= 6.3001
       ? ('LICENSE'=> 'perl')
       : ()),

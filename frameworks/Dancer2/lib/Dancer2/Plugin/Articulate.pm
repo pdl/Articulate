@@ -12,6 +12,10 @@ Dancer2::Plugin::Articulate - use Articulate in your Dancer2 App
 
 =head1 SYNOPSIS
 
+	# in yout app:
+	use Dancer2::Plugin::Articulate;
+	articulate_app->enable;
+
 	# in config.yml
 	plugins:
 		Articulate:
