@@ -25,10 +25,12 @@ This defaults to C<403>.
 
 =cut
 
-has '+simple_message' =>
-  default => 'Forbidden';
+has '+simple_message' => (
+  default => 'Forbidden',
+);
 
-has '+http_code' =>
-  default => 403;
+has '+http_code' => (
+  default => 403,
+);
 
 1;

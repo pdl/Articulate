@@ -59,9 +59,10 @@ The action being performed, e.g. C<create>, C<read>, etc. The verbs available ar
 
 =cut
 
-has verb =>
+has verb => (
   is      => 'rw',
-  default => sub { 'error' };
+  default => sub { 'error' }
+);
 
 =head3 data
 
@@ -69,9 +70,10 @@ The information passed along with the request, e.g. C<< { location => '/zone/pub
 
 =cut
 
-has data =>
+has data => (
   is      => 'rw',
-  default => sub { { } };
+  default => sub { { } }
+);
 
 =head3 app
 

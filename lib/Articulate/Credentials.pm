@@ -27,13 +27,20 @@ default_exports qw(credentials);
 
 sub credentials {
   return shift if ref $_[0] eq __PACKAGE__;
-  __PACKAGE__->new( {
-    fields => ref $_[0] eq ref {} ? $_[0] : {
-      user_id  => shift,
-      password => shift,
-    },
-  } );
-};
+  __PACKAGE__->new(
+    {
+      fields => (
+        ( ref $_[0] eq ref {} )
+        ? $_[0]
+        : {
+          user_id  => shift,
+          password => shift,
+        }
+      ),
+    }
+  );
+}
+
 
 =head1 METHODS
 
@@ -88,9 +95,10 @@ The credentials provided, typically user_id and password.
 
 =cut
 
-has fields =>
+has fields => (
   is      => 'rw',
-  default => sub { {} };
+  default => sub { {} },
+);
 
 =head3 accepted
 
@@ -100,9 +108,10 @@ Please do not explicitly set this. Use C<accept> instead.
 
 =cut
 
-has accepted =>
+has accepted => (
   is      => 'rw',
-  default => sub { 0 };
+  default => sub { 0 },
+);
 
 =head3 rejected
 
@@ -112,9 +121,10 @@ Please do not explicitly set this. Use C<reject> instead.
 
 =cut
 
-has rejected =>
+has rejected => (
   is      => 'rw',
-  default => sub { 0 };
+  default => sub { 0 },
+);
 
 =head3 reason
 
@@ -124,9 +134,10 @@ Please do not explicitly set this. Use C<accept> or C<reject> instead.
 
 =cut
 
-has reason =>
+has reason => (
   is      => 'rw',
-  default => sub { '' };
+  default => sub { '' },
+);
 
 =head3 stack_trace
 
@@ -136,10 +147,10 @@ Please do not explicitly set this. Use C<accept> or C<reject> instead.
 
 =cut
 
-has stack_trace =>
+has stack_trace => (
   is      => 'rw',
-  default => sub { '' };
-
+  default => sub { '' },
+)
 =head1 SEE ALSO
 
 =over

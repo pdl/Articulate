@@ -37,9 +37,10 @@ The username of the owner. Defaults to C<owner>.
 
 =cut
 
-has owner =>
+has owner => (
   is      => 'rw',
-  default => sub{'owner'};
+  default => sub{'owner'}
+);
 
 =head1 METHODS
 

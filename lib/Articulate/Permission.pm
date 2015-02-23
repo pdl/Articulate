@@ -88,9 +88,10 @@ The user_id requesting permission to access the resource.
 
 =cut
 
-has user_id =>
+has user_id => (
   is      => 'rw',
-  default => sub { undef };
+  default => sub { undef },
+);
 
 =head3 verb
 
@@ -100,9 +101,10 @@ A permission request will be granted or denied by an authorisation rule (see Art
 
 =cut
 
-has verb =>
+has verb => (
   is      => 'rw',
-  default => sub { 'error' };
+  default => sub { 'error' },
+);
 
 =head3 location
 
@@ -110,9 +112,10 @@ The location of the resource for which permission is requested.
 
 =cut
 
-has location =>
+has location => (
   is      => 'rw',
-  default => sub { [] };
+  default => sub { [] },
+);
 
 =head3 granted
 
@@ -122,9 +125,10 @@ Please do not explicitly set this. Use C<grant> instead.
 
 =cut
 
-has granted =>
+has granted => (
   is      => 'rw',
-  default => sub { 0 };
+  default => sub { 0 },
+);
 
 =head3 denied
 
@@ -134,9 +138,10 @@ Please do not explicitly set this. Use C<deny> instead.
 
 =cut
 
-has denied =>
+has denied => (
   is      => 'rw',
-  default => sub { 0 };
+  default => sub { 0 }
+);
 
 =head3 reason
 
@@ -146,9 +151,10 @@ Please do not explicitly set this. Use C<grant> or C<deny> instead.
 
 =cut
 
-has reason =>
+has reason => (
   is      => 'rw',
-  default => sub { '' };
+  default => sub { '' }
+);
 
 =head3 stack_trace
 
@@ -158,9 +164,10 @@ Please do not explicitly set this. Use C<grant> or C<deny> instead.
 
 =cut
 
-has stack_trace =>
+has stack_trace => (
   is      => 'rw',
-  default => sub { '' };
+  default => sub { '' }
+);
 
 =head1 SEE ALSO
 

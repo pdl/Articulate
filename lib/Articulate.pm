@@ -227,9 +227,10 @@ sub enable {
 	$self->enabled(1);
 }
 
-has enabled =>
+has enabled => (
 	is      => 'rw',
-	default => sub { 0 };
+	default => sub { 0 }
+);
 
 has routes => (
 	is      => 'rw',

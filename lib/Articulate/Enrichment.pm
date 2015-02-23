@@ -33,10 +33,11 @@ An array of the enrichment classes which will be used.
 
 =cut
 
-has enrichments =>
+has enrichments => (
   is      => 'rw',
   default => sub { [] },
-  coerce  => sub { instantiate_array(@_) };
+  coerce  => sub { instantiate_array(@_) }
+);
 
 =head1 METHODS
 

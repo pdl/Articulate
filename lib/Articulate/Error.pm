@@ -65,18 +65,21 @@ Tries to take a sensible guess at where in your code this was actually thrown fr
 
 =cut
 
-has simple_message =>
+has simple_message => (
   is      => 'rw',
-  default => 'An unknown error has occurred';
+  default => 'An unknown error has occurred'
+);
 
-has http_code =>
+has http_code => (
   is      => 'rw',
   default => 500,
-  coerce  => sub { 0+shift };
+  coerce  => sub { 0+shift }
+);
 
-has caller =>
+has caller => (
   is      => 'rw',
-  default => sub{ ( [caller(0)]->[0] =~ m/Throwable/) ? ['hmm',caller(2)] : [caller(1)] };
+  default => sub{ ( [caller(0)]->[0] =~ m/Throwable/) ? ['hmm',caller(2)] : [caller(1)] }
+);
 
 # This needs to go at the end, because of Class::XSAccessor stuff
 

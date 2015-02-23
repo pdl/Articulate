@@ -57,11 +57,12 @@ The following methods are implemented:
 
 =cut
 
-has appname =>
+has appname => (
   is => 'rw',
-  default => sub { undef };
+  default => sub { undef },
+);
 
-has d2app =>
+has d2app => (
   is      => 'rw',
   lazy    => 1,
   default => sub {
@@ -69,8 +70,9 @@ has d2app =>
     Dancer2->import ( appname => $self->appname );
     my @apps = grep { $_->name eq $self->appname } @{ Dancer2::runner()->apps };
     return $apps[0];
-  }
-;
+  },
+);
+
 sub user_id {
   my $self = shift;
   Dancer2::Core::DSL::session( $self->d2app, user_id => @_ );

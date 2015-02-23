@@ -33,9 +33,10 @@ The rules used to determine whether or not requests are authorised. Defaults to 
 
 =cut
 
-has rules =>
+has rules => (
   is      => 'rw',
-  default => sub { {} };
+  default => sub { {} }
+);
 
 =head1 METHODS
 

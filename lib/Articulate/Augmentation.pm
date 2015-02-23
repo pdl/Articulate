@@ -29,10 +29,11 @@ An array of the augmentation classes which will be used.
 
 =cut
 
-has augmentations =>
+has augmentations => (
   is      => 'rw',
   default => sub { [] },
-  coerce  => sub { instantiate_array(@_) };
+  coerce  => sub { instantiate_array(@_) }
+);
 
 =head1 METHODS
 

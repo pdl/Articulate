@@ -34,10 +34,11 @@ An arrayref of the classes which provide a validate function, in the order in wh
 
 =cut
 
-has validators =>
+has validators => (
   is      => 'rw',
   default => sub { [] },
-  coerce  => sub { instantiate_array @_ };
+  coerce  => sub { instantiate_array @_ }
+);
 
 sub validate {
   my $self = shift;

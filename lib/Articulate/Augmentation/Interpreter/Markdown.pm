@@ -27,7 +27,7 @@ The parser which will be used. This is instantiated and defaults to L<Text::Mark
 
 =cut
 
-has markdown_parser =>
+has markdown_parser => (
   is      => 'rw',
   lazy    => 1,
   default => sub {
@@ -35,8 +35,8 @@ has markdown_parser =>
   },
   coerce  => sub {
     instantiate( $_[0] )
-  }
-;
+  },
+);
 
 sub augment {
   my $self = shift;

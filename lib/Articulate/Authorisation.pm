@@ -25,10 +25,11 @@ Articulate::Authorisation
 
 =cut
 
-has rules =>
+has rules => (
   is      => 'rw',
   default => sub { [] },
-  coerce  => sub { instantiate_array(@_) };
+  coerce  => sub { instantiate_array(@_) }
+);
 
 =head3 permitted
 

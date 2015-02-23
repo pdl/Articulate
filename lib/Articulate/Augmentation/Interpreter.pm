@@ -5,10 +5,11 @@ use warnings;
 use Moo;
 use Articulate::Syntax qw(instantiate instantiate_array);
 
-has default_format =>
-  is     => 'rw';
+has default_format => (
+  is     => 'rw',
+);
 
-has interpreters =>
+has interpreters => (
   is      => 'rw',
   default => sub { {} },
   coerce  => sub {
@@ -17,7 +18,8 @@ has interpreters =>
       $interpreters->{$type} = instantiate_array( $interpreters->{$type} );
     }
     return $interpreters;
-};
+  }
+);
 
 sub augment {
   my $self   = shift;

@@ -84,10 +84,11 @@ It is not guaranteed that this will be passed to the ultimate client (e.g. a lat
 
 =cut
 
-has http_code =>
+has http_code => (
   is      => 'rw',
   default => 500,
-  coerce  => sub { 0+shift };
+  coerce  => sub { 0+shift }
+);
 
 
 =head3 type
@@ -96,9 +97,10 @@ The type of response, which will be used by serialisers etc. to determine how to
 
 =cut
 
-has type =>
+has type => (
   is      => 'rw',
-  default => sub { 'error' };
+  default => sub { 'error' }
+);
 
 =head3 data
 
@@ -115,8 +117,9 @@ The actual content of the response, including any metadata. Typically this will 
 
 =cut
 
-has data =>
+has data => (
   is      => 'rw',
-  default => sub { { } };
+  default => sub { { } }
+);
 
 1;

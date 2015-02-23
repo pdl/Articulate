@@ -31,10 +31,11 @@ A list of providers which can respond to C<login>.
 
 =cut
 
-has providers =>
+has providers => (
   is      => 'rw',
   default => sub { [] },
-  coerce  => sub { instantiate_array(@_) };
+  coerce  => sub { instantiate_array(@_) },
+);
 
 =head3 login
 

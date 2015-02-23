@@ -25,10 +25,12 @@ This defaults to C<401>.
 
 =cut
 
-has '+simple_message' =>
-  default => 'Unauthorised';
+has '+simple_message' => (
+  default => 'Unauthorised',
+);
 
-has '+http_code' =>
-  default => 401;
+has '+http_code' => (
+  default => 401,
+);
 
 1;

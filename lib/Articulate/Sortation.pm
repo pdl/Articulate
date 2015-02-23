@@ -21,7 +21,7 @@ This accepts an array of items. pass the item and the request to a series of Sor
 
 Sortations should not mutate the items, however there is no technical barrier to them doing so.
 
-=head1 CONFIGuRATION
+=head1 CONFIGURATION
 
 This can be set up to perform default sorts, however it's fully anticipated that you will need to configure sorts on a per-item basis (e.g. the user may request items with a different sort order).
 
@@ -45,10 +45,11 @@ An array of the Sortation classes which will be used.
 
 =cut
 
-has sortations =>
+has sortations => (
   is      => 'rw',
   default => sub { [] },
-  coerce  => sub { instantiate_array(@_) };
+  coerce  => sub { instantiate_array(@_) }
+);
 
 =head1 METHODS
 
