@@ -43,7 +43,7 @@ has validators => (
 sub validate {
   my $self = shift;
   my $item = shift;
-  foreach my $validator (@{ $self->validators }) {
+  foreach my $validator ( @{ $self->validators } ) {
     my $result = $validator->validate($item);
     return $result unless $result;
   }

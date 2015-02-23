@@ -18,13 +18,13 @@ Adds site data to the response data.
 =cut
 
 has site_data => (
-  is      =>'rw',
+  is      => 'rw',
   default => sub { {} }
 );
 
 sub serialise {
-  my $self      = shift;
-  my $response  = shift;
+  my $self     = shift;
+  my $response = shift;
   $response->data->{site} = $self->site_data;
   return undef;
 }

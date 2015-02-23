@@ -54,8 +54,8 @@ has where => (
   default => sub { {} },
   coerce  => sub {
     my $orig = shift // {};
-    foreach my $type ( keys %$orig ){
-      $orig->{$type} = instantiate_array ( $orig->{$type} );
+    foreach my $type ( keys %$orig ) {
+      $orig->{$type} = instantiate_array( $orig->{$type} );
     }
     return $orig;
   },
@@ -65,24 +65,25 @@ has otherwise => (
   is      => 'rw',
   default => sub { [] },
   coerce  => sub {
-    instantiate_array(@_)
+    instantiate_array(@_);
   },
 );
 
 sub process_method {
-  my $self    = shift;
-  my $method  = shift;
-  my $item    = shift;
+  my $self         = shift;
+  my $method       = shift;
+  my $item         = shift;
   my $content_type = $item->meta->{schema}->{core}->{content_type};
-  if (defined $content_type) {
-    foreach my $type ( keys %{$self->where} ) {
-      if ($type eq $content_type) {
-        return $self->_delegate( $method => $self->where->{$type}, [$item, @_] );
+  if ( defined $content_type ) {
+    foreach my $type ( keys %{ $self->where } ) {
+      if ( $type eq $content_type ) {
+        return $self->_delegate( $method => $self->where->{$type},
+          [ $item, @_ ] );
       }
     }
   }
-  if (defined $self->otherwise) {
-    return $self->_delegate( $method => $self->otherwise, [$item, @_] );
+  if ( defined $self->otherwise ) {
+    return $self->_delegate( $method => $self->otherwise, [ $item, @_ ] );
   }
   return $item;
 }

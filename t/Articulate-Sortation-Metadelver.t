@@ -5,7 +5,7 @@ use warnings;
 
 use Articulate::Item ();
 
-use          Articulate::Sortation::MetaDelver;
+use Articulate::Sortation::MetaDelver;
 my $class = 'Articulate::Sortation::MetaDelver';
 
 sub item {
@@ -14,7 +14,7 @@ sub item {
 
 my $test_suite = [
   {
-    why => 'Simple test',
+    why    => 'Simple test',
     config => {
       field => 'foo'
     },
@@ -30,7 +30,7 @@ my $test_suite = [
     ]
   },
   {
-    why => 'Simple test - nested search',
+    why    => 'Simple test - nested search',
     config => {
       field => 'foo/oof'
     },
@@ -56,21 +56,22 @@ my $test_suite = [
 ];
 
 use YAML;
+
 sub verify {
   my $array  = shift;
   my $reason = shift;
-  my $expect = join ( ',', (1 .. scalar @$array) );
-  my $got    = join ( ',', map { $_->meta->{order} } @$array );
+  my $expect = join( ',', ( 1 .. scalar @$array ) );
+  my $got    = join( ',', map { $_->meta->{order} } @$array );
   is( $got, $expect, $reason ) or diag Dump $array;
 }
 
 foreach my $case (@$test_suite) {
   my $why = $case->{why} // '';
-  my $items = [ map { item ($_) } @{ $case->{input} } ];
+  my $items = [ map { item($_) } @{ $case->{input} } ];
   my $sorter = $class->new( { options => $case->{config} } );
-  verify ( $sorter->sort( $items ), $why . '(sort)');
-  $items = [ map { item ($_) } @{ $case->{input} } ];
-  verify ( $sorter->schwartz( $items ), $why . '(schwartz)' );
+  verify( $sorter->sort($items), $why . '(sort)' );
+  $items = [ map { item($_) } @{ $case->{input} } ];
+  verify( $sorter->schwartz($items), $why . '(schwartz)' );
 
 }
 

@@ -31,19 +31,17 @@ has markdown_parser => (
   is      => 'rw',
   lazy    => 1,
   default => sub {
-    'Text::Markdown'
+    'Text::Markdown';
   },
-  coerce  => sub {
-    instantiate( $_[0] )
+  coerce => sub {
+    instantiate( $_[0] );
   },
 );
 
 sub augment {
   my $self = shift;
   my $item = shift;
-  $item->content (
-    $self->markdown_parser->markdown($item->content)
-  );
+  $item->content( $self->markdown_parser->markdown( $item->content ) );
   return $item;
 }
 

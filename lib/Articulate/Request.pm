@@ -25,11 +25,13 @@ use Exporter::Declare;
 default_exports qw(articulate_request);
 
 sub articulate_request {
-  __PACKAGE__->new( {
-     verb => shift,
-     data => shift
-  } );
-};
+  __PACKAGE__->new(
+    {
+      verb => shift,
+      data => shift
+    }
+  );
+}
 
 =head1 METHODS
 
@@ -72,7 +74,7 @@ The information passed along with the request, e.g. C<< { location => '/zone/pub
 
 has data => (
   is      => 'rw',
-  default => sub { { } }
+  default => sub { {} }
 );
 
 =head3 app
@@ -95,7 +97,7 @@ The user_id making the request. This is typically inferred from the framework.
 has user_id => (
   is      => 'rw',
   lazy    => 1,
-  default => sub{
+  default => sub {
     my $self = shift;
     return undef unless $self->app;
     return undef unless $self->app->components->{framework};

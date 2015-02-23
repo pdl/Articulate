@@ -5,13 +5,13 @@ use warnings;
 
 use Articulate::Syntax;
 use Articulate::Sortation::MetaDelver;
+
 # The following provide objects which must be created on a per-request basis
 use Articulate::Request;
 use Articulate::Response;
 
 use Moo;
 with 'Articulate::Role::Service';
-
 
 use Try::Tiny;
 use Scalar::Util qw(blessed);
@@ -21,25 +21,30 @@ sub handle_list {
   my $request = shift;
 
   my $location = loc $request->data->{location};
-  my $sort     = $request->data->{sort}; # needs careful validation as this can do all sorts of fun constructor logic
+  my $sort     = $request->data->{sort}
+    ; # needs careful validation as this can do all sorts of fun constructor logic
 
-  my $user       = $request->user_id;
-  my $permission = $self->authorisation->permitted ( $user, read => $location );
+  my $user = $request->user_id;
+  my $permission = $self->authorisation->permitted( $user, read => $location );
 
-  if ( $permission ) {
+  if ($permission) {
     my $items = [];
-    foreach my $item_location (map { loc "$location/$_" } $self->storage->list_items($location)) {
-      if ( $self->authorisation->permitted ( $user, read => $item_location ) ) {
-        my $item = $self->construction->construct( {
-          location => $item_location,
-          meta     => $self->storage->get_meta($item_location),
-          content  => $self->storage->get_content($item_location),
-        } );
-        $self->augmentation->augment  ($item); # this will throw if it fails
+    foreach my $item_location ( map { loc "$location/$_" }
+      $self->storage->list_items($location) )
+    {
+      if ( $self->authorisation->permitted( $user, read => $item_location ) ) {
+        my $item = $self->construction->construct(
+          {
+            location => $item_location,
+            meta     => $self->storage->get_meta($item_location),
+            content  => $self->storage->get_content($item_location),
+          }
+        );
+        $self->augmentation->augment($item); # this will throw if it fails
         push @$items, $item;
       }
     }
-    my $sorter = Articulate::Sortation::MetaDelver->new( $sort );
+    my $sorter = Articulate::Sortation::MetaDelver->new($sort);
     return response 'list', {
       list => [
         map {
@@ -49,8 +54,7 @@ sub handle_list {
             schema   => $_->meta->{schema},
             content  => $_->content,
           }
-        }
-        @{ $sorter->schwartz($items) }
+        } @{ $sorter->schwartz($items) }
       ],
     };
   }
@@ -59,6 +63,5 @@ sub handle_list {
   }
 
 }
-
 
 1;

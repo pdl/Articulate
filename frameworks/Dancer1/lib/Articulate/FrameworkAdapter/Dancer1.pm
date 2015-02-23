@@ -4,7 +4,8 @@ use warnings;
 
 use Moo;
 with 'Articulate::Role::Component';
-use Dancer qw(:syntax !after !before !session !status !send_file !content_type !upload);
+use Dancer
+  qw(:syntax !after !before !session !status !send_file !content_type !upload);
 use IO::All ();
 
 =head1 NAME
@@ -56,7 +57,7 @@ The following methods are implemented:
 
 sub user_id {
   my $self = shift;
-  Dancer::session ('user_id', @_);
+  Dancer::session( 'user_id', @_ );
 }
 
 sub appdir {
@@ -71,15 +72,19 @@ sub session {
 
 sub upload {
   my $self = shift;
-  return (map {
-    $_->file_handle->binmode(':raw');
-    Articulate::File->new ( {
-      content_type => $_->type,
-      headers      => $_->headers,
-      filename     => $_->filename,
-      io           => $_->file_handle,
-    } )
-  } Dancer::upload(@_))[0];
+  return (
+    map {
+      $_->file_handle->binmode(':raw');
+      Articulate::File->new(
+        {
+          content_type => $_->type,
+          headers      => $_->headers,
+          filename     => $_->filename,
+          io           => $_->file_handle,
+        }
+        )
+    } Dancer::upload(@_)
+  )[0];
 }
 
 sub set_content_type {
@@ -100,19 +105,20 @@ sub status {
 sub template_process {
   my $self = shift;
   my $view = shift . '.tt';
-  template ( $view, @_ );
+  template( $view, @_ );
 }
 
 sub declare_route {
-  my ($self, $verb, $path, $code) = @_;
-  if ($verb =~ s/^(get|put|post|patch|del|any|options)$/'Dancer::'.lc $1;/ge) {
+  my ( $self, $verb, $path, $code ) = @_;
+  if ( $verb =~ s/^(get|put|post|patch|del|any|options)$/'Dancer::'.lc $1;/ge )
+  {
     {
       no strict 'refs';
-      &$verb($path, $code);
+      &$verb( $path, $code );
     }
   }
   else {
-    die ('Unknown HTTP verb '.$verb);
+    die( 'Unknown HTTP verb ' . $verb );
   }
 }
 

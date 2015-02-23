@@ -63,13 +63,12 @@ sub _meta_accessor {
   my $path = shift;
   return sub {
     if (@_) {
-      dpath_set ($self->meta, $path, @_)
+      dpath_set( $self->meta, $path, @_ );
     }
     else {
-      dpath_get ($self->meta, $path)
+      dpath_get( $self->meta, $path );
     }
-  }
+    }
 }
-
 
 1;

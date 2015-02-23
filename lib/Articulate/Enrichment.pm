@@ -52,7 +52,7 @@ sub enrich {
   my $item    = shift;
   my $request = shift;
   foreach my $enrichment ( @{ $self->enrichments } ) {
-    $request = $enrichment->enrich($item, $request);
+    $request = $enrichment->enrich( $item, $request );
   }
   return $item;
 }

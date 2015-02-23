@@ -5,16 +5,14 @@ use warnings;
 use Moo;
 use Articulate::Syntax qw(instantiate instantiate_array);
 
-has default_format => (
-  is     => 'rw',
-);
+has default_format => ( is => 'rw', );
 
 has interpreters => (
   is      => 'rw',
   default => sub { {} },
   coerce  => sub {
     my $interpreters = shift;
-    foreach my $type (keys %$interpreters){
+    foreach my $type ( keys %$interpreters ) {
       $interpreters->{$type} = instantiate_array( $interpreters->{$type} );
     }
     return $interpreters;

@@ -35,7 +35,7 @@ This is a functional constructor: it returns an Articulate::Sortation object.
 
 sub sortation {
   return __PACKAGE__->new(@_) if @_;
-};
+}
 
 =head1 ATTRIBUTES
 
@@ -60,8 +60,8 @@ Passes the item and request objects to a series of Sortation objects, and return
 =cut
 
 sub sort {
-  my $self    = shift;
-  my $items   = shift;
+  my $self  = shift;
+  my $items = shift;
   foreach my $sortation ( @{ $self->sortations } ) {
     $items = $sortation->sort($items);
   }

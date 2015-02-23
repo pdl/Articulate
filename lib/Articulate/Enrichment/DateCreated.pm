@@ -5,7 +5,6 @@ use warnings;
 use Text::Markdown;
 use Moo;
 
-
 =head1 NAME
 
 Articulate::Enrichment::DateCreated - add a creation date to the meta
@@ -28,7 +27,7 @@ sub enrich {
   my $self    = shift;
   my $item    = shift;
   my $request = shift;
-  my $now = _now;
+  my $now     = _now;
   $item->meta->{schema}->{core}->{dateCreated} //= "$now";
   return $item;
 }

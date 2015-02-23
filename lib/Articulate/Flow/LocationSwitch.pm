@@ -52,8 +52,8 @@ has where => (
   default => sub { {} },
   coerce  => sub {
     my $orig = shift // {};
-    foreach my $type ( keys %$orig ){
-      $orig->{$type} = instantiate_array ( $orig->{$type} );
+    foreach my $type ( keys %$orig ) {
+      $orig->{$type} = instantiate_array( $orig->{$type} );
     }
     return $orig;
   },
@@ -63,7 +63,7 @@ has otherwise => (
   is      => 'rw',
   default => sub { [] },
   coerce  => sub {
-    instantiate_array(@_)
+    instantiate_array(@_);
   },
 );
 
@@ -72,16 +72,19 @@ sub process_method {
   my $method   = shift;
   my $item     = shift;
   my $location = $item->location;
-  if (defined $location) {
-    foreach my $locspec_string ( keys %{$self->where} ) {
+  if ( defined $location ) {
+    foreach my $locspec_string ( keys %{ $self->where } ) {
       my $locspec = locspec $locspec_string;
-      if ( $locspec->matches( $location ) ) {
-        return $self->_delegate( $method => $self->where->{$locspec_string}, [$item, @_] );
+      if ( $locspec->matches($location) ) {
+        return $self->_delegate(
+          $method => $self->where->{$locspec_string},
+          [ $item, @_ ]
+        );
       }
     }
   }
-  if (defined $self->otherwise) {
-    return $self->_delegate( $method => $self->otherwise, [$item, @_] );
+  if ( defined $self->otherwise ) {
+    return $self->_delegate( $method => $self->otherwise, [ $item, @_ ] );
   }
   return $item;
 }

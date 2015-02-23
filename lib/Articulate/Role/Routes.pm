@@ -38,7 +38,7 @@ sub enable { #ideally we want this to be able to switch on and off the routes.
   {
     no strict 'refs';
     $$routes //= [];
-    $_->( $self ) for @$$routes;
+    $_->($self) for @$$routes;
   }
   $self->enabled(1);
 }

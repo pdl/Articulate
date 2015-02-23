@@ -38,7 +38,7 @@ This convenience constructor performs a C<connect> (using the args provided) fol
 
 sub connect_and_deploy {
   my $package = shift;
-  my $self = $package->connect(@_);
+  my $self    = $package->connect(@_);
   $self->deploy();
   return $self;
 }

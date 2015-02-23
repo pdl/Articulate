@@ -40,7 +40,7 @@ However, you may also want to call it from one-off scripts, tests, etc., especia
 
 sub articulate_service {
   __PACKAGE__->new(@_);
-};
+}
 
 has providers => (
   is      => 'rw',
@@ -66,23 +66,25 @@ Note that a provider MAY act on a request and still return undef, e.g. to perfor
 =cut
 
 sub process_request {
-  my $self = shift;
-  my @underscore = @_; # because otherwise the try block will eat it
+  my $self       = shift;
+  my @underscore = @_;   # because otherwise the try block will eat it
   my $request;
-  my $response = response error => { error => Articulate::Error::NotFound->new( { simple_message => 'No appropriate Service Provider found' } ) };
+  my $response = response error => {
+    error => Articulate::Error::NotFound->new(
+      { simple_message => 'No appropriate Service Provider found' }
+    )
+  };
   try {
     if ( ref $underscore[0] ) {
       $request = $underscore[0];
     }
-    else { # or accept $verb => $data
-      $request = articulate_request (@underscore);
+    else {               # or accept $verb => $data
+      $request = articulate_request(@underscore);
     }
-    foreach my $provider (
-      @{ $self->providers }
-    ) {
-      $provider->app($self->app);
+    foreach my $provider ( @{ $self->providers } ) {
+      $provider->app( $self->app );
       my $resp = $provider->process_request($request);
-      if (defined $resp) {
+      if ( defined $resp ) {
         $response = $resp;
         last;
       }
@@ -90,11 +92,14 @@ sub process_request {
   }
   catch {
     local $@ = $_;
-    if (blessed $_ and $_->isa('Articulate::Error')) {
+    if ( blessed $_ and $_->isa('Articulate::Error') ) {
       $response = response error => { error => $_ };
     }
     else {
-      $response = response error => { error => Articulate::Error->new( { simple_message => 'Unknown error'. $@ }) };
+      $response =
+        response error => { error =>
+          Articulate::Error->new( { simple_message => 'Unknown error' . $@ } )
+        };
     }
   };
   return $response;
@@ -109,7 +114,7 @@ Returns an arrayref of verbs which at list one provider will process.
 =cut
 
 sub enumerate_verbs {
-  my $self = shift;
+  my $self  = shift;
   my $verbs = {};
   foreach my $provider ( @{ $self->providers } ) {
     $verbs->{$_}++ foreach keys %{ $provider->verbs };

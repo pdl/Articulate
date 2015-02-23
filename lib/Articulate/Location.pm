@@ -4,7 +4,7 @@ use warnings;
 
 use Moo;
 use Scalar::Util qw(blessed);
-use overload  '""' => \&to_file_path, '@{}' => sub{ shift->path };
+use overload '""' => \&to_file_path, '@{}' => sub { shift->path };
 
 use Exporter::Declare;
 default_exports qw(loc);
@@ -38,19 +38,20 @@ sub loc {
       return $_[0];
     }
     elsif ( ref $_[0] eq 'ARRAY' ) {
-      return __PACKAGE__->new({ path => $_[0] });
+      return __PACKAGE__->new( { path => $_[0] } );
     }
     elsif ( !defined $_[0] ) {
       return __PACKAGE__->new;
     }
     elsif ( !ref $_[0] ) {
-      return __PACKAGE__->new({ path => [ grep { $_ ne '' } split /\//, $_[0] ] });
+      return __PACKAGE__->new(
+        { path => [ grep { $_ ne '' } split /\//, $_[0] ] } );
     }
     elsif ( ref $_[0] eq 'HASH' ) {
-      return __PACKAGE__->new($_[0]);
+      return __PACKAGE__->new( $_[0] );
     }
   }
-};
+}
 
 =head1 METHODS
 
@@ -73,7 +74,6 @@ This method always returns the object itself.
 
 =cut
 
-
 sub location {
   return shift;
 }
@@ -85,7 +85,7 @@ Joins the contents of C<path> on C</> and returns the result. This is used for o
 =cut
 
 sub to_file_path {
-  return join '/', @{ $_[0]->path }
-};
+  return join '/', @{ $_[0]->path };
+}
 
 1;

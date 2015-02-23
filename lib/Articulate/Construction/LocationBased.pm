@@ -38,21 +38,20 @@ If the location is root or not a multiple of 2 (e.g. C<zone/public> is even and 
 
 use Moo;
 
-
 use Articulate::Syntax;
 
 use Module::Load ();
 
 has types => (
-  is => 'rw',
+  is      => 'rw',
   default => sub { {} },
 );
 
 sub construct {
-  my $self = shift;
-  my $args = shift;
-  my $location = loc ($args->{location});
-  if ( scalar ( @$location ) and 0 == (scalar ( @$location ) % 2) ) {
+  my $self     = shift;
+  my $args     = shift;
+  my $location = loc( $args->{location} );
+  if ( scalar(@$location) and 0 == ( scalar(@$location) % 2 ) ) {
     if ( exists $self->types->{ $location->[-2] } ) {
       my $class = $self->types->{ $location->[-2] };
       Module::Load::load($class);

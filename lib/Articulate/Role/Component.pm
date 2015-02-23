@@ -74,16 +74,16 @@ has app => (
   weak_ref => 1,
 );
 
-sub augmentation   { shift->app->components->{'augmentation'}   }
+sub augmentation   { shift->app->components->{'augmentation'} }
 sub authentication { shift->app->components->{'authentication'} }
-sub authorisation  { shift->app->components->{'authorisation'}  }
-sub construction   { shift->app->components->{'construction'}   }
-sub enrichment     { shift->app->components->{'enrichment'}     }
-sub framework      { shift->app->components->{'framework'}      }
-sub navigation     { shift->app->components->{'navigation'}     }
-sub serialisation  { shift->app->components->{'serialisation'}  }
-sub service        { shift->app->components->{'service'}        }
-sub storage        { shift->app->components->{'storage'}        }
-sub validation     { shift->app->components->{'validation'}     }
+sub authorisation  { shift->app->components->{'authorisation'} }
+sub construction   { shift->app->components->{'construction'} }
+sub enrichment     { shift->app->components->{'enrichment'} }
+sub framework      { shift->app->components->{'framework'} }
+sub navigation     { shift->app->components->{'navigation'} }
+sub serialisation  { shift->app->components->{'serialisation'} }
+sub service        { shift->app->components->{'service'} }
+sub storage        { shift->app->components->{'storage'} }
+sub validation     { shift->app->components->{'validation'} }
 
 1;

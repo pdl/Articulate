@@ -27,30 +27,33 @@ Creates a new response, using the type and data supplied as the respective argum
 =cut
 
 sub response {
-  my ($type, $data) = @_;
+  my ( $type, $data ) = @_;
   my $http_code =
     $type eq 'error'
     ? 500
     : 200;
-  return __PACKAGE__->new( {
-    type => $type,
-    http_code => $http_code,
-  } ) unless defined $data;
-  if (ref $data eq ref {}) {
-    if (
-      defined $data->{$type}
+  return __PACKAGE__->new(
+    {
+      type      => $type,
+      http_code => $http_code,
+    }
+  ) unless defined $data;
+  if ( ref $data eq ref {} ) {
+    if (  defined $data->{$type}
       and blessed $data->{$type}
-      and $data->{$type}->can('http_code')
-    ) {
+      and $data->{$type}->can('http_code') )
+    {
       $http_code = $data->{$type}->http_code;
     }
   }
-  return __PACKAGE__->new( {
-    type      => $type,
-    data      => $data,
-    http_code => $http_code,
-  } );
-};
+  return __PACKAGE__->new(
+    {
+      type      => $type,
+      data      => $data,
+      http_code => $http_code,
+    }
+  );
+}
 
 =head1 METHODS
 
@@ -68,11 +71,12 @@ Note: the behaviour of this method may change!
 
 =cut
 
-sub serialise { # this is convenient as it is probably the next thing which will always be done.
-#  Articulate::Serialisation::serialisation->serialise (shift);
+sub serialise
+{ # this is convenient as it is probably the next thing which will always be done.
+
+  #  Articulate::Serialisation::serialisation->serialise (shift);
   shift;
 }
-
 
 =head1 ATTRIBUTES
 
@@ -87,9 +91,8 @@ It is not guaranteed that this will be passed to the ultimate client (e.g. a lat
 has http_code => (
   is      => 'rw',
   default => 500,
-  coerce  => sub { 0+shift }
+  coerce  => sub { 0 + shift }
 );
-
 
 =head3 type
 
@@ -119,7 +122,7 @@ The actual content of the response, including any metadata. Typically this will 
 
 has data => (
   is      => 'rw',
-  default => sub { { } }
+  default => sub { {} }
 );
 
 1;

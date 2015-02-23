@@ -43,29 +43,27 @@ has options => (
   is      => 'rw',
   default => sub { {} },
   coerce  => sub {
-    my $orig         = shift;
-    $orig->{cmp}   //= 'Articulate::Sortation::String';
-    $orig->{cmp}     = instantiate ( $orig->{cmp} );
+    my $orig = shift;
+    $orig->{cmp} //= 'Articulate::Sortation::String';
+    $orig->{cmp} = instantiate( $orig->{cmp} );
     $orig->{field} //= '/';
-    $orig->{field}   =~ s~^([^/].*)$~/$1~;
+    $orig->{field} =~ s~^([^/].*)$~/$1~;
     $orig->{order} //= 'asc';
     return $orig;
   },
 );
 
-
 sub decorate {
   my $self = shift;
   my $item = shift;
-  return ( dpath_get( $item->meta, $self->options->{field} ) // '' )
+  return ( dpath_get( $item->meta, $self->options->{field} ) // '' );
 }
 
 sub cmp {
   my $self  = shift;
   my $left  = shift;
   my $right = shift;
-  $self->options->{cmp}->cmp( $left, $right )
+  $self->options->{cmp}->cmp( $left, $right );
 }
-
 
 1;

@@ -37,30 +37,34 @@ sub handle_preview {
   my $self    = shift;
   my $request = shift;
 
-  my $item = blessed $request->data ? $request->data : $self->construction->construct( {
-    (%{$request->data} ? %{$request->data} : ()),
-  } );
+  my $item =
+    blessed $request->data
+    ? $request->data
+    : $self->construction->construct(
+    { ( %{ $request->data } ? %{ $request->data } : () ), } );
 
   my $location = $item->location;
 
-  my $user       = $request->user_id;
-  my $permission = $self->authorisation->permitted ( $user, write => $location );
+  my $user = $request->user_id;
+  my $permission = $self->authorisation->permitted( $user, write => $location );
 
-  if ( $permission ) { # no point offering this service to people who can't write there
+  if ($permission)
+  { # no point offering this service to people who can't write there
 
-    $self->validation->validate ($item) or throw_error BadRequest => 'The content did not validate'; # or throw
-    $self->enrichment->enrich   ($item, $request); # this will throw if it fails
+    $self->validation->validate($item)
+      or throw_error BadRequest => 'The content did not validate'; # or throw
+    $self->enrichment->enrich( $item, $request ); # this will throw if it fails
 
     # skip the storage interaction
     my $item_class = $item->location->[-2];
 
-    $self->augmentation->augment  ($item_class); # this will throw if it fails
+    $self->augmentation->augment($item_class);    # this will throw if it fails
 
     return response $item_class, {
       $item_class => {
         schema   => $item->meta->{schema},
         content  => $item->content,
-        location => $item->location, # as string or arrayref?
+        location => $item->location,              # as string or arrayref?
       },
     };
   }

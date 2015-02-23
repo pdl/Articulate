@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use Moo;
 
-
 =head1 NAME
 
 Articulate::Validation::NoScript
@@ -25,8 +24,8 @@ It does not look at the meta to determine content type so might behave unexpecte
 =cut
 
 sub validate {
-  my $self    = shift;
-  my $item    = shift;
+  my $self = shift;
+  my $item = shift;
   return ( $item->content !~ /<script/i );
 }
 

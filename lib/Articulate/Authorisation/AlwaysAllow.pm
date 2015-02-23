@@ -4,7 +4,6 @@ use warnings;
 
 use Moo;
 
-
 =head1 NAME
 
 Articulate::Authorisation::AlwaysAllow - don't use this in production

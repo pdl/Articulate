@@ -4,7 +4,7 @@ use warnings;
 
 use Moo;
 use Scalar::Util qw(blessed);
-use overload  '""' => \&to_file_path, '@{}' => sub{ shift->path };
+use overload '""' => \&to_file_path, '@{}' => sub { shift->path };
 use Articulate::Location;
 
 use Exporter::Declare;
@@ -43,28 +43,29 @@ sub locspec {
     elsif ( blessed $_[0] and $_[0]->isa('Articulate::Location') ) {
       my $path = $_[0]->path; # should this logic be in the coerce?
       if (@$path) {
-        for my $i (1..$#$path) {
-          if (0 == ($i % 2) ) {
+        for my $i ( 1 .. $#$path ) {
+          if ( 0 == ( $i % 2 ) ) {
             $path->[$i] = '*';
           }
         }
       }
-      return __PACKAGE__->new({ path => $path });
+      return __PACKAGE__->new( { path => $path } );
     }
     elsif ( ref $_[0] eq 'ARRAY' ) {
-      return __PACKAGE__->new({ path => $_[0] });
+      return __PACKAGE__->new( { path => $_[0] } );
     }
     elsif ( !defined $_[0] ) {
       return __PACKAGE__->new;
     }
     elsif ( !ref $_[0] ) {
-      return __PACKAGE__->new({ path => [ grep { $_ ne '' } split /\//, $_[0] ] });
+      return __PACKAGE__->new(
+        { path => [ grep { $_ ne '' } split /\//, $_[0] ] } );
     }
     elsif ( ref $_[0] eq 'HASH' ) {
-      return __PACKAGE__->new($_[0]);
+      return __PACKAGE__->new( $_[0] );
     }
   }
-};
+}
 
 =head1 METHODS
 
@@ -87,7 +88,6 @@ This method always returns the object itself.
 
 =cut
 
-
 sub location {
   return shift;
 }
@@ -99,14 +99,14 @@ Joins the contents of C<path> on C</> and returns the result. This is used for o
 =cut
 
 sub to_file_path {
-  return join '/', @{ $_[0]->path }
-};
+  return join '/', @{ $_[0]->path };
+}
 
 sub _step_matches {
   my ( $left, $right ) = @_;
-  return 1 if ( $left  eq '*' );
+  return 1 if ( $left eq '*' );
   return 1 if ( $right eq '*' );
-  return 1 if ( $left  eq $right );
+  return 1 if ( $left eq $right );
   return 0;
 
 }
@@ -121,13 +121,12 @@ Determines if the location given as the first argument matches the locspec.
 
 =cut
 
-
 sub matches {
   my $self     = shift;
   my $location = loc shift;
   return 0 unless $#$self == $#$location;
   return 1 if $#$self == -1; # go no further if both are empty
-  for my $i (0..$#$self) {
+  for my $i ( 0 .. $#$self ) {
     return 0 unless _step_matches( $self->[$i], $location->[$i] );
   }
   return 1;
@@ -148,7 +147,7 @@ sub matches_ancestor_of {
   my $location = loc shift;
   return 0 unless $#$self <= $#$location;
   return 1 if $#$self == -1; # go no further if self is empty
-  for my $i (0..$#$self) {
+  for my $i ( 0 .. $#$self ) {
     return 0 unless _step_matches( $self->[$i], $location->[$i] );
   }
   return 1;
@@ -169,7 +168,7 @@ sub matches_descendant_of {
   my $location = loc shift;
   return 0 unless $#$self >= $#$location;
   return 1 if $#$location == -1; # go no further if self is empty
-  for my $i (0..$#$location) {
+  for my $i ( 0 .. $#$location ) {
     return 0 unless _step_matches( $self->[$i], $location->[$i] );
   }
   return 1;

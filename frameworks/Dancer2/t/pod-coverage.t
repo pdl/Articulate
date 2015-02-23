@@ -12,6 +12,6 @@ eval "use Test::Pod::Coverage";
 
 plan skip_all => "Test::Pod::Coverage required for testing POD Coverage" if $@;
 
-pod_coverage_ok( $_ ) for all_modules;
+pod_coverage_ok($_) for all_modules;
 
 done_testing;

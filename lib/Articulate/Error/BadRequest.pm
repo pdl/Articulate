@@ -25,12 +25,8 @@ This defaults to C<400>.
 
 =cut
 
-has '+simple_message' => (
-  default => 'Bad Request',
-);
+has '+simple_message' => ( default => 'Bad Request', );
 
-has '+http_code' => (
-  default => 400,
-);
+has '+http_code' => ( default => 400, );
 
 1;

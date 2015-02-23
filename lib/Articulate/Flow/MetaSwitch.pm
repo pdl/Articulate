@@ -51,9 +51,8 @@ Rather than having to write a 'black box' provider every time, this class provid
   $self->process_method( $verb, $item, $request );
 
 =cut
-has field => (
-  is      => 'rw',
-);
+
+has field => ( is => 'rw', );
 
 has where => (
   is      => 'rw',
@@ -62,12 +61,12 @@ has where => (
     my $orig = shift // [];
     if ( ref $orig eq ref {} ) {
       foreach my $type ( keys %$orig ) {
-        $orig->{$type} = instantiate_array ( $orig->{$type} );
+        $orig->{$type} = instantiate_array( $orig->{$type} );
       }
     }
     else {
-      foreach my $rule ( @$orig ) {
-        $rule->{then} = instantiate_array ( $rule->{then} );
+      foreach my $rule (@$orig) {
+        $rule->{then} = instantiate_array( $rule->{then} );
       }
     }
     return $orig;
@@ -78,37 +77,39 @@ has otherwise => (
   is      => 'rw',
   default => sub { [] },
   coerce  => sub {
-    instantiate_array(@_)
+    instantiate_array(@_);
   },
 );
 
 sub process_method {
-  my $self    = shift;
-  my $method  = shift;
-  my $item    = shift;
+  my $self   = shift;
+  my $method = shift;
+  my $item   = shift;
   if ( ref $self->where eq ref {} ) {
     my $field = $self->field;
-    my $actual_value = dpath_get($item->meta, $field);
-    foreach my $value ( keys %{$self->where} ) {
-      if ($value eq $actual_value) {
-        return $self->_delegate( $method => $self->where->{$value}, [$item, @_] );
+    my $actual_value = dpath_get( $item->meta, $field );
+    foreach my $value ( keys %{ $self->where } ) {
+      if ( $value eq $actual_value ) {
+        return $self->_delegate( $method => $self->where->{$value},
+          [ $item, @_ ] );
       }
     }
   }
   if ( ref $self->where eq ref [] ) {
     foreach my $where ( @{ $self->where } ) {
-      my $actual_value = dpath_get($item->meta, $where->{field});
+      my $actual_value = dpath_get( $item->meta, $where->{field} );
       if (
         ( !defined $where->{value} and defined $actual_value )
-        ||
-        ( defined $where->{value} and $where->{value} eq $actual_value ) # this is naive!
-      ) {
-        return $self->_delegate( $method => $where->{then}, [$item, @_] );
+        || ( defined $where->{value}
+          and $where->{value} eq $actual_value ) # this is naive!
+        )
+      {
+        return $self->_delegate( $method => $where->{then}, [ $item, @_ ] );
       }
     }
   }
-  if (defined $self->otherwise) {
-    return $self->_delegate( $method => $self->otherwise, [$item, @_] );
+  if ( defined $self->otherwise ) {
+    return $self->_delegate( $method => $self->otherwise, [ $item, @_ ] );
   }
   return $item;
 }

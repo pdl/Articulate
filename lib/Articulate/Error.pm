@@ -9,7 +9,8 @@ Articulate::Error - represent an error or exception in processing a request
 =cut
 
 use Module::Load;
-use overload '""' => sub { my $self = shift; $self->http_code() . ' ' . $self->simple_message };
+use overload '""' =>
+  sub { my $self = shift; $self->http_code() . ' ' . $self->simple_message };
 
 use Exporter::Declare;
 default_exports qw(throw_error);
@@ -27,9 +28,9 @@ This creates an error of the type provided and throws it immediately. These are 
 
 sub throw_error {
   my ( $type, $message ) = @_;
-  my $class   = __PACKAGE__ . ( $type ? '::' . $type : '' );
-  $class->throw( { ( $message ? ( simple_message => $message) : () ) } );
-};
+  my $class = __PACKAGE__ . ( $type ? '::' . $type : '' );
+  $class->throw( { ( $message ? ( simple_message => $message ) : () ) } );
+}
 
 use Moo;
 with 'Throwable';
@@ -73,17 +74,21 @@ has simple_message => (
 has http_code => (
   is      => 'rw',
   default => 500,
-  coerce  => sub { 0+shift }
+  coerce  => sub { 0 + shift }
 );
 
 has caller => (
   is      => 'rw',
-  default => sub{ ( [caller(0)]->[0] =~ m/Throwable/) ? ['hmm',caller(2)] : [caller(1)] }
+  default => sub {
+        ( [ caller(0) ]->[0] =~ m/Throwable/ )
+      ? [ 'hmm', caller(2) ]
+      : [ caller(1) ];
+  }
 );
 
 # This needs to go at the end, because of Class::XSAccessor stuff
 
-Module::Load::load (__PACKAGE__.'::'.$_) for qw(
+Module::Load::load( __PACKAGE__ . '::' . $_ ) for qw(
   BadRequest
   Forbidden
   Internal

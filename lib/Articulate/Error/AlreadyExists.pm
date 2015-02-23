@@ -25,12 +25,8 @@ This defaults to C<409>. This code is shared with other errors which reflect con
 
 =cut
 
-has '+simple_message' => (
-  default => 'Already exists',
-);
+has '+simple_message' => ( default => 'Already exists', );
 
-has '+http_code' => (
-  default => 409,
-);
+has '+http_code' => ( default => 409, );
 
 1;

@@ -5,31 +5,33 @@ use warnings;
 
 use Articulate::Item ();
 
-use          Articulate::Flow::MetaSwitch;
+use Articulate::Flow::MetaSwitch;
 my $class = 'Articulate::Flow::MetaSwitch';
 
 sub item {
-  Articulate::Item->new({ meta => shift });
+  Articulate::Item->new( { meta => shift } );
 }
 {
+
   package Dummy::Provider;
   use Moo;
   with 'Articulate::Role::Flow';
   has good   => is => 'rw';
   has reason => is => 'rw';
+
   sub process_method {
     my $self = shift;
-    Test::More::ok ($self->good, $self->reason);
+    Test::More::ok( $self->good, $self->reason );
   }
 }
 
 sub then_pass {
-  Dummy::Provider->new({good => 1, reason => $_[0] });
-}
-sub then_fail {
-  Dummy::Provider->new({good => 0, reason => $_[0] });
+  Dummy::Provider->new( { good => 1, reason => $_[0] } );
 }
 
+sub then_fail {
+  Dummy::Provider->new( { good => 0, reason => $_[0] } );
+}
 
 my $test_suite = [
   {
@@ -38,7 +40,7 @@ my $test_suite = [
       where => [
         {
           field => '/schema/core/file',
-          then  => then_pass ('undefined value implies truth check'),
+          then  => then_pass('undefined value implies truth check'),
         },
       ],
       otherwise => then_fail,
@@ -53,7 +55,8 @@ my $test_suite = [
           then  => then_fail,
         },
       ],
-      otherwise => then_pass ('undefined value implies truth check (otherwise case triggered)'),
+      otherwise => then_pass(
+        'undefined value implies truth check (otherwise case triggered)'),
     },
   },
   {
@@ -88,10 +91,10 @@ my $test_suite = [
 ];
 
 sub verify {
-  my $got    = join ( ',',  @{$_[0]} );
-  my $expect = join ( ',',  @{$_[1]} );
+  my $got    = join( ',', @{ $_[0] } );
+  my $expect = join( ',', @{ $_[1] } );
   my $reason = $_[2];
-  is($got, $expect, $reason);
+  is( $got, $expect, $reason );
 }
 
 foreach my $case (@$test_suite) {
@@ -99,7 +102,7 @@ foreach my $case (@$test_suite) {
   subtest $why => sub {
     my $switcher = $class->new( $case->{args} );
     $switcher->augment( item $case->{item} );
-  }
+    }
 }
 
 done_testing();

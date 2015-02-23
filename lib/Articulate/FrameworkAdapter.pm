@@ -10,7 +10,6 @@ use Articulate::Syntax qw(instantiate);
 
 # Currently, only Dancer1 is supported.
 
-
 has provider => (
   is      => 'rw',
   default => sub { 'Articulate::FrameworkAdapter::Dancer1' },

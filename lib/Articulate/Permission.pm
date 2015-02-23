@@ -26,14 +26,15 @@ Creates a new request, using the verb and data supplied as the respective argume
 use Exporter::Declare;
 default_exports qw(permission);
 
-
 sub permission {
-  __PACKAGE__->new( {
-     user_id  => shift // '[guest]',
-     verb     => shift,
-     location => shift
-  } );
-};
+  __PACKAGE__->new(
+    {
+      user_id => shift // '[guest]',
+      verb => shift,
+      location => shift
+    }
+  );
+}
 
 =head1 METHODS
 
@@ -54,10 +55,11 @@ Declares that the user has that permission, for the reason given; sets C<granted
 sub grant {
   my $self   = shift;
   my $reason = shift;
+
   # die if granted or denied are already set?
   $self->granted(1);
   $self->reason($reason);
-  $self->stack_trace(Devel::StackTrace->new);
+  $self->stack_trace( Devel::StackTrace->new );
   return $self;
 }
 
@@ -72,11 +74,12 @@ Declares that the user does not have that permission, for the reason given; sets
 sub deny {
   my $self   = shift;
   my $reason = shift;
+
   # die if granted or denied are already set?
   $self->granted(0);
   $self->denied(1);
   $self->reason($reason);
-  $self->stack_trace(Devel::StackTrace->new);
+  $self->stack_trace( Devel::StackTrace->new );
   return $self;
 }
 
@@ -180,6 +183,5 @@ has stack_trace => (
 =back
 
 =cut
-
 
 1;

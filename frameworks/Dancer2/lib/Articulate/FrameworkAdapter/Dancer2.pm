@@ -58,7 +58,7 @@ The following methods are implemented:
 =cut
 
 has appname => (
-  is => 'rw',
+  is      => 'rw',
   default => sub { undef },
 );
 
@@ -67,7 +67,7 @@ has d2app => (
   lazy    => 1,
   default => sub {
     my $self = shift;
-    Dancer2->import ( appname => $self->appname );
+    Dancer2->import( appname => $self->appname );
     my @apps = grep { $_->name eq $self->appname } @{ Dancer2::runner()->apps };
     return $apps[0];
   },
@@ -100,15 +100,19 @@ sub send_file {
 
 sub upload {
   my $self = shift;
-  return (map {
-    $_->file_handle->binmode(':raw');
-    Articulate::File->new ( {
-      content_type => $_->type,
-      headers      => $_->headers,
-      filename     => $_->filename,
-      io           => $_->file_handle,
-    } )
-  } Dancer2::Core::DSL::upload( $self->d2app, @_) )[0];
+  return (
+    map {
+      $_->file_handle->binmode(':raw');
+      Articulate::File->new(
+        {
+          content_type => $_->type,
+          headers      => $_->headers,
+          filename     => $_->filename,
+          io           => $_->file_handle,
+        }
+        )
+    } Dancer2::Core::DSL::upload( $self->d2app, @_ )
+  )[0];
 }
 
 sub status {
@@ -118,20 +122,25 @@ sub status {
 
 sub template_process {
   my $self = shift;
-  $self->d2app->template_engine->process( @_ );
+  $self->d2app->template_engine->process(@_);
 }
 
 sub declare_route {
-  my ($self, $verb, $path, $code) = @_;
+  my ( $self, $verb, $path, $code ) = @_;
   $self->d2app;
-  if ($verb =~ m/^(get|put|post|patch|del|any|options)$/) {#'Dancer2::Core::DSL::'.lc $1;/ge) {
+  if ( $verb =~ m/^(get|put|post|patch|del|any|options)$/ )
+  { #'Dancer2::Core::DSL::'.lc $1;/ge) {
     {
       no strict 'refs';
-      $self->d2app->add_route( method => $verb, regexp => $path, code => $code );
+      $self->d2app->add_route(
+        method => $verb,
+        regexp => $path,
+        code   => $code
+      );
     }
   }
   else {
-    die ('Unknown HTTP verb '.$verb);
+    die( 'Unknown HTTP verb ' . $verb );
   }
 }
 

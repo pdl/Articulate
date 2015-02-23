@@ -21,10 +21,10 @@ sub serialise {
   my $self     = shift;
   my $response = shift;
   if ( ref $response and $response->can('http_code') ) {
-		$self->framework->status($response->http_code // 500);
-	}
+    $self->framework->status( $response->http_code // 500 );
+  }
   else {
-		$self->framework->status( 500 );
+    $self->framework->status(500);
   }
   return undef; # we want to continue with other serialisations
 }

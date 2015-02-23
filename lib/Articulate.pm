@@ -19,11 +19,11 @@ This is very much in alpha. Things will change. Feel free to build things and ha
 
 =head1 SYNOPSIS
 
-	# (in bin/app.pl)
-	use Dancer;
-	use Dancer::Plugin::Articulate;
-	articulate_app->enable;
-	dance;
+  # (in bin/app.pl)
+  use Dancer;
+  use Dancer::Plugin::Articulate;
+  articulate_app->enable;
+  dance;
 
 B<Articulate> provides a content management service for your web app. It's lightweight, i.e. it places minimal demands on your app while maximising 'whipuptitude': it gives you a single interface in code to a framework that's totally modular underneath, and it won't claim any URL endpoints for itself.
 
@@ -35,11 +35,11 @@ It's written in Perl, the fast, reliable 'glue language' that's perfect for agil
 
 Don't forget to install Articulate - remember, it's a library, not an app.
 
-	# From source:
-	perl Makefile.PL
-	make
-	make test
-	make install
+  # From source:
+  perl Makefile.PL
+  make
+  make test
+  make install
 
 Check out the examples in the C<examples> folder of the distribution.
 
@@ -65,17 +65,17 @@ Articulate is a set of components that work together to provide a content manage
 
 If you want to see one in action, grab the source and run:
 
-	# If you have Dancer and Dancer::Plugin::Articulate installed:
-	cd examples/plain-speaking
-	perl bin/app.pl -e dancer1
+  # If you have Dancer and Dancer::Plugin::Articulate installed:
+  cd examples/plain-speaking
+  perl bin/app.pl -e dancer1
 
-	# Or, if you have Dancer2 and Dancer2::Plugin::Articulate installed:
-	cd examples/plain-speaking
-	perl bin/app.psgi
+  # Or, if you have Dancer2 and Dancer2::Plugin::Articulate installed:
+  cd examples/plain-speaking
+  perl bin/app.psgi
 
 You can see how it's configured by looking at
 
-	examples/plain-speaking/config.yml
+  examples/plain-speaking/config.yml
 
 Notice that C<bin/app.pl> doesn't directly load anything but the Articulate plugin (which loads config into this module). Everything you need is in C<config.yml>, and you can replace components with ones you've written if your app needs to do different things.
 
@@ -173,16 +173,16 @@ The following classes are used for passing request data between components:
 
 Articulate provides a very handy way of creating (or B<instantiating>) objects through your config. The following config, for instance, assignes to the providers attribute (on some other object), an arrayref of four objects, the first created without no arguments, two created with arguments, and a final one created without arguments but using an unusual constructor.
 
-	providers:
-		- MyProvider::Simple
-		- class: MyProvider::Congfigurable
-			args:
-				verbose: 1
-		- MyProvider::Congfigurable:
-				lax: 1
-				verbose: 1
-		- class: MyProvider::Idiosyncratic
-			constuctor: tada
+  providers:
+    - MyProvider::Simple
+    - class: MyProvider::Congfigurable
+      args:
+        verbose: 1
+    - MyProvider::Congfigurable:
+        lax: 1
+        verbose: 1
+    - class: MyProvider::Idiosyncratic
+      constuctor: tada
 
 For more details, see L<Articulate::Syntax>.
 
@@ -219,44 +219,47 @@ The different working pieces of the Articulate app. Components all have access t
 =cut
 
 sub enable {
-	my $self = shift;
-	foreach my $route (@{ $self->routes }){
-		$route->app($self);
-		$route->enable;
-	}
-	$self->enabled(1);
+  my $self = shift;
+  foreach my $route ( @{ $self->routes } ) {
+    $route->app($self);
+    $route->enable;
+  }
+  $self->enabled(1);
 }
 
 has enabled => (
-	is      => 'rw',
-	default => sub { 0 }
+  is      => 'rw',
+  default => sub { 0 }
 );
 
 has routes => (
-	is      => 'rw',
-	default => sub { [] },
-	coerce  => sub { Module::Load::load('Articulate::Syntax'); Articulate::Syntax::instantiate_array ( @_ ) },
-	trigger => sub {
-		my $self = shift;
-		my $orig = shift;
-		$_->app($self) foreach @$orig;
-	},
+  is      => 'rw',
+  default => sub { [] },
+  coerce  => sub {
+    Module::Load::load('Articulate::Syntax');
+    Articulate::Syntax::instantiate_array(@_);
+  },
+  trigger => sub {
+    my $self = shift;
+    my $orig = shift;
+    $_->app($self) foreach @$orig;
+  },
 );
 
 has components => (
-	is      => 'rw',
-	default => sub { {} },
-	coerce  => sub {
-		my $orig = shift;
-		Module::Load::load('Articulate::Syntax');
-		Articulate::Syntax::instantiate_selection ( $orig );
+  is      => 'rw',
+  default => sub { {} },
+  coerce  => sub {
+    my $orig = shift;
+    Module::Load::load('Articulate::Syntax');
+    Articulate::Syntax::instantiate_selection($orig);
 
-	},
-	trigger => sub {
-		my $self = shift;
-		my $orig = shift;
-		$orig->{$_}->app($self) foreach keys %$orig;
-	},
+  },
+  trigger => sub {
+    my $self = shift;
+    my $orig = shift;
+    $orig->{$_}->app($self) foreach keys %$orig;
+  },
 );
 
 =head1 BUGS

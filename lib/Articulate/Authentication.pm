@@ -52,7 +52,7 @@ sub login {
   my $self        = shift;
   my $credentials = credentials @_;
   foreach my $provider ( @{ $self->providers } ) {
-    return $credentials if $provider->authenticate( $credentials );
+    return $credentials if $provider->authenticate($credentials);
     return $credentials if $credentials->rejected;
   }
   return $credentials->deny('No provider authenticated these credentials');
@@ -67,13 +67,11 @@ Requests that a new user is created. Each provider must respond true, false, or 
 =cut
 
 sub create_user {
-  my $self       = shift;
-  my $user_id    = shift;
-  my $password   = shift;
+  my $self     = shift;
+  my $user_id  = shift;
+  my $password = shift;
   foreach my $provider ( @{ $self->providers } ) {
-    if (
-      defined ( $provider->create_user( $user_id, $password ) )
-    ) {
+    if ( defined( $provider->create_user( $user_id, $password ) ) ) {
       return ($user_id);
     }
   }

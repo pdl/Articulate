@@ -25,12 +25,8 @@ This defaults to C<404>.
 
 =cut
 
-has '+simple_message' => (
-  default => 'Not found',
-);
+has '+simple_message' => ( default => 'Not found', );
 
-has '+http_code' => (
-  default => 404,
-);
+has '+http_code' => ( default => 404, );
 
 1;

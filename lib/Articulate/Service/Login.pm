@@ -8,7 +8,6 @@ use Articulate::Syntax;
 use Moo;
 with 'Articulate::Role::Service';
 
-
 use Try::Tiny;
 use Scalar::Util qw(blessed);
 
@@ -39,15 +38,15 @@ Returns C<< {user_id => $user_id } >>.
 =cut
 
 sub handle_login {
-  my $self     = shift;
-  my $request  = shift;
+  my $self    = shift;
+  my $request = shift;
 
   my $user_id  = $request->data->{user_id};
   my $password = $request->data->{password};
 
   if ( defined $user_id ) {
-    if ( $self->authentication->login ($user_id, $password) ) {
-      $self->framework->user_id( $user_id );
+    if ( $self->authentication->login( $user_id, $password ) ) {
+      $self->framework->user_id($user_id);
       response success => { user_id => $user_id };
     } # Can we handle all the exceptions with 403s?
     else {
@@ -62,12 +61,11 @@ sub handle_login {
 }
 
 sub handle_logout {
-  my $self     = shift;
-  my $request  = shift;
-  my $user_id  = $self->framework->user_id;
+  my $self    = shift;
+  my $request = shift;
+  my $user_id = $self->framework->user_id;
   $self->framework->session->destroy();
   response success => { user_id => $user_id };
 }
-
 
 1;

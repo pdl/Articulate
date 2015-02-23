@@ -12,18 +12,18 @@ Dancer2::Plugin::Articulate - use Articulate in your Dancer2 App
 
 =head1 SYNOPSIS
 
-	# in yout app:
-	use Dancer2::Plugin::Articulate;
-	articulate_app->enable;
+  # in yout app:
+  use Dancer2::Plugin::Articulate;
+  articulate_app->enable;
 
-	# in config.yml
-	plugins:
-		Articulate:
-			components:
-				framework:
-					Articulate::FrameworkAdapter::Dancer2:
-						appname: MyApp
-			# Other Articulate config goes here
+  # in config.yml
+  plugins:
+    Articulate:
+      components:
+        framework:
+          Articulate::FrameworkAdapter::Dancer2:
+            appname: MyApp
+      # Other Articulate config goes here
 
 Creates an instance of L<Articulate> using your Dancer2 config, and enables the app, declaring routes, etc.
 See L<Articulate> for how to configure and use it, and L<Articulate::FrameworkAdapter::Dancer2> for details of the integration between Dancer2 and Articulate.
@@ -45,9 +45,10 @@ See L<Articulate> for how to configure and use it, and L<Articulate::FrameworkAd
 =cut
 
 register articulate_app => sub {
-	my $dsl = shift;
-	Articulate->instance (plugin_setting);
-}, { is_global => 1};
+  my $dsl = shift;
+  Articulate->instance(plugin_setting);
+  },
+  { is_global => 1 };
 
 register_plugin for_versions => [2];
 

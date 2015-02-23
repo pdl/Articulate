@@ -4,7 +4,6 @@ use warnings;
 
 use Moo;
 
-
 =head1 NAME
 
 Articulate::Authorisation::OwnerOverride - always say yes to the owner
@@ -39,7 +38,7 @@ The username of the owner. Defaults to C<owner>.
 
 has owner => (
   is      => 'rw',
-  default => sub{'owner'}
+  default => sub { 'owner' }
 );
 
 =head1 METHODS
@@ -57,7 +56,8 @@ Grants any request if the user asking is the owner. By default this is the user 
 sub permitted {
   my $self       = shift;
   my $permission = shift;
-  $permission->grant('Site owner can do anything') if ( ( $permission->user_id // '' ) eq $self->owner );
+  $permission->grant('Site owner can do anything')
+    if ( ( $permission->user_id // '' ) eq $self->owner );
   return $permission;
 }
 

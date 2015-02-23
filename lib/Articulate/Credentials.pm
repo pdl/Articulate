@@ -41,7 +41,6 @@ sub credentials {
   );
 }
 
-
 =head1 METHODS
 
 =head3 new
@@ -61,10 +60,11 @@ Declares that the credentials are valid, for the reason given; sets C<accpeted> 
 sub accept {
   my $self   = shift;
   my $reason = shift;
+
   # die if granted or denied are already set?
   $self->accepted(1);
   $self->reason($reason);
-  $self->stack_trace(Devel::StackTrace->new);
+  $self->stack_trace( Devel::StackTrace->new );
   return $self;
 }
 
@@ -79,11 +79,12 @@ Declares that the credentials are invalid, for the reason given; sets C<accpeted
 sub reject {
   my $self   = shift;
   my $reason = shift;
+
   # die if granted or denied are already set?
   $self->accepted(0);
   $self->rejected(1);
   $self->reason($reason);
-  $self->stack_trace(Devel::StackTrace->new);
+  $self->stack_trace( Devel::StackTrace->new );
   return $self;
 }
 
@@ -150,7 +151,8 @@ Please do not explicitly set this. Use C<accept> or C<reject> instead.
 has stack_trace => (
   is      => 'rw',
   default => sub { '' },
-)
+);
+
 =head1 SEE ALSO
 
 =over

@@ -42,16 +42,14 @@ If so, returns the role under which they have that permission. Otherwise, return
 =cut
 
 sub permitted {
-  my $self       = shift;
-  my $user_id    = shift;
-  my $verb       = shift;
-  my $location   = shift;
-  my $p = permission ($user_id, $verb, $location);
+  my $self     = shift;
+  my $user_id  = shift;
+  my $verb     = shift;
+  my $location = shift;
+  my $p        = permission( $user_id, $verb, $location );
   foreach my $rule ( @{ $self->rules } ) {
     my $authed_role;
-    if (
-      $rule->permitted( $p )
-    ) {
+    if ( $rule->permitted($p) ) {
       return $p;
     }
     elsif ( $p->denied ) {
@@ -72,6 +70,5 @@ sub permitted {
 =back
 
 =cut
-
 
 1;

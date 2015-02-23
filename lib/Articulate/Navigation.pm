@@ -34,12 +34,12 @@ Any location specifications configured in the locations attribute are valid loca
 =cut
 
 has locations => (
-  is      => 'rw', # rwp?
-  default => sub{ [] },
-  coerce  => sub{
+  is      => 'rw',      # rwp?
+  default => sub { [] },
+  coerce  => sub {
     my $orig = shift;
-    my $new = [];
-    foreach my $l (@{ $orig }){
+    my $new  = [];
+    foreach my $l ( @{$orig} ) {
       push @$new, locspec $l;
     }
     return $new;
@@ -81,7 +81,6 @@ Adds a locspec to C<locations>, unless it is already there
 
 =cut
 
-
 sub define_locspec {
   my $self     = shift;
   my $location = locspec shift;
@@ -102,13 +101,14 @@ Removes a locspec from C<locations>.
 
 =cut
 
-
 sub undefine_locspec {
   my $self     = shift;
   my $location = locspec shift;
-  my ($removed, $kept) = ([], []);
-  foreach my $defined_location ( @{ $self->locations } ){
-    if ( ( $location eq $defined_location ) or $defined_location->matches_descendant_of($location) ) {
+  my ( $removed, $kept ) = ( [], [] );
+  foreach my $defined_location ( @{ $self->locations } ) {
+    if ( ( $location eq $defined_location )
+      or $defined_location->matches_descendant_of($location) )
+    {
       push @$removed, $location;
     }
     else {

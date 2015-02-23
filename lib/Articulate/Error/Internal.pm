@@ -25,12 +25,8 @@ This defaults to C<500>.
 
 =cut
 
-has '+simple_message' => (
-  default => 'Internal Server Error',
-);
+has '+simple_message' => ( default => 'Internal Server Error', );
 
-has '+http_code' => (
-  default => 500,
-);
+has '+http_code' => ( default => 500, );
 
 1;

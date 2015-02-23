@@ -32,7 +32,6 @@ use Articulate::Permission;
 use Articulate::Request;
 use Articulate::Response;
 
-
 # sub throw_error { Articulate::Error::throw_error(@_) };
 # sub loc         { Articulate::Location::loc(@_) };
 
@@ -86,7 +85,7 @@ sub instantiate {
   elsif ( !ref $original ) {
     Module::Load::load($original);
     if ( $original->can('instance') ) {
-      return $original->instance()
+      return $original->instance();
     }
     else {
       return $original->new();
@@ -95,18 +94,22 @@ sub instantiate {
   elsif ( ref $original eq ref {} ) {
     my $class = $original->{class};
     my $args  = $original->{args};
-    if ( 1 == keys %$original and join ( '', keys %$original ) !~ /^[a-z_]/ ) { # single key that looks like a class
+    if ( 1 == keys %$original and join( '', keys %$original ) !~ /^[a-z_]/ )
+    { # single key that looks like a class
       $class = join '', keys %$original;
-      $args  = $original->{$class};
+      $args = $original->{$class};
     }
-    throw_error Internal => 'Instantiation failed: expecting key class, got '.(join ', ', keys %$original) unless defined $class;
-    Module::Load::load ( $class );
-    my $constructor = $original->{constructor} // ($class->can('instance') ? 'instance' : 'new');
+    throw_error Internal => 'Instantiation failed: expecting key class, got '
+      . ( join ', ', keys %$original )
+      unless defined $class;
+    Module::Load::load($class);
+    my $constructor = $original->{constructor}
+      // ( $class->can('instance') ? 'instance' : 'new' );
     my @args = (
-      (defined $args)
-      ? (ref $args eq ref [])
-        ? @$args
-        : $args
+        ( defined $args )
+      ? ( ref $args eq ref [] )
+          ? @$args
+          : $args
       : ()
     );
     return $class->$constructor(@args);
@@ -116,7 +119,8 @@ sub instantiate {
 sub instantiate_array {
   my $arrayref = shift;
   return [] unless defined $arrayref;
-  # delegates_to => "Class::Name" should be interpreted as delegates_to => ["Class::Name"]
+
+# delegates_to => "Class::Name" should be interpreted as delegates_to => ["Class::Name"]
   $arrayref = [$arrayref] unless ref $arrayref and ref $arrayref eq ref [];
   return [ map { instantiate $_ } @$arrayref ];
 }
@@ -132,7 +136,7 @@ This method uses Data::DPath to retrieve a field from the metadata structure.
 sub from_meta {
   my $structure = shift;
   my $item      = shift;
-  my @results   = dpath ($item->meta)->match($structure);
+  my @results   = dpath( $item->meta )->match($structure);
   return shift @results;
 }
 
@@ -211,7 +215,6 @@ If a value other than a hash is given, returns a hash with the key 'default' and
 
 =cut
 
-
 sub instantiate_array_selection {
   my $orig = shift;
   _instantiate_selection( $orig, \&instantiate_array );
@@ -221,7 +224,7 @@ sub _instantiate_selection {
   my $orig        = shift;
   my $instantiate = shift;
   if ( ref $orig eq ref {} ) {
-    for my $i ( 1..5 ) {
+    for my $i ( 1 .. 5 ) {
       foreach my $this ( keys %$orig ) {
         my $got = $orig->{$this};
         if ( is_single_key_hash( $got, 'alias' ) ) {
@@ -263,11 +266,11 @@ Implements a user-friendly selection mechanism like the one implemented by C<Dan
 =cut
 
 sub select_from {
-  my ($attribute, $self, $which) = @_;
-  $which        //= 'default';
+  my ( $attribute, $self, $which ) = @_;
+  $which //= 'default';
   my $this        = $which;
   my $selectables = $self->$attribute;
-  for ( 1..5 ) { # if more than this then you probably have recusion
+  for ( 1 .. 5 ) { # if more than this then you probably have recusion
     my $got = $selectables->{$this};
     if ( is_single_key_hash( $got, 'alias' ) ) {
       $this = $got->{alias};
@@ -290,8 +293,13 @@ Returns 1 if the first argument is a hashref with exactly one key. If a second a
 sub is_single_key_hash {
   my $got = shift;
   my $key = shift;
-  return 1 if (  defined $key and ref $got eq ref {} and 1 == scalar keys %$got and $key eq [keys %$got]->[0] );
-  return 1 if ( !defined $key and ref $got eq ref {} and 1 == scalar keys %$got );
+  return 1
+    if (defined $key
+    and ref $got eq ref {}
+    and 1 == scalar keys %$got
+    and $key eq [ keys %$got ]->[0] );
+  return 1
+    if ( !defined $key and ref $got eq ref {} and 1 == scalar keys %$got );
   return 0;
 }
 
@@ -306,8 +314,8 @@ Returns a new hashref whose values represent a union of the parent's and the chi
 my $hash_merger = Hash::Merge->new('RIGHT_PRECEDENT');
 
 sub hash_merge { # very naive, will change to something like Hash::Merge
-  my ($parent, $child) = @_;
-  return $hash_merger->merge($parent, $child); # todo: more
+  my ( $parent, $child ) = @_;
+  return $hash_merger->merge( $parent, $child ); # todo: more
 }
 
 1;

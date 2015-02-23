@@ -31,8 +31,8 @@ This is an arrayref of serialisers, each of whom should provide serialise functi
 
 has serialisers => (
   is      => 'rw',
-  default => sub{ [] },
-  coerce  => sub { instantiate_array (@_) },
+  default => sub { [] },
+  coerce  => sub { instantiate_array(@_) },
 );
 
 =head1 FUNCTION
@@ -48,12 +48,14 @@ Sends to each of the C<serialisers> in turn. If any of them return a defined val
 sub serialise {
   my $self     = shift;
   my $response = shift;
+
   # If the user has done templating themselves already, all well and good.
   return $response unless ref $response;
   my $text;
-  foreach my $serialiser (@{ $self->serialisers }) {
-    $serialiser->app($self->app) if $serialiser->can('app'); # or does Articulate::Role::Component?
-    return $text if defined ( $text = $serialiser->serialise($response) );
+  foreach my $serialiser ( @{ $self->serialisers } ) {
+    $serialiser->app( $self->app )
+      if $serialiser->can('app'); # or does Articulate::Role::Component?
+    return $text if defined( $text = $serialiser->serialise($response) );
   }
   return undef;
 }

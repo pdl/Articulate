@@ -8,7 +8,7 @@ use Articulate::Syntax::Routes;
 use Articulate::Service;
 
 post '/login' => sub {
-  my ($self, $request) = @_;
+  my ( $self, $request ) = @_;
   my $user_id  = $request->params->{'user_id'};
   my $password = $request->params->{'password'};
   my $redirect = $request->params->{'redirect'} // '/';
@@ -21,9 +21,7 @@ post '/login' => sub {
 };
 
 post '/logout' => sub {
-  my ($self, $request) = @_;
+  my ( $self, $request ) = @_;
   my $redirect = $request->params->{'redirect'} // '/';
-  $self->service->process_request(
-    logout => {}
-  );
+  $self->service->process_request( logout => {} );
 };

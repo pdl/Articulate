@@ -13,13 +13,13 @@ sub app_from_config {
   $fn =~ "$FindBin::Bin/environments/$fn" unless -e $fn;
   open my $fh, '<:encoding(utf8)', $fn;
   my $yaml;
-  while (defined ( my $line = <$fh> ) ) { $yaml .= $line };
-  my $data  = YAML::Load $yaml;
+  while ( defined( my $line = <$fh> ) ) { $yaml .= $line }
+  my $data = YAML::Load $yaml;
   return app_from_data( $data->{plugins}->{Articulate} );
 }
 
 sub app_from_data {
-  my $app = Articulate->new( shift );
+  my $app = Articulate->new(shift);
   $app->components->{'storage'}->empty_all_content;
   return $app;
 }

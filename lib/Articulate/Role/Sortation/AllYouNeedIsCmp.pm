@@ -42,17 +42,17 @@ Performs a simple sort, using C<cmp> and C<decorate>.
 
 =cut
 
-
 sub sort {
   my $self  = shift;
   my $items = shift;
-  my $dec = sub {
+  my $dec   = sub {
     my $orig = shift;
     $self->can('decorate')
-    ? $self->decorate($orig)
-    : $orig
+      ? $self->decorate($orig)
+      : $orig;
   };
-  return [ sort { $self->cmp( $dec->($b), $dec->($a) ) } @$items ] if 'desc' eq $self->order;
+  return [ sort { $self->cmp( $dec->($b), $dec->($a) ) } @$items ]
+    if 'desc' eq $self->order;
   return [ sort { $self->cmp( $dec->($a), $dec->($b) ) } @$items ];
 }
 
@@ -64,16 +64,14 @@ Performs a schwartxian transform using C<decorate>, and sorts the decorated item
 
 =cut
 
-
 sub schwartz {
   my $self  = shift;
   my $items = shift;
   if ( $self->can('decorate') ) {
     return [
-      map  { $_->[0] }
+      map { $_->[0] }
       sort { $self->cmp( $a->[1], $b->[1] ) }
-      map  { [$_, $self->decorate($_)] }
-      @$items
+      map { [ $_, $self->decorate($_) ] } @$items
     ];
   }
   else {

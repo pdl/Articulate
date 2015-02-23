@@ -13,8 +13,10 @@ my $empty_v = Articulate::Validation->new(
   validators => []
 );
 
-ok ( $empty_v->validate( item( {}, 'foo bar' ) ), 'empty validator assumes everything validates ok' );
-
+ok(
+  $empty_v->validate( item( {}, 'foo bar' ) ),
+  'empty validator assumes everything validates ok'
+);
 
 my $v = Articulate::Validation->new(
   app        => $app,
@@ -22,13 +24,16 @@ my $v = Articulate::Validation->new(
 );
 
 sub item {
-  Articulate::Item->new( {
-    meta    => ( shift // {}),
-    content => ( shift // '' )
-  } );
+  Articulate::Item->new(
+    {
+      meta    => ( shift // {} ),
+      content => ( shift // '' )
+    }
+  );
 }
 
-ok ( $v->validate( item( {}, 'foo bar' ) ), 'innocuous text validates ok' );
-ok (!$v->validate( item( {}, 'foo <script>nasty_xss()</script> bar' ) ), 'nasty script fails' );
+ok( $v->validate( item( {}, 'foo bar' ) ), 'innocuous text validates ok' );
+ok( !$v->validate( item( {}, 'foo <script>nasty_xss()</script> bar' ) ),
+  'nasty script fails' );
 
 done_testing;

@@ -5,7 +5,6 @@ use warnings;
 use Text::Markdown;
 use Moo;
 
-
 =head1 NAME
 
 Articulate::Enrichment::DateUpdated - add a update date to the meta
@@ -28,7 +27,7 @@ sub enrich {
   my $self    = shift;
   my $item    = shift;
   my $request = shift;
-  my $now = now;
+  my $now     = now;
   $item->meta->{schema}->{core}->{dateUpdated} = "$now";
   return $item;
 }
