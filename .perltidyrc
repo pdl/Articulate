@@ -33,7 +33,6 @@
 --delete-old-newlines
 --nodelete-old-whitespace
 --delete-semicolons
---dump-options
 --format="tidy"
 --format-skipping
 --fuzzy-line-length
