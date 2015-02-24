@@ -25,7 +25,7 @@ given location, meta, content.
 
 =head1 ATTRIBUTE
 
-head3 constructors
+=head3 constructors
 
 A list of classes which can be used to construct items.
 

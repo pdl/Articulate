@@ -21,9 +21,14 @@ Articulate::LocationSpecification - represent a specification
   locspec ['zone', '*', 'article', 'hello-world']
   locspec 'zone/*/article/hello-world' # same thing
 
-An object class which represents a specification - like a 'pattern' or 'glob', and provides methods so that it can be compared with locations. It is similar to C<Articulate::Location>, and stringifies to the 'file path' representation.
+An object class which represents a specification - like a 'pattern' or
+'glob', and provides methods so that it can be compared with locations.
+It is similar to C<Articulate::Location>, and stringifies to the 'file
+path' representation.
 
-The main use of this is to determine whether a user has access to a resource based on rules.
+The main use of this is to determine whether a user has access to a
+resource based on rules (e.g.
+L<Articulate::Authorisation::LocationBased>).
 
 =cut
 
@@ -31,7 +36,9 @@ The main use of this is to determine whether a user has access to a resource bas
 
 =head3 locspec
 
-C<locspec> is a constructor. It takes either a string (in the form of a path) or an arrayref. Either will be stored as an arrayref in the C<path> attribute.
+C<locspec> is a constructor. It takes either a string (in the form of a
+path) or an arrayref. Either will be stored as an arrayref in the
+C<path> attribute.
 
 =cut
 
@@ -67,11 +74,12 @@ sub locspec {
   }
 }
 
-=head1 METHODS
+=head1 ATTRIBUTE
 
 =head3 path
 
-An arrayref representing the path to the location specification. This is used for overloaded array dereferencing.
+An arrayref representing the path to the location specification. This
+is used for overloaded array dereferencing.
 
 =cut
 
@@ -79,6 +87,8 @@ has path => (
   is      => 'rw',
   default => sub { []; },
 );
+
+=head1 METHODS
 
 =head3 location
 
@@ -94,7 +104,8 @@ sub location {
 
 =head3 to_file_path
 
-Joins the contents of C<path> on C</> and returns the result. This is used for overloaded stringification.
+Joins the contents of C<path> on C</> and returns the result. This is
+used for overloaded stringification.
 
 =cut
 
@@ -117,7 +128,8 @@ sub _step_matches {
   locspec('/zone/*')->matches(loc('/')) # false
   locspec('/zone/*')->matches(loc('/zone/public/article/hello-world')) # false
 
-Determines if the location given as the first argument matches the locspec.
+Determines if the location given as the first argument matches the
+locspec.
 
 =cut
 
@@ -138,7 +150,8 @@ sub matches {
   locspec('/zone/*')->matches_ancestor_of(loc('/')) # false
   locspec('/zone/*')->matches_ancestor_of(loc('/zone/public/article/hello-world')) # true
 
-Determines if the location given as the first argument - or any ancestor thereof - matches the locspec.
+Determines if the location given as the first argument - or any
+ancestor thereof - matches the locspec.
 
 =cut
 
@@ -159,7 +172,8 @@ sub matches_ancestor_of {
   locspec('/zone/*')->matches_descendant_of(loc('/')) # true
   locspec('/zone/*')->matches_descendant_of(loc('/zone/public/article/hello-world')) # false
 
-Determines if the location given as the first argument - or any descendant thereof - matches the locspec.
+Determines if the location given as the first argument - or any
+descendant thereof - matches the locspec.
 
 =cut
 
@@ -173,5 +187,17 @@ sub matches_descendant_of {
   }
   return 1;
 }
+
+=head1 SEE ALSO
+
+=over
+
+=item * L<Articulate::Location>
+
+=item * L<Articulate::Permission>
+
+=back
+
+=cut
 
 1;

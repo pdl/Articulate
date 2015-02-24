@@ -20,7 +20,9 @@ Articulate::Location - represent an item's location
   loc ['zone', 'public', 'article', 'hello-world']
   loc 'zone/public/article/hello-world' # same thing
 
-An object class which represents an item's location within the Articulate ecosystem. It contains an array of slugs, and stringifies to the 'file path' representation of them.
+An object class which represents an item's location within the
+Articulate ecosystem. It contains an array of slugs, and stringifies to
+the 'file path' representation of them.
 
 =cut
 
@@ -28,7 +30,9 @@ An object class which represents an item's location within the Articulate ecosys
 
 =head3 loc
 
-C<loc> is a constructor. It takes either a string (in the form of a path) or an arrayref. Either will be stored as an arrayref in the C<path> attribute.
+C<loc> is a constructor. It takes either a string (in the form of a
+path) or an arrayref. Either will be stored as an arrayref in the
+C<path> attribute.
 
 =cut
 
@@ -53,11 +57,13 @@ sub loc {
   }
 }
 
-=head1 METHODS
+=head1 ATTRIBUTE
 
 =head3 path
 
-An arrayref representing the path to the location. This is used for overloaded array dereferencing.
+An arrayref representing the path to the location. This is how the
+location is actually stored and is used for overloaded array
+dereferencing.
 
 =cut
 
@@ -66,11 +72,14 @@ has path => (
   default => sub { []; },
 );
 
+=head1 METHODS
+
 =head3 location
 
   $location->location->location # same as $location
 
-This method always returns the object itself.
+This method always returns the object itself. It is useful when you
+want to allow either an Item or a Location as an argument.
 
 =cut
 
@@ -80,12 +89,25 @@ sub location {
 
 =head3 to_file_path
 
-Joins the contents of C<path> on C</> and returns the result. This is used for overloaded stringification.
+Joins the contents of C<path> on C</> and returns the result. This is
+used for overloaded stringification.
 
 =cut
 
 sub to_file_path {
   return join '/', @{ $_[0]->path };
 }
+
+=head1 SEE ALSO
+
+=over
+
+=item * L<Articulate::Item>
+
+=item * L<Articulate::LocationSpecification>
+
+=back
+
+=cut
 
 1;

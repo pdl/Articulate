@@ -9,11 +9,35 @@ Articulate::Item - represent an item
 
 =cut
 
-=head1 METHODS
+=head1 SYNOPSIS
+
+  Articulate::Item->new( {
+    meta     => {},
+    content  => 'Hello, World!',
+    location => 'zone/public/article/hello-world',
+  } );
+
+  # Construction defaults to item if no better option is available
+  Articulate::Construction->construct( { ... } );
+
+An item is a simple storage class for any sort of item which. Items
+have metadata, content, and a location.
+
+Although it is acceptable to create items using the C<new> class
+method, it is recommended that you construct items using
+L<Articulate::Construction>, which will be able to pick an appropriate
+subclass of item to construct based on the argument you supply, if you
+have configured it to do so. Such a subclass can have semantically
+appropriate methods available (see C<_meta_accessor> below for
+information on how to create these).
+
+=head1 ATTRIBUTES
 
 =head3 location
 
-Returns the location of the item, as a location object (see L<Articulate::Location>). Coerces into a location using C<Articulate::Location::loc>.
+Returns the location of the item, as a location object (see
+L<Articulate::Location>). Coerces into a location using
+C<Articulate::Location::loc>.
 
 =cut
 
@@ -36,7 +60,9 @@ has meta => (
 
 =head3 content
 
-Returns the item's content. What it might look like depends entirely on the content. Typically this is an unblessed scalar value, but it MAY contain binary data or an L<Articulate::File> object.
+Returns the item's content. What it might look like depends entirely on
+the content. Typically this is an unblessed scalar value, but it MAY
+contain binary data or an L<Articulate::File> object.
 
 =cut
 
@@ -45,16 +71,19 @@ has content => (
   default => sub { '' },
 );
 
+=head1 METHOD
+
 =head3 _meta_accessor
 
   # In a subclass of Item
-  sub author { shift->meta_accessor('schema/article/author')->(@_) }
+  sub author { shift->_meta_accessor('schema/article/author')->(@_) }
 
   # Then, on that subclass
   $article->author('user/alice');
   $article->author;
 
-Uses dpath_set or dpath_get from L<Atticulate::Syntax> to find or assign the relevant field in the metadata.
+Uses dpath_set or dpath_get from L<Articulate::Syntax> to find or
+assign the relevant field in the metadata.
 
 =cut
 
