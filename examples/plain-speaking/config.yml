@@ -118,3 +118,5 @@ plugins:
             - Articulate::Serialisation::Asset
             - Articulate::Serialisation::TemplateToolkit
       framework: Articulate::FrameworkAdapter::Dancer1
+      caching: Articulate::Caching::Native
+

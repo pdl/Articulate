@@ -107,3 +107,7 @@ plugins:
           serialisers:
             - Articulate::Serialisation::StatusSetter
             - Articulate::Serialisation::TemplateToolkit
+      caching:
+        Articulate::Caching:
+          providers:
+            - Articulate::Caching::Native

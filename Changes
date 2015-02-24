@@ -1,6 +1,7 @@
 Revision history for Articulate
 
 v0.004 Unreleased
+ - Meta and content retrieved from storage is now cached (gh #30)
  - Validation now works on items (gh #34)
  - Documentation fixes
 

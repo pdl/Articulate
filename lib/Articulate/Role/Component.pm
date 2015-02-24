@@ -11,7 +11,9 @@ Articulate::Role::Component - access the core app and other compnents
 
 =head1 DESCRIPTION
 
-This role provides accessors so that components can refer to each other. In order to do so they must when created or first called, have their C<app> attribute set.
+This role provides accessors so that components can refer to each
+other. In order to do so they must when created or first called, have
+their C<app> attribute set.
 
 =head1 ATTRIBUTE
 
@@ -21,7 +23,8 @@ The Articulate app to which this component belongs.
 
 =head1 METHODS
 
-Each of these methods are simple read-only accessors which use the C<app> attribute to find the relevant component.
+Each of these methods are simple read-only accessors which use the
+C<app> attribute to find the relevant component.
 
 =head3 augmentation
 
@@ -85,5 +88,6 @@ sub serialisation  { shift->app->components->{'serialisation'} }
 sub service        { shift->app->components->{'service'} }
 sub storage        { shift->app->components->{'storage'} }
 sub validation     { shift->app->components->{'validation'} }
+sub caching        { shift->app->components->{'caching'} }
 
 1;

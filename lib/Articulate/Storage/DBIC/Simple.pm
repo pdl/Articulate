@@ -4,27 +4,38 @@ use warnings;
 
 use Moo;
 with 'Articulate::Role::Component';
+with 'Articulate::Role::Storage';
 use Articulate::Syntax;
 use JSON;
 use Scalar::Util qw(blessed);
 
 =head1 NAME
 
-Articulate::Content::DBIC::Simple - store your content in a simple database
+Articulate::Content::DBIC::Simple - store your content in a simple
+database
 
 =cut
 
 =head1 DESCRIPTION
 
-This content storage interface works by placing content and metadata in a database table, to which it connects using L<DBIx::Class>.
+This content storage interface works by placing content and metadata in
+a database table, to which it connects using L<DBIx::Class>.
 
-All content items are stored in a single table defined in L<Articulate::Storage::DBIC::Simple::Schema::Result::Articulate::Item>, and rows contain meta, content and location. Meta is stored in JSON.
+All content items are stored in a single table defined in
+L<Articulate::Storage::DBIC::Simple::Schema::Result::Articulate::Item>,
+and rows contain meta, content and location. Meta is stored in JSON.
 
-It is left up to the application, not the database to maintain referential integrity (although there is a rudimentary cascade deletion for descendant items).
+It is left up to the application, not the database to maintain
+referential integrity (although there is a rudimentary cascade deletion
+for descendant items).
 
-On the other hand, you can make changes to your dat structure freely without making schema changes.
+On the other hand, you can make changes to your dat structure freely
+without making schema changes.
 
-By default, this will create an SQLite database in memory and deploy the schema (i.e. no persistence), but you can alter this using the C<schema> attribute. You can also make your own schema, provided it is a superset of the existing schema.
+By default, this will create an SQLite database in memory and deploy
+the schema (i.e. no persistence), but you can alter this using the
+C<schema> attribute. You can also make your own schema, provided it is
+a superset of the existing schema.
 
 =cut
 
@@ -42,7 +53,10 @@ By default, this will create an SQLite database in memory and deploy the schema 
           - user_name
           - notverysecretpassword
 
-Allows you to specify how to connect to your database. By default, it connects to an SQLite :memory: DB and uses the connect_and_deploy constructor from the L<Articulate::Storage::DBIC::Simple::Schema> schema.
+Allows you to specify how to connect to your database. By default, it
+connects to an SQLite :memory: DB and uses the connect_and_deploy
+constructor from the L<Articulate::Storage::DBIC::Simple::Schema>
+schema.
 
 =cut
 
@@ -157,9 +171,11 @@ sub set_meta {
 
   $storage->patch_meta( 'zone/public/article/hello-world', {...} )
 
-Alters the metadata for the content at that location. Existing keys are retained.
+Alters the metadata for the content at that location. Existing keys are
+retained.
 
-CURRENTLY this affects top-level keys only, but a descent algorigthm is planned.
+CURRENTLY this affects top-level keys only, but a descent algorigthm is
+planned.
 
 =cut
 
@@ -271,7 +287,8 @@ sub create_item {
     ...
   }
 
-Determines if the item has been created (only the C<meta.yml> is tested).
+Determines if the item has been created (only the C<meta.yml> is
+tested).
 
 =cut
 
@@ -299,27 +316,17 @@ sub list_items {
   my $dbic_items  = $self->schema->resultset('Articulate::Item')
     ->search( { location => { like => $qm_location . '%' } } );
   my $locspec = locspec( $location . '/*' );
-  return
-    map  { $_->[-1] }
-    grep { $locspec->matches($_); }
-    map  { loc( $_->location ) } $dbic_items->all;
-}
-
-sub get_content_cached {
-  my $self = shift;
-  $self->get_content(@_);
-}
-
-sub get_meta_cached {
-  my $self = shift;
-  $self->get_meta(@_);
+  return map { $_->[-1] }
+    grep     { $locspec->matches($_); }
+    map      { loc( $_->location ) } $dbic_items->all;
 }
 
 =head3 empty_all_content
 
   $storage->empty_all_content;
 
-Removes all content. This is totally irreversible, unless you took a backup!
+Removes all content. This is totally irreversible, unless you took a
+backup!
 
 =cut
 

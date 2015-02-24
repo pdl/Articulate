@@ -4,6 +4,7 @@ use warnings;
 
 use Moo;
 with 'Articulate::Role::Component';
+with 'Articulate::Role::Storage';
 use Articulate::Syntax qw(hash_merge);
 
 use File::Path;
@@ -21,11 +22,14 @@ Articulate::Content::Local - store your content locally
 
 =head1 DESCRIPTION
 
-This content storage interface works by placing content and metadata in a folder structure.
+This content storage interface works by placing content and metadata in
+a folder structure.
 
-For a given location, metadata is stored in C<meta.yml>, content in C<content.blob>.
+For a given location, metadata is stored in C<meta.yml>, content in
+C<content.blob>.
 
-Set C<content_base> in your config to specify where to place the content.
+Set C<content_base> in your config to specify where to place the
+content.
 
 Caching is not implemented: get_content_cached simpy calls get_content.
 
@@ -144,9 +148,11 @@ sub set_meta {
 
   $storage->patch_meta( 'zone/public/article/hello-world', {...} )
 
-Alters the metadata for the content at that location. Existing keys are retained.
+Alters the metadata for the content at that location. Existing keys are
+retained.
 
-CURRENTLY this affects top-level keys only, but a descent algorigthm is planned.
+CURRENTLY this affects top-level keys only, but a descent algorigthm is
+planned.
 
 =cut
 
@@ -350,7 +356,8 @@ sub create_item {
     ...
   }
 
-Determines if the item has been created (only the C<meta.yml> is tested).
+Determines if the item has been created (only the C<meta.yml> is
+tested).
 
 =cut
 
@@ -390,21 +397,12 @@ sub list_items {
   return @contents;
 }
 
-sub get_content_cached {
-  my $self = shift;
-  $self->get_content(@_);
-}
-
-sub get_meta_cached {
-  my $self = shift;
-  $self->get_meta(@_);
-}
-
 =head3 empty_all_content
 
   $storage->empty_all_content;
 
-Removes all content. This is totally irreversible, unless you took a backup!
+Removes all content. This is totally irreversible, unless you took a
+backup!
 
 =cut
 
