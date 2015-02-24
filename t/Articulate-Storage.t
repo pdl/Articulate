@@ -105,7 +105,7 @@ foreach my $class (
     $storage->create_item(
       Articulate::Item->new( { content => "Foo", location => 'zone/public' } )
     );
-    my @list = $storage->list_items( loc('zone') );
+    @list = $storage->list_items( loc('zone') );
     is( scalar @list, 1,        'list returns one item' );
     is( $list[0],     'public', '... which is public' );
 
