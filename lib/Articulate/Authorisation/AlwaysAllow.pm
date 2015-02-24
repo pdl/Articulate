@@ -12,12 +12,14 @@ Articulate::Authorisation::AlwaysAllow - don't use this in production
 
 =head1 CONFIGURATION
 
-Put this in your C<development.yml>, NOT in your C<config.yml> or your C<production.yml>. You have been warned.
+Put this in your C<development.yml>, NOT in your C<config.yml> or your
+C<production.yml>. You have been warned.
 
-  plugins:
-    Articulate::Authorisation:
-      providers:
-        - Articulate::Authorisation::AlwaysAllow
+  components:
+    authorisation:
+      Articulate::Authorisation:
+        rules:
+          - Articulate::Authorisation::AlwaysAllow
 
 There's nothing else to configure, the answer is always yes.
 
@@ -29,7 +31,8 @@ Does what all good C<new> methods do, nothing more.
 
 =head3 permitted
 
-Handles all the complex business logic required to ensure that the request is always authorised.
+Handles all the complex business logic required to ensure that the
+request is always authorised.
 
 So don't use this in production.
 

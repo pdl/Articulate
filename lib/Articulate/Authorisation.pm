@@ -16,11 +16,12 @@ Articulate::Authorisation
 
 =head1 CONFIGURATION
 
-  plugins:
-    Articulate::Authorisation:
-      rules:
-      - Articulate::Authorisation::OwnerOverride
-      - Articulate::Authorisation::AlwaysAllow
+  components:
+    authorisation:
+      Articulate::Authorisation:
+        rules:
+          - Articulate::Authorisation::OwnerOverride
+          - Articulate::Authorisation::AlwaysAllow
 
 
 =cut
@@ -35,9 +36,11 @@ has rules => (
 
   $self->permitted( $user_id, $permission, $location );
 
-Asks each of the rules in turn whether the user has the specified permission for that location.
+Asks each of the rules in turn whether the user has the specified
+permission for that location.
 
-If so, returns the role under which they have that permission. Otherwise, returns undef. (Each provider should do likewise)
+If so, returns the role under which they have that permission.
+Otherwise, returns undef. (Each provider should do likewise)
 
 =cut
 

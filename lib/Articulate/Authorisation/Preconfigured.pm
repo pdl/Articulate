@@ -7,7 +7,8 @@ use Articulate::Syntax qw( locspec );
 
 =head1 NAME
 
-Articulate::Authorisation::Preconfigured - allow access to users in your config
+Articulate::Authorisation::Preconfigured - allow access to users in
+your config
 
 =cut
 
@@ -15,21 +16,23 @@ Articulate::Authorisation::Preconfigured - allow access to users in your config
 
 Put this in your config:
 
-  plugins:
-    Articulate::Authorisation:
-      providers:
-        - class: Articulate::Authorisation::Preconfigured
-          rules:
-            zone/public:
-              "[guest]":
-                read: 1
-              admin: 1
+  components:
+    authorisation:
+      Articulate::Authorisation:
+        rules:
+          - class: Articulate::Authorisation::Preconfigured
+            rules:
+              zone/public:
+                "[guest]":
+                  read: 1
+                admin: 1
 
 =head1 ATTRIBUTES
 
 =head3 rules
 
-The rules used to determine whether or not requests are authorised. Defaults to C<{}>.
+The rules used to determine whether or not requests are authorised.
+Defaults to C<{}>.
 
 =cut
 
@@ -46,11 +49,18 @@ No surprises here.
 
 =head3 permitted
 
-Goes through each of the locations in 'rules' (in ascending order of length) and if the location in the permission request begins with that rule, then look at the contents.
+Goes through each of the locations in 'rules' (in ascending order of
+length) and if the location in the permission request begins with that
+rule, then look at the contents.
 
-We then expect a hash of user ids, or C<[guest]> for users not logged in. Their values should be 0 (for deny), 1 (for grant), or a hash of verbs to grant/deny.
+We then expect a hash of user ids, or C<[guest]> for users not logged
+in. Their values should be 0 (for deny), 1 (for grant), or a hash of
+verbs to grant/deny.
 
-This is preconfigured access, so fine for a small personal or static site, but if you have open sign-up or changing requirements then you will probably find changing the config file and reloading the app gets tedious after a while.
+This is preconfigured access, so fine for a small personal or static
+site, but if you have open sign-up or changing requirements then you
+will probably find changing the config file and reloading the app gets
+tedious after a while.
 
 =cut
 

@@ -14,19 +14,16 @@ Articulate::Authorisation::OwnerOverride - always say yes to the owner
 
 Put this in your config:
 
-  plugins:
-    Articulate::Authorisation:
-      providers:
-        - Articulate::Authorisation::OwnerOverride
+  components:
+    authorisation:
+      Articulate::Authorisation:
+       rules:
+          - Articulate::Authorisation::OwnerOverride
 
-Or, if you want the owner
-
-  plugins:
-    Articulate::Authorisation:
-      providers:
-        - class: Articulate::Authorisation::OwnerOverride
-          args:
-            owner: administrator
+Or, if you want the owner   components:     authorisation:      
+Articulate::Authorisation:         rules:           - class:
+Articulate::Authorisation::OwnerOverride             args:             
+ owner: administrator
 
 =head1 ATTRIBUTES
 
@@ -49,7 +46,9 @@ Yep, C<new> works just as you'd expect.
 
 =head3 permitted
 
-Grants any request if the user asking is the owner. By default this is the user called C<owner>, but it could be someone else, if the C<owner> attribute is set.
+Grants any request if the user asking is the owner. By default this is
+the user called C<owner>, but it could be someone else, if the C<owner>
+attribute is set.
 
 =cut
 

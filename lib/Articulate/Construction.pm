@@ -10,16 +10,18 @@ with 'Articulate::Role::Component';
 
 =head1 NAME
 
-Articulate::Construction - create appropriate content item objects given location, meta, content.
+Articulate::Construction - create appropriate content item objects
+given location, meta, content.
 
 =cut
 
 =head1 CONFIGURATION
 
-  plugins:
-    Articulate::Construction:
-      constructors:
-      - Articulate::Construction::LocationBased
+  components:
+    construction:
+      Articulate::Construction:
+        constructors:
+        - Articulate::Construction::LocationBased
 
 =head1 ATTRIBUTE
 
@@ -45,10 +47,15 @@ has constructors => (
     content  => $content,
   } );
 
-Iterates through the C<constructors> and asks each to C<construct> an item with the construction data.
-If no constructor returns a defined vaue, then performs C<< Articulate::Item->new( $args ) >>.
+Iterates through the C<constructors> and asks each to C<construct> an
+item with the construction data. If no constructor returns a defined
+vaue, then performs C<< Articulate::Item->new( $args ) >>.
 
-Note that of these three pieces of data, it is not guaranteed that all will be available at the time of construction, particularly on inbound communication (as opposed to when retrieving from storage). This is largely dependant on the Service. Location should always be available. Content is often not available.
+Note that of these three pieces of data, it is not guaranteed that all
+will be available at the time of construction, particularly on inbound
+communication (as opposed to when retrieving from storage). This is
+largely dependant on the Service. Location should always be available.
+Content is often not available.
 
 =cut
 
