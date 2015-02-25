@@ -6,16 +6,57 @@ use Moo;
 use DateTime;
 with 'Articulate::Role::Component';
 
+=head1 NAME
+
+Articulate::Caching::Native - cache content in memory
+
+=head1 DESCRIPTION
+
+This implements caching by keeping an hash of the content you wish to
+cache in memory.
+
+No attempt is made to monitor the memory size of the hash directly, but
+a maximum number of locations under which content may be stored is set.
+Once this maximum is reached or exceeded, a quarter of the keys are
+removed (preserving those which have most recently been accessed).
+
+Consequently, it is unsuitable for cases where large documents are to
+be stored alongside small ones, or where you have a very large number
+of locations you want to cache.
+
+=cut
+
 sub now { DateTime->now . '' }
+
+=head1 ATTRIBUTES
+
+=cut
+
+=head3 cache
+
+This is the contents of the cache. Don't set this.
+
+=cut
 
 has cache => (
   is      => 'rw',
   default => sub { {} },
 );
 
+=head3 max_keys
+
+The maximum number of keys in the hash (locations for which either meta
+or content or both is stored).
+
+Be warned that each time this is exceeded, a sort is performed on the
+values (to find the entries least recently accessed). The larger
+max_keys is, the longer this sort will take.
+
+=cut
+
 has max_keys => (
   is      => 'rw',
-  default => sub { {} },
+  default => sub { 255 },
 );
 
 =head1 METHODS
@@ -61,8 +102,9 @@ sub set_cache {
   my $self     = shift;
   my $what     = shift;
   my $location = shift;
+  my $value    = shift;
   $self->_prune;
-  return $self->cache->{$location}->{$what}->{value};
+  return $self->cache->{$location}->{$what}->{value} = $value;
 }
 
 =head3 clear_cache
@@ -107,4 +149,5 @@ sub _prune {
     }
   }
 }
+
 1;
