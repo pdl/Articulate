@@ -13,6 +13,10 @@ session: "YAML"
 
 template: "template_toolkit"
 
+engines:
+  session:
+    YAML: {}
+
 plugins:
   Articulate:
     components:
