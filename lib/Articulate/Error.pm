@@ -4,7 +4,8 @@ use warnings;
 
 =head1 NAME
 
-Articulate::Error - represent an error or exception in processing a request
+Articulate::Error - represent an error or exception in processing a
+request
 
 =cut
 
@@ -22,7 +23,8 @@ default_exports qw(throw_error);
   throw_error 'Forbidden';
   throw_error NotFound => "I don't want to alarm you, but it seems to be missiong";
 
-This creates an error of the type provided and throws it immediately. These are things like C<Articulate::Error::Forbidden>.
+This creates an error of the type provided and throws it immediately.
+These are things like C<Articulate::Error::Forbidden>.
 
 =cut
 
@@ -44,15 +46,18 @@ An ordinary Moo constructor.
 
 =head3 throw
 
-Implements the C<Throwable> role - basically C<< die __PACKAGE__->new(@_) >>.
+Implements the C<Throwable> role - basically C<< die
+__PACKAGE__->new(@_) >>.
 
 =head1 ATTRIBUTES
 
 =head3 simple_message
 
-Be kind and let the user know what happened, in summary. Default is 'An unknown error has occurred'.
+Be kind and let the user know what happened, in summary. Default is 'An
+unknown error has occurred'.
 
-That said, do consider whether this is the right place to put potentially sensitive diagnostic information.
+That said, do consider whether this is the right place to put
+potentially sensitive diagnostic information.
 
 =head3 http_code
 
@@ -62,25 +67,26 @@ Defaults to 500, always an integer.
 
 =head3 caller
 
-Tries to take a sensible guess at where in your code this was actually thrown from. This may vary, don't rely on it!
+Tries to take a sensible guess at where in your code this was actually
+thrown from. This may vary, don't rely on it!
 
 =cut
 
 has simple_message => (
   is      => 'rw',
-  default => 'An unknown error has occurred'
+  default => sub { 'An unknown error has occurred' },
 );
 
 has http_code => (
   is      => 'rw',
-  default => 500,
+  default => sub { 500 },
   coerce  => sub { 0 + shift }
 );
 
 has caller => (
   is      => 'rw',
   default => sub {
-        ( [ caller(0) ]->[0] =~ m/Throwable/ )
+    ( [ caller(0) ]->[0] =~ m/Throwable/ )
       ? [ 'hmm', caller(2) ]
       : [ caller(1) ];
   }
