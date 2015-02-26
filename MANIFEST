@@ -34,6 +34,8 @@ lib/Articulate/Authorisation/AlwaysAllow.pm
 lib/Articulate/Authorisation/OwnerOverride.pm
 lib/Articulate/Authorisation.pm
 lib/Articulate/Authorisation/Preconfigured.pm
+lib/Articulate/Caching/Native.pm
+lib/Articulate/Caching.pm
 lib/Articulate/Construction/LocationBased.pm
 lib/Articulate/Construction.pm
 lib/Articulate/Credentials.pm
@@ -66,6 +68,7 @@ lib/Articulate/Role/Flow.pm
 lib/Articulate/Role/Routes.pm
 lib/Articulate/Role/Service.pm
 lib/Articulate/Role/Sortation/AllYouNeedIsCmp.pm
+lib/Articulate/Role/Storage.pm
 lib/Articulate/Routes/Login.pm
 lib/Articulate/Routes/TransparentForms.pm
 lib/Articulate/Routes/Transparent.pm
@@ -119,6 +122,7 @@ t/Articulate-Sortation-Metadelver.t
 t/Articulate-Sortation-Slug.t
 t/Articulate-Storage.t
 t/Articulate-Syntax.t
+t/Articulate-Validation.t
 t/environments/testing.yml
 t/kwalitee.t
 t/lib/MadeUp/Class.pm

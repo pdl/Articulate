@@ -1,7 +1,8 @@
 Revision history for Articulate
 
-v0.004 Unreleased
+v0.004 2014-02-26
  - Meta and content retrieved from storage is now cached (gh #30)
+ - Fix to Dancer2 example config so it doesn't complain about not having a YAML engine
  - Validation now works on items (gh #34)
  - Documentation fixes
 
