@@ -120,4 +120,12 @@ sub empty_cache {
   return 1;
 }
 
+=head1 SEE ALSO
+
+=item * L<Articulate::Caching::Native>
+
+=item * L<Articulate::Storage>
+
+=cut
+
 1;

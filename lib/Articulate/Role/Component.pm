@@ -38,6 +38,10 @@ Provides access to the app's authentication component.
 
 Provides access to the app's authorisation component.
 
+=head3 caching
+
+Provides access to the app's caching component.
+
 =head3 construction
 
 Provides access to the app's construction component.

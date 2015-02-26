@@ -27,7 +27,7 @@ It's written in Perl, the fast, reliable 'glue language' that's perfect for agil
 
 ## Who should use Articulate?
 
-Articulate is for you if you need flexibility, if your requirements often change. Here's some examples of when you might need Articulate:
+Articulate is for you if you need flexibility, or if your requirements often change. Here's some examples of when you might need Articulate:
 
 - If you are starting a new site and expect your content structure and relationships to evolve over time
 - If you are going to store rich content with emphasis on semantic value (e.g. e-Learning content), where editing and presentation are distinct concerns
@@ -45,7 +45,7 @@ Articulate uses modern Perl and tries to avoid huge dependencies, while making u
 High-level milestones:
 
 - Write some Proof of Concept applications in order to test out the core interface
-- Finalise the interfaces as far as possible and provide sufficient documentation and test coverage for a CPAN release
+- Finalise the interfaces as far as possible
 - Flesh out the default plugin infrastructure, develop some recommendations for writing plugins
 
 Right now it runs atop Dancer1, and (as of February 2015) Dancer2; support for other frameworks is a goal.
