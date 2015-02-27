@@ -24,8 +24,9 @@ WriteMakefile(
       homepage   => 'http://github.com/pdl/Articulate',
     },
   },
-  PL_FILES  => {},
-  PREREQ_PM => {
+  MIN_PERL_VERSION => 5.010_001,
+  PL_FILES         => {},
+  PREREQ_PM        => {
     'Class::Inspector'  => 0,       # Used by Articulate::Role::Service
     'DateTime'          => 1.18,
     'Data::DPath'       => 0.50,
