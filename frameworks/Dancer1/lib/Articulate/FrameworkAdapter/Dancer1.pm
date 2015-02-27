@@ -10,7 +10,8 @@ use IO::All ();
 
 =head1 NAME
 
-Articulate::FramwworkAdapter::Dancer1 - Access Dancer1 features though a common interface
+Articulate::FramwworkAdapter::Dancer1 - Access Dancer1 features though
+a common interface
 
 =head1 SYNOPSIS
 
@@ -104,7 +105,7 @@ sub status {
 
 sub template_process {
   my $self = shift;
-  my $view = shift . '.tt';
+  my $view = shift() . '.tt'; # parens else 5.10 complains
   template( $view, @_ );
 }
 
