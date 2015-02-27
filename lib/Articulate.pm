@@ -335,11 +335,18 @@ has components => (
   },
 );
 
+=head1 CONTRIBUTING
+
+If you'd like to help build the core or the econsystem, you'll want to
+look at the C<Development.md> file in the source distribution, which
+gives more technical information about how you can contribute to and
+work with Articulate.
+
 =head1 BUGS
 
-Bugs should be reported to the L<github issue
-tracker|https://github.com/pdl/Articulate/issues>. Pull Requests
-welcome!
+Bug reports are an important contrubution and should be reported to the
+L<github issue tracker|https://github.com/pdl/Articulate/issues>. You
+can also request new features this way. Pull Requests welcome!
 
 =head1 COPYRIGHT
 

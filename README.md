@@ -14,8 +14,6 @@ It's written in Perl, the fast, reliable 'glue language' that's perfect for agil
 >
 > This is work in progress! It's alpha-stage software and important things WILL change.
 >
-> Articulate isn't on CPAN yet - but don't worry, it will be when it's just a little bit more stable.
->
 > If you want a preview, there's an example blog engine included, just clone the repository and type:
 >
 >     cd examples/plain-speaking
@@ -24,6 +22,8 @@ It's written in Perl, the fast, reliable 'glue language' that's perfect for agil
 >  ... and then go to http://localhost:3000/
 >
 > Don't want a blog? Don't worry, many other things are possible!
+>
+> Want to know more? The `Development.md` file in the source distribution will get you started working with or on Articulate. Articulate is on CPAN and you can read the documentation at [https://metacpan.org/pod/Articulate](https://metacpan.org/pod/Articulate).
 
 ## Who should use Articulate?
 
