@@ -13,13 +13,14 @@ Articulate::Enrichment::DateUpdated - add a update date to the meta
 
 =head3 enrich
 
-Sets the update date (C<meta.schema.core.dateUpdated>) to the current time.
+Sets the update date (C<meta.schema.core.dateUpdated>) to the current
+time.
 
 =cut
 
 use DateTime;
 
-sub now {
+sub _now {
   DateTime->now;
 }
 
@@ -27,7 +28,7 @@ sub enrich {
   my $self    = shift;
   my $item    = shift;
   my $request = shift;
-  my $now     = now;
+  my $now     = _now;
   $item->meta->{schema}->{core}->{dateUpdated} = "$now";
   return $item;
 }

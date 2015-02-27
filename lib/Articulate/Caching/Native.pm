@@ -26,7 +26,7 @@ of locations you want to cache.
 
 =cut
 
-sub now { DateTime->now . '' }
+sub _now { DateTime->now . '' }
 
 =head1 ATTRIBUTES
 
@@ -88,7 +88,7 @@ sub get_cached {
   my $location = shift;
   return undef unless exists $self->cache->{$location};
   return undef unless exists $self->cache->{$location}->{$what};
-  $self->cache->{$location}->{last_retrieved} = now;
+  $self->cache->{$location}->{last_retrieved} = _now;
   return $self->cache->{$location}->{$what}->{value};
 }
 
