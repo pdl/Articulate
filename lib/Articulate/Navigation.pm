@@ -29,7 +29,8 @@ Provides validation for locations.
 
 =head3 locations
 
-Any location specifications configured in the locations attribute are valid locations for deposition and retrieval of items from storage.
+Any location specifications configured in the locations attribute are
+valid locations for deposition and retrieval of items from storage.
 
 =cut
 
@@ -57,7 +58,8 @@ has locations => (
   do_something if $self->valid_location('zone/public')
   do_something if $self->valid_location($location_object)
 
-Returns the location if valid (matches one of the locspecs in C<locations>), undef otherwise.
+Returns the location if valid (matches one of the locspecs in
+C<locations>), undef otherwise.
 
 =cut
 
@@ -106,7 +108,7 @@ sub undefine_locspec {
   my $location = locspec shift;
   my ( $removed, $kept ) = ( [], [] );
   foreach my $defined_location ( @{ $self->locations } ) {
-    if ( ( $location eq $defined_location )
+    if ( ( "$location" eq "$defined_location" )
       or $defined_location->matches_descendant_of($location) )
     {
       push @$removed, $location;

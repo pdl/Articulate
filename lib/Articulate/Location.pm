@@ -4,7 +4,7 @@ use warnings;
 
 use Moo;
 use Scalar::Util qw(blessed);
-use overload '""' => \&to_file_path, '@{}' => sub { shift->path };
+use overload '""' => sub { shift->to_file_path }, '@{}' => sub { shift->path };
 
 use Exporter::Declare;
 default_exports qw(loc);
