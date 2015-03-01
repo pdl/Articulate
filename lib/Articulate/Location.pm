@@ -106,6 +106,8 @@ sub to_file_path {
 
 =item * L<Articulate::LocationSpecification>
 
+=item * L<Articulate::Navigation>
+
 =back
 
 =cut

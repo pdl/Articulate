@@ -194,6 +194,8 @@ sub matches_descendant_of {
 
 =item * L<Articulate::Location>
 
+=item * L<Articulate::Navigation>
+
 =item * L<Articulate::Permission>
 
 =back
