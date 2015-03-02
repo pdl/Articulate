@@ -1,7 +1,7 @@
 use Test::More;
 use Articulate::Syntax qw(
   instantiate instantiate_array instantiate_selection instantiate_array_selection
-  loc         locspec
+  new_location         new_location_specification
   dpath_get   dpath_set
   throw_error
   select_from

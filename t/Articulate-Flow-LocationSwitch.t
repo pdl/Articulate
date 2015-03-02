@@ -47,7 +47,8 @@ my $test_suite = [
     item => '/zone/public/article/hello-world',
     args => {
       where => {
-        'zone/public/article/*' => then_pass('asterisk in locspec'),
+        'zone/public/article/*' =>
+          then_pass('asterisk in new_location_specification'),
       },
       otherwise => then_fail,
     },

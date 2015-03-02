@@ -37,14 +37,14 @@ information on how to create these).
 
 Returns the location of the item, as a location object (see
 L<Articulate::Location>). Coerces into a location using
-C<Articulate::Location::loc>.
+C<Articulate::Location::new_location>.
 
 =cut
 
 has location => (
   is      => 'rw',
   default => sub { Articulate::Location->new; },
-  coerce  => sub { Articulate::Location::loc(shift); }
+  coerce  => sub { Articulate::Location::new_location(shift); }
 );
 
 =head3 meta

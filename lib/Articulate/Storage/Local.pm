@@ -392,7 +392,7 @@ sub list_items {
     next unless -d $child_dn;
     push @contents, $fn
       if $self->navigation->valid_location( $location . '/' . $fn )
-      and $self->item_exists( loc $location. '/' . $fn );
+      and $self->item_exists( new_location $location. '/' . $fn );
   }
   return @contents;
 }

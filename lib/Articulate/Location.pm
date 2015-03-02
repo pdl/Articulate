@@ -7,7 +7,7 @@ use Scalar::Util qw(blessed);
 use overload '""' => sub { shift->to_file_path }, '@{}' => sub { shift->path };
 
 use Exporter::Declare;
-default_exports qw(loc);
+default_exports qw(new_location);
 
 =head1 NAME
 
@@ -17,8 +17,8 @@ Articulate::Location - represent an item's location
 
 =head1 DESCRIPTION
 
-  loc ['zone', 'public', 'article', 'hello-world']
-  loc 'zone/public/article/hello-world' # same thing
+  new_location ['zone', 'public', 'article', 'hello-world']
+  new_location 'zone/public/article/hello-world' # same thing
 
 An object class which represents an item's location within the
 Articulate ecosystem. It contains an array of slugs, and stringifies to
@@ -28,15 +28,15 @@ the 'file path' representation of them.
 
 =head1 FUNCTIONS
 
-=head3 loc
+=head3 new_location
 
-C<loc> is a constructor. It takes either a string (in the form of a
-path) or an arrayref. Either will be stored as an arrayref in the
+C<new_location> is a constructor. It takes either a string (in the form
+of a path) or an arrayref. Either will be stored as an arrayref in the
 C<path> attribute.
 
 =cut
 
-sub loc {
+sub new_location {
   if ( 1 == scalar @_ ) {
     if ( blessed $_[0] and $_[0]->can('location') ) {
       return $_[0];

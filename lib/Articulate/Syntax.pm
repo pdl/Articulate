@@ -11,7 +11,6 @@ default_exports qw(
   new_response    new_request
   new_credentials new_permission
   new_location    new_location_specification
-  loc         locspec
   dpath_get   dpath_set
   hash_merge
   throw_error
@@ -34,7 +33,7 @@ use Articulate::Request;
 use Articulate::Response;
 
 # sub throw_error { Articulate::Error::throw_error(@_) };
-# sub loc         { Articulate::Location::loc(@_) };
+# sub new_location         { Articulate::Location::new_location(@_) };
 
 =head1 NAME
 
@@ -59,11 +58,11 @@ See L<Artciulate::Credentials>.
 
 See L<Artciulate::Permission>.
 
-=head3 loc
+=head3 new_location
 
 See L<Artciulate::Location>.
 
-=head3 locspec
+=head3 new_location_specification
 
 See L<Artciulate::LocationSpecification>.
 

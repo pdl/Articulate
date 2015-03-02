@@ -104,7 +104,7 @@ sub handle_create {
 sub handle_read {
   my $self       = shift;
   my $request    = shift;
-  my $location   = loc $request->data->{location};
+  my $location   = new_location $request->data->{location};
   my $user       = $request->user_id;
   my $permission = $self->authorisation->permitted( $user, read => $location );
   if ($permission) {
@@ -179,7 +179,7 @@ sub handle_delete {
   my $self    = shift;
   my $request = shift;
 
-  my $location = loc $request->data->{location};
+  my $location = new_location $request->data->{location};
 
   my $user = $request->user_id;
   my $permission = $self->authorisation->permitted( $user, write => $location );

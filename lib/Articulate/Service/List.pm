@@ -20,7 +20,7 @@ sub handle_list {
   my $self    = shift;
   my $request = shift;
 
-  my $location = loc $request->data->{location};
+  my $location = new_location $request->data->{location};
   my $sort     = $request->data->{sort}
     ; # needs careful validation as this can do all sorts of fun constructor logic
 
@@ -29,7 +29,7 @@ sub handle_list {
 
   if ($permission) {
     my $items = [];
-    foreach my $item_location ( map { loc "$location/$_" }
+    foreach my $item_location ( map { new_location "$location/$_" }
       $self->storage->list_items($location) )
     {
       if ( $self->authorisation->permitted( $user, read => $item_location ) ) {

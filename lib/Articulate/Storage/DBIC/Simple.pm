@@ -315,10 +315,10 @@ sub list_items {
   my $qm_location = $item->location;
   my $dbic_items  = $self->schema->resultset('Articulate::Item')
     ->search( { location => { like => $qm_location . '%' } } );
-  my $locspec = locspec( $location . '/*' );
+  my $location_specification = new_location_specification( $location . '/*' );
   return map { $_->[-1] }
-    grep     { $locspec->matches($_); }
-    map      { loc( $_->location ) } $dbic_items->all;
+    grep     { $location_specification->matches($_); }
+    map      { new_location( $_->location ) } $dbic_items->all;
 }
 
 =head3 empty_all_content

@@ -6,7 +6,7 @@ use warnings;
 # the order is important
 use Articulate;
 use Articulate::TestEnv;
-use Articulate::Syntax qw(loc);
+use Articulate::Syntax qw(new_location);
 use Scalar::Util qw(blessed);
 
 my $app = app_from_config();
@@ -99,13 +99,13 @@ foreach my $class (
     );
 
     # Test list_item
-    my @list = $storage->list_items( loc('zone/public/article') );
+    my @list = $storage->list_items( new_location('zone/public/article') );
     is( scalar @list, 1,             'list returns one item' );
     is( $list[0],     'hello-world', '... which is hello-world' );
     $storage->create_item(
       Articulate::Item->new( { content => "Foo", location => 'zone/public' } )
     );
-    @list = $storage->list_items( loc('zone') );
+    @list = $storage->list_items( new_location('zone') );
     is( scalar @list, 1,        'list returns one item' );
     is( $list[0],     'public', '... which is public' );
 

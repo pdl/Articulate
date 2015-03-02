@@ -15,14 +15,14 @@ sub handle_create_form {
   my $self       = shift;
   my $request    = shift;
   my $user       = $request->user_id;
-  my $location   = loc $request->data->{location};
+  my $location   = new_location $request->data->{location};
   my $permission = $self->authorisation->permitted( $user, write => $location );
 
   if ($permission) {
 
     return new_response 'form/create', {
       form => {
-        location => loc $location, # as string or arrayref?
+        location => new_location $location, # as string or arrayref?
       },
     };
   }
@@ -36,14 +36,14 @@ sub handle_upload_form {
   my $self       = shift;
   my $request    = shift;
   my $user       = $request->user_id;
-  my $location   = loc $request->data->{location};
+  my $location   = new_location $request->data->{location};
   my $permission = $self->authorisation->permitted( $user, write => $location );
 
   if ($permission) {
 
     return new_response 'form/upload', {
       form => {
-        location => loc $location, # as string or arrayref?
+        location => new_location $location, # as string or arrayref?
       },
     };
   }
@@ -56,7 +56,7 @@ sub handle_edit_form {
   my $self    = shift;
   my $request = shift;
 
-  my $location   = loc $request->data->{location};
+  my $location   = new_location $request->data->{location};
   my $user       = $request->user_id;
   my $permission = $self->authorisation->permitted( $user, write => $location );
 

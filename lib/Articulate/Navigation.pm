@@ -41,13 +41,13 @@ has locations => (
     my $orig = shift;
     my $new  = [];
     foreach my $l ( @{$orig} ) {
-      push @$new, locspec $l;
+      push @$new, new_location_specification $l;
     }
     return $new;
   },
 );
 
-# A locspec is like a location except it can contain "*": "/zone/*/article/"
+# A new_location_specification is like a location except it can contain "*": "/zone/*/article/"
 
 =head1 METHODS
 
@@ -65,7 +65,7 @@ C<locations>), undef otherwise.
 
 sub valid_location {
   my $self     = shift;
-  my $location = loc shift;
+  my $location = new_location shift;
   foreach my $defined_location ( @{ $self->locations } ) {
     if ( $defined_location->matches($location) ) {
       return $location;
@@ -77,15 +77,16 @@ sub valid_location {
 =head3 define_locspec
 
   $self->define_locspec('zone/*')
-  $self->define_locspec($locspec)
+  $self->define_locspec($location_specification)
 
-Adds a locspec to C<locations>, unless it is already there
+Adds a new_location_specification to C<locations>, unless it is already
+there
 
 =cut
 
 sub define_locspec {
   my $self     = shift;
-  my $location = locspec shift;
+  my $location = new_location_specification shift;
   foreach my $defined_location ( @{ $self->locations } ) {
     if ( ( $location eq $defined_location ) ) {
       return undef;
@@ -97,15 +98,15 @@ sub define_locspec {
 =head3 undefine_locspec
 
   $self->undefine_locspec('zone/*')
-  $self->undefine_locspec($locspec)
+  $self->undefine_locspec($location_specification)
 
-Removes a locspec from C<locations>.
+Removes a new_location_specification from C<locations>.
 
 =cut
 
 sub undefine_locspec {
   my $self     = shift;
-  my $location = locspec shift;
+  my $location = new_location_specification shift;
   my ( $removed, $kept ) = ( [], [] );
   foreach my $defined_location ( @{ $self->locations } ) {
     if ( ( "$location" eq "$defined_location" )

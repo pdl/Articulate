@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use Moo;
-use Articulate::Syntax qw( locspec );
+use Articulate::Syntax qw( new_location_specification );
 
 =head1 NAME
 
@@ -73,8 +73,8 @@ sub permitted {
   my $rules      = $self->rules;
   my $access     = undef;
 
-  foreach
-    my $rule_location ( sort { $#$a <=> $#$b } map { locspec $_ } keys %$rules )
+  foreach my $rule_location ( sort { $#$a <=> $#$b }
+    map { new_location_specification $_ } keys %$rules )
   {
     if ( $rule_location->matches_ancestor_of($location) ) {
       if ( grep { $_ eq $user_id } keys %{ $rules->{$rule_location} } ) {

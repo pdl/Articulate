@@ -8,7 +8,7 @@ use overload '""' => sub { shift->to_file_path }, '@{}' => sub { shift->path };
 use Articulate::Location;
 
 use Exporter::Declare;
-default_exports qw(locspec);
+default_exports qw(new_location_specification);
 
 =head1 NAME
 
@@ -18,8 +18,8 @@ Articulate::LocationSpecification - represent a specification
 
 =head1 DESCRIPTION
 
-  locspec ['zone', '*', 'article', 'hello-world']
-  locspec 'zone/*/article/hello-world' # same thing
+  new_location_specification ['zone', '*', 'article', 'hello-world']
+  new_location_specification 'zone/*/article/hello-world' # same thing
 
 An object class which represents a specification - like a 'pattern' or
 'glob', and provides methods so that it can be compared with locations.
@@ -34,15 +34,15 @@ L<Articulate::Authorisation::LocationBased>).
 
 =head1 FUNCTIONS
 
-=head3 locspec
+=head3 new_location_specification
 
-C<locspec> is a constructor. It takes either a string (in the form of a
-path) or an arrayref. Either will be stored as an arrayref in the
-C<path> attribute.
+C<new_location_specification> is a constructor. It takes either a
+string (in the form of a path) or an arrayref. Either will be stored as
+an arrayref in the C<path> attribute.
 
 =cut
 
-sub locspec {
+sub new_location_specification {
   if ( 1 == scalar @_ ) {
     if ( blessed $_[0] and $_[0]->isa('Articulate::LocationSpecification') ) {
       return $_[0];
@@ -124,9 +124,9 @@ sub _step_matches {
 
 =head3 matches
 
-  locspec('/zone/*')->matches(loc('/zone/public')) # true
-  locspec('/zone/*')->matches(loc('/')) # false
-  locspec('/zone/*')->matches(loc('/zone/public/article/hello-world')) # false
+  new_location_specification('/zone/*')->matches(new_location('/zone/public')) # true
+  new_location_specification('/zone/*')->matches(new_location('/')) # false
+  new_location_specification('/zone/*')->matches(new_location('/zone/public/article/hello-world')) # false
 
 Determines if the location given as the first argument matches the
 locspec.
@@ -135,7 +135,7 @@ locspec.
 
 sub matches {
   my $self     = shift;
-  my $location = loc shift;
+  my $location = new_location shift;
   return 0 unless $#$self == $#$location;
   return 1 if $#$self == -1; # go no further if both are empty
   for my $i ( 0 .. $#$self ) {
@@ -146,18 +146,18 @@ sub matches {
 
 =head3 matches_ancestor_of
 
-  locspec('/zone/*')->matches_ancestor_of(loc('/zone/public')) # true
-  locspec('/zone/*')->matches_ancestor_of(loc('/')) # false
-  locspec('/zone/*')->matches_ancestor_of(loc('/zone/public/article/hello-world')) # true
+  new_location_specification('/zone/*')->matches_ancestor_of(new_location('/zone/public')) # true
+  new_location_specification('/zone/*')->matches_ancestor_of(new_location('/')) # false
+  new_location_specification('/zone/*')->matches_ancestor_of(new_location('/zone/public/article/hello-world')) # true
 
 Determines if the location given as the first argument - or any
-ancestor thereof - matches the locspec.
+ancestor thereof - matches the new_location_specification.
 
 =cut
 
 sub matches_ancestor_of {
   my $self     = shift;
-  my $location = loc shift;
+  my $location = new_location shift;
   return 0 unless $#$self <= $#$location;
   return 1 if $#$self == -1; # go no further if self is empty
   for my $i ( 0 .. $#$self ) {
@@ -168,18 +168,18 @@ sub matches_ancestor_of {
 
 =head3 matches_descendant_of
 
-  locspec('/zone/*')->matches_descendant_of(loc('/zone/public')) # true
-  locspec('/zone/*')->matches_descendant_of(loc('/')) # true
-  locspec('/zone/*')->matches_descendant_of(loc('/zone/public/article/hello-world')) # false
+  new_location_specification('/zone/*')->matches_descendant_of(new_location('/zone/public')) # true
+  new_location_specification('/zone/*')->matches_descendant_of(new_location('/')) # true
+  new_location_specification('/zone/*')->matches_descendant_of(new_location('/zone/public/article/hello-world')) # false
 
 Determines if the location given as the first argument - or any
-descendant thereof - matches the locspec.
+descendant thereof - matches the new_location_specification.
 
 =cut
 
 sub matches_descendant_of {
   my $self     = shift;
-  my $location = loc shift;
+  my $location = new_location shift;
   return 0 unless $#$self >= $#$location;
   return 1 if $#$location == -1; # go no further if self is empty
   for my $i ( 0 .. $#$location ) {
