@@ -4,78 +4,82 @@ use warnings;
 
 use_ok $_ for qw(
   Articulate
-  Articulate::Syntax
-  Articulate::Authentication
-  Articulate::Service
+  Articulate::Augmentation
   Articulate::Augmentation::Interpreter
   Articulate::Augmentation::Interpreter::Markdown
-  Articulate::Error::Forbidden
-  Articulate::Error::Unauthorised
-  Articulate::Error::BadRequest
-  Articulate::Error::AlreadyExists
-  Articulate::Error::NotFound
-  Articulate::Error::Internal
-  Articulate::Item
-  Articulate::Sortation
-  Articulate::Validation
-  Articulate::Construction
+  Articulate::Authentication
+  Articulate::Authentication::Internal
+  Articulate::Authentication::Preconfigured
   Articulate::Authorisation
-  Articulate::Navigation
-  Articulate::Storage
-  Articulate::Location
-  Articulate::Enrichment::DateUpdated
+  Articulate::Authorisation::AlwaysAllow
+  Articulate::Authorisation::OwnerOverride
+  Articulate::Authorisation::Preconfigured
+  Articulate::Caching
+  Articulate::Caching::Native
+  Articulate::Construction
+  Articulate::Construction::LocationBased
+  Articulate::Credentials
+  Articulate::Enrichment
   Articulate::Enrichment::DateCreated
-  Articulate::TestEnv
-  Articulate::Sortation::String
-  Articulate::Sortation::MetaDelver
-  Articulate::Sortation::Slug
-  Articulate::Sortation::Numeric
-  Articulate::Serialisation
+  Articulate::Enrichment::DateUpdated
+  Articulate::Error
+  Articulate::Error::AlreadyExists
+  Articulate::Error::BadRequest
+  Articulate::Error::Forbidden
+  Articulate::Error::Internal
+  Articulate::Error::NotFound
+  Articulate::Error::Unauthorised
+  Articulate::File
   Articulate::Flow::ContentType
   Articulate::Flow::LocationSwitch
   Articulate::Flow::MetaSwitch
-  Articulate::Validation::NoScript
   Articulate::FrameworkAdapter
-  Articulate::Authentication::Preconfigured
-  Articulate::Authentication::Internal
-  Articulate::Role::Service
-  Articulate::Role::Routes
-  Articulate::Role::Sortation::AllYouNeedIsCmp
-  Articulate::Role::Flow
-  Articulate::Role::Component
+  Articulate::Item
+  Articulate::Item::Article
+  Articulate::Location
+  Articulate::LocationSpecification
+  Articulate::Navigation
   Articulate::Permission
+  Articulate::Request
+  Articulate::Response
+  Articulate::Role::Component
+  Articulate::Role::Flow
+  Articulate::Role::Routes
+  Articulate::Role::Service
+  Articulate::Role::Sortation::AllYouNeedIsCmp
+  Articulate::Role::Storage
   Articulate::Routes::Login
+  Articulate::Routes::Transparent
   Articulate::Routes::TransparentForms
   Articulate::Routes::TransparentPreviews
-  Articulate::Routes::Transparent
+  Articulate::Serialisation
   Articulate::Serialisation::Asset
-  Articulate::Serialisation::TemplateToolkit
   Articulate::Serialisation::SiteConfig
   Articulate::Serialisation::StatusSetter
-  Articulate::File
-  Articulate::Storage::Local
+  Articulate::Serialisation::TemplateToolkit
+  Articulate::Service
+  Articulate::Service::Error
+  Articulate::Service::List
+  Articulate::Service::Login
+  Articulate::Service::LoginForm
+  Articulate::Service::Simple
+  Articulate::Service::SimpleForms
+  Articulate::Service::SimplePreviews
+  Articulate::Sortation
+  Articulate::Sortation::MetaDelver
+  Articulate::Sortation::Numeric
+  Articulate::Sortation::Slug
+  Articulate::Sortation::String
+  Articulate::Storage
+  Articulate::Storage::DBIC::Simple
   Articulate::Storage::DBIC::Simple::Schema
   Articulate::Storage::DBIC::Simple::Schema::Result::Articulate::Item
-  Articulate::Storage::DBIC::Simple
+  Articulate::Storage::Local
+  Articulate::Syntax
   Articulate::Syntax::Routes
-  Articulate::Service::List
-  Articulate::Service::SimplePreviews
-  Articulate::Service::Simple
-  Articulate::Service::LoginForm
-  Articulate::Service::Login
-  Articulate::Service::Error
-  Articulate::Service::SimpleForms
-  Articulate::Error
-  Articulate::Enrichment
-  Articulate::LocationSpecification
-  Articulate::Response
-  Articulate::Request
-  Articulate::Augmentation
-  Articulate::Item::Article
-  Articulate::Construction::LocationBased
-  Articulate::Authorisation::OwnerOverride
-  Articulate::Authorisation::AlwaysAllow
-  Articulate::Authorisation::Preconfigured
+  Articulate::TestEnv
+  Articulate::Validation
+  Articulate::Validation::NoScript
 );
 
 done_testing;
