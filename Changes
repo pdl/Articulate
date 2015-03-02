@@ -1,7 +1,10 @@
 Revision history for Articulate
 
 v0.005 Unreleased
- - Constructor functions now of the form new_foo to standardise them
+ - Functional constructors change their names: response => new_response
+ - Explicitly require 5.10.1 - thanks to http://www.cpantesters.org/
+ - Improved test coverage, minor bugfixes
+ - Documentation fixes
 
 v0.004 2014-02-26
  - Meta and content retrieved from storage is now cached (gh #30)
@@ -10,7 +13,7 @@ v0.004 2014-02-26
  - Documentation fixes
 
 v0.003 2015-02-22
- - Fix for gh #33; now works on 5.10.0 - thanks to http://www.cpantesters.org/
+ - Fix for gh #33; now works on 5.10.x - thanks to http://www.cpantesters.org/
  - Documentation fixes - amazing what you notice when it's formatted differently!
 
 v0.002 2015-02-21
