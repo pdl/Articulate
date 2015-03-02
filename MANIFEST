@@ -115,6 +115,7 @@ t/Articulate-Authorisation-OwnerOverride.t
 t/Articulate-Flow-LocationSwitch.t
 t/Articulate-Flow-MetaSwitch.t
 t/Articulate-LocationSpecification.t
+t/Articulate-Navigation.t
 t/Articulate-Role-Service.t
 t/Articulate-Service.t
 t/Articulate-Service-Simple.t
