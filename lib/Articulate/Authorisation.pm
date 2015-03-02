@@ -5,8 +5,7 @@ use warnings;
 use Moo;
 with 'Articulate::Role::Component';
 
-use Articulate::Syntax qw(instantiate_array);
-use Articulate::Permission;
+use Articulate::Syntax qw( new_permission instantiate_array );
 
 =head1 NAME
 
@@ -49,7 +48,7 @@ sub permitted {
   my $user_id  = shift;
   my $verb     = shift;
   my $location = shift;
-  my $p        = permission( $user_id, $verb, $location );
+  my $p        = new_permission( $user_id, $verb, $location );
   foreach my $rule ( @{ $self->rules } ) {
     my $authed_role;
     if ( $rule->permitted($p) ) {

@@ -20,7 +20,7 @@ sub handle_create_form {
 
   if ($permission) {
 
-    return response 'form/create', {
+    return new_response 'form/create', {
       form => {
         location => loc $location, # as string or arrayref?
       },
@@ -41,7 +41,7 @@ sub handle_upload_form {
 
   if ($permission) {
 
-    return response 'form/upload', {
+    return new_response 'form/upload', {
       form => {
         location => loc $location, # as string or arrayref?
       },
@@ -68,7 +68,7 @@ sub handle_edit_form {
 
     # we don't want to interpret at this point
 
-    return response 'form/edit', {
+    return new_response 'form/edit', {
       raw => {
         meta     => $item->meta,
         content  => $item->content,
@@ -98,7 +98,7 @@ sub handle_delete_form {
     my $item_class = $item->location->[-2];
     $self->augmentation->augment($item) or throw_error 'Internal'; # or throw
 
-    return response 'form/delete', {
+    return new_response 'form/delete', {
       $item_class => {
         schema   => $item->meta->{schema},
         content  => $item->content,

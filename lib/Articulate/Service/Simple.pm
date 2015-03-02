@@ -27,7 +27,8 @@ Articulate::Service::Simple - provide create, read, update, delete
     location => '...'
   }
 
-Creates new content. Throws an error if the content already exists or if the user has no write permission on that location.
+Creates new content. Throws an error if the content already exists or
+if the user has no write permission on that location.
 
 =head3 handle_read
 
@@ -35,7 +36,8 @@ Creates new content. Throws an error if the content already exists or if the use
     location => '...'
   }
 
-Retrieves the content at that location. Throws an error if the content does not exist or if the user has no read permission on that location.
+Retrieves the content at that location. Throws an error if the content
+does not exist or if the user has no read permission on that location.
 
 =head3 handle_update
 
@@ -45,7 +47,8 @@ Retrieves the content at that location. Throws an error if the content does not 
     location => '...'
   }
 
-Updates the content at that location. Throws an error if the content does not exist or if the user has no write permission on that location.
+Updates the content at that location. Throws an error if the content
+does not exist or if the user has no write permission on that location.
 
 =head3 handle_delete
 
@@ -53,7 +56,8 @@ Updates the content at that location. Throws an error if the content does not ex
     location => '...'
   }
 
-Deletes the content at that location. Throws an error if the content does not exist or if the user has no write permission on that location.
+Deletes the content at that location. Throws an error if the content
+does not exist or if the user has no write permission on that location.
 
 =cut
 
@@ -83,7 +87,7 @@ sub handle_create {
     my $item_class = $item->location->[-2];
     $self->augmentation->augment($item);          # this will throw if it fails
 
-    return response $item_class, {
+    return new_response $item_class, {
       $item_class => {
         schema   => $item->meta->{schema},
         content  => $item->content,
@@ -117,7 +121,7 @@ sub handle_read {
 
     $self->augmentation->augment($item); # or throw
 
-    return response $item_class => {
+    return new_response $item_class => {
       $item_class => {
         schema  => $item->meta->{schema},
         content => $item->content,
@@ -157,7 +161,7 @@ sub handle_update {
     my $item_class = $item->location->[-2];
     $self->augmentation->augment($item) or throw_error 'Internal'; # or throw
 
-    return response $item_class, {
+    return new_response $item_class, {
       $item_class => {
         schema   => $item->meta->{schema},
         content  => $item->content,
@@ -182,7 +186,7 @@ sub handle_delete {
   if ($permission) {
     throw_error 'NotFound' unless $self->storage->item_exists($location);
     $self->storage->delete_item($location) or throw_error 'Internal'; # or throw
-    return response 'success', {};
+    return new_response 'success', {};
   }
   else {
     return throw_error Forbidden => $permission->reason;

@@ -4,13 +4,13 @@ use warnings;
 
 use Articulate::TestEnv;
 use Articulate::Service::Simple;
-use Articulate::Syntax qw(articulate_request);
+use Articulate::Syntax qw(new_request);
 use FindBin;
 my $app = app_from_config();
 
 my $service = Articulate::Service::Simple->new( { app => $app } );
 
-sub req { articulate_request @_ }
+sub req { new_request @_ }
 
 my $creation_response = $service->handle_create(
   req create => {

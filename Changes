@@ -1,5 +1,8 @@
 Revision history for Articulate
 
+v0.005 Unreleased
+ - Constructor functions now of the form new_foo to standardise them
+
 v0.004 2014-02-26
  - Meta and content retrieved from storage is now cached (gh #30)
  - Fix to Dancer2 example config so it doesn't complain about not having a YAML engine

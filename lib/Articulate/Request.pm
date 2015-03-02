@@ -13,18 +13,19 @@ Articulate::Request - represent a request
 
 =head1 FUNCTIONS
 
-=head3 articulate_request
+=head3 new_request
 
-  my $request = articulate_request verb => $data;
+  my $request = new_request verb => $data;
 
-Creates a new request, using the verb and data supplied as the respective arguments.
+Creates a new request, using the verb and data supplied as the
+respective arguments.
 
 =cut
 
 use Exporter::Declare;
-default_exports qw(articulate_request);
+default_exports qw(new_request);
 
-sub articulate_request {
+sub new_request {
   __PACKAGE__->new(
     {
       verb => shift,
@@ -57,7 +58,10 @@ sub perform {
 
 =head3 verb
 
-The action being performed, e.g. C<create>, C<read>, etc. The verbs available are entirely dependant on the application: A request will be handled by a service provider (see Articulate::Service) which will typically decide if it can fulfil the request based on the verb.
+The action being performed, e.g. C<create>, C<read>, etc. The verbs
+available are entirely dependant on the application: A request will be
+handled by a service provider (see Articulate::Service) which will
+typically decide if it can fulfil the request based on the verb.
 
 =cut
 
@@ -68,7 +72,9 @@ has verb => (
 
 =head3 data
 
-The information passed along with the request, e.g. C<< { location => '/zone/public/article/hello-world' } >>. This should always be a hashref.
+The information passed along with the request, e.g. C<< { location =>
+'/zone/public/article/hello-world' } >>. This should always be a
+hashref.
 
 =cut
 
@@ -90,7 +96,8 @@ has app => (
 
 =head3 user_id
 
-The user_id making the request. This is typically inferred from the framework.
+The user_id making the request. This is typically inferred from the
+framework.
 
 =cut
 

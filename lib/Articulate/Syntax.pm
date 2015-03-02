@@ -8,8 +8,9 @@ use Module::Load ();
 use Exporter::Declare;
 default_exports qw(
   instantiate instantiate_array instantiate_selection instantiate_array_selection
-  response    articulate_request
-  credentials permission
+  new_response    new_request
+  new_credentials new_permission
+  new_location    new_location_specification
   loc         locspec
   dpath_get   dpath_set
   hash_merge

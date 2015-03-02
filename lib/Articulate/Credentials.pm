@@ -13,19 +13,20 @@ Articulate::Credentials - represent an authentication request/response
 
 =head1 FUNCTIONS
 
-=head3 credentials
+=head3 new_credentials
 
-  my $credentials = credentials $user_id, $password;
-  my $credentials = credentials { email => $email, api_key => $key };
+  my $credentials = new_credentials $user_id, $password;
+  my $credentials = new_credentials { email => $email, api_key => $key };
 
-Creates a new request, using the user_id and password supplied as the respective arguments; or other fields if they are supplied instead.
+Creates a new request, using the user_id and password supplied as the
+respective arguments; or other fields if they are supplied instead.
 
 =cut
 
 use Exporter::Declare;
-default_exports qw(credentials);
+default_exports qw(new_credentials);
 
-sub credentials {
+sub new_credentials {
   return shift if ref $_[0] eq __PACKAGE__;
   __PACKAGE__->new(
     {
@@ -53,7 +54,8 @@ An unremarkable Moo constructor.
 
   $credentials->accept('Password matched');
 
-Declares that the credentials are valid, for the reason given; sets C<accpeted> and C<rejected> and populates the stack trace.
+Declares that the credentials are valid, for the reason given; sets
+C<accpeted> and C<rejected> and populates the stack trace.
 
 =cut
 
@@ -72,7 +74,8 @@ sub accept {
 
   $credentials->reject('User not found');
 
-Declares that the credentials are invalid, for the reason given; sets C<accpeted> and C<rejected> and populates the stack trace.
+Declares that the credentials are invalid, for the reason given; sets
+C<accpeted> and C<rejected> and populates the stack trace.
 
 =cut
 
@@ -103,7 +106,8 @@ has fields => (
 
 =head3 accepted
 
-Whether or not the credentials have been explicitly accepted. The value of this is used for overload behaviour.
+Whether or not the credentials have been explicitly accepted. The value
+of this is used for overload behaviour.
 
 Please do not explicitly set this. Use C<accept> instead.
 

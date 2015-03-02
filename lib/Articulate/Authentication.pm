@@ -4,7 +4,8 @@ use warnings;
 
 use Moo;
 with 'Articulate::Role::Component';
-use Articulate::Syntax qw(credentials instantiate_array);
+
+use Articulate::Syntax qw(new_credentials instantiate_array);
 
 =head1 NAME
 
@@ -42,15 +43,23 @@ has providers => (
   $authentication->login($credentials);
   $authentication->login( $user_id, $password );
 
-Asks each provider if the credentials supplied match a known user. Credentials may be in whatever form will satisfy the C<credentials> function in L<Articulate::Credentials> (username and password, hashref or credentials object).
+Asks each provider if the credentials supplied match a known user.
+Credentials may be in whatever form will satisfy the C<credentials>
+function in L<Articulate::Credentials> (username and password, hashref
+or credentials object).
 
-Each provider must respond true, false, or undef. A true value means the user is authenticated. A false value means that the user exists but is explicitly refused access (this should only be used in exceptional circumstances) and an undef value means the user cannot be authenticated by the provider (but could be authenticated by some other provider).
+Each provider must respond true, false, or undef. A true value means
+the user is authenticated. A false value means that the user exists but
+is explicitly refused access (this should only be used in exceptional
+circumstances) and an undef value means the user cannot be
+authenticated by the provider (but could be authenticated by some other
+provider).
 
 =cut
 
 sub login {
   my $self        = shift;
-  my $credentials = credentials @_;
+  my $credentials = new_credentials @_;
   foreach my $provider ( @{ $self->providers } ) {
     return $credentials if $provider->authenticate($credentials);
     return $credentials if $credentials->rejected;
@@ -62,7 +71,8 @@ sub login {
 
   $authentication->create_user( $user_id, $password );
 
-Requests that a new user is created. Each provider must respond true, false, or undef.
+Requests that a new user is created. Each provider must respond true,
+false, or undef.
 
 =cut
 

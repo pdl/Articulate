@@ -6,7 +6,7 @@ use Moo;
 use Scalar::Util qw(blessed);
 
 use Exporter::Declare;
-default_exports qw(response);
+default_exports qw(new_response);
 
 =head1 NAME
 
@@ -18,15 +18,17 @@ Articulate::Response - represent a response
 
 =head3 response
 
-=head3 articulate_response
+=head3 new_response
 
-  my $response = response type => $data;
+  my $response = new_response type => $data;
 
-Creates a new response, using the type and data supplied as the respective arguments. Using this constructor, the error code will be 200 unless C<type> is C<error>.
+Creates a new response, using the type and data supplied as the
+respective arguments. Using this constructor, the error code will be
+200 unless C<type> is C<error>.
 
 =cut
 
-sub response {
+sub new_response {
   my ( $type, $data ) = @_;
   my $http_code =
     $type eq 'error'
@@ -82,9 +84,12 @@ sub serialise
 
 =head3 http_code
 
-The HTTP response code which best applies to the response. The default is 500.
+The HTTP response code which best applies to the response. The default
+is 500.
 
-It is not guaranteed that this will be passed to the ultimate client (e.g. a later error may cause a 500; the service may be accessed in a way other than HTTP).
+It is not guaranteed that this will be passed to the ultimate client
+(e.g. a later error may cause a 500; the service may be accessed in a
+way other than HTTP).
 
 =cut
 
@@ -96,7 +101,8 @@ has http_code => (
 
 =head3 type
 
-The type of response, which will be used by serialisers etc. to determine how to complete processing (e.g. which template to use).
+The type of response, which will be used by serialisers etc. to
+determine how to complete processing (e.g. which template to use).
 
 =cut
 
@@ -107,7 +113,8 @@ has type => (
 
 =head3 data
 
-The actual content of the response, including any metadata. Typically this will be of the form
+The actual content of the response, including any metadata. Typically
+this will be of the form
 
   {
     item => {

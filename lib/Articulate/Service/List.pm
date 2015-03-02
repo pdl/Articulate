@@ -45,7 +45,7 @@ sub handle_list {
       }
     }
     my $sorter = Articulate::Sortation::MetaDelver->new($sort);
-    return response 'list', {
+    return new_response 'list', {
       list => [
         map {
           {

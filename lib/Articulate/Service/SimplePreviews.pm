@@ -27,9 +27,12 @@ Articulate::Service::SimplePreviews - provide preview
     location => '...'
   }
 
-This is in almost all respects identical to the C<create> verb in L<Articulate::Service::Simple> with the exception that nothing is written.
+This is in almost all respects identical to the C<create> verb in
+L<Articulate::Service::Simple> with the exception that nothing is
+written.
 
-Throws an error if the content already exists or if the user has no write permission on that location.
+Throws an error if the content already exists or if the user has no
+write permission on that location.
 
 =cut
 
@@ -60,7 +63,7 @@ sub handle_preview {
 
     $self->augmentation->augment($item_class);    # this will throw if it fails
 
-    return response $item_class, {
+    return new_response $item_class, {
       $item_class => {
         schema   => $item->meta->{schema},
         content  => $item->content,

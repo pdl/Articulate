@@ -23,9 +23,11 @@ Articulate::Service::Login - provide login, logout
 
   $self->handle_login( {user_id => 'admin', password => 'secret!' } )
 
-Tries to authenticate a user and, if successful, sets a session var (see L<Articulate::FrameworkAdapter>).
+Tries to authenticate a user and, if successful, sets a session var
+(see L<Articulate::FrameworkAdapter>).
 
-Returns C<< {user_id => $user_id } >> if successful, throws an error otherwise.
+Returns C<< {user_id => $user_id } >> if successful, throws an error
+otherwise.
 
 =head1 handle_logout
 
@@ -47,7 +49,7 @@ sub handle_login {
   if ( defined $user_id ) {
     if ( $self->authentication->login( $user_id, $password ) ) {
       $self->framework->user_id($user_id);
-      response success => { user_id => $user_id };
+      return new_response success => { user_id => $user_id };
     } # Can we handle all the exceptions with 403s?
     else {
       throw_error Forbidden => 'Incorrect credentials';
@@ -65,7 +67,7 @@ sub handle_logout {
   my $request = shift;
   my $user_id = $self->framework->user_id;
   $self->framework->session->destroy();
-  response success => { user_id => $user_id };
+  return new_response success => { user_id => $user_id };
 }
 
 1;

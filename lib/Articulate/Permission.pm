@@ -15,18 +15,19 @@ Articulate::Permission - represent a permission request/response
 
 =head1 FUNCTIONS
 
-=head3 permission
+=head3 new_permission
 
-  my $permission = permission $user, verb => $location;
+  my $permission = new_permission $user, verb => $location;
 
-Creates a new request, using the verb and data supplied as the respective arguments.
+Creates a new permission request, using the user, verb and location
+supplied as the respective arguments.
 
 =cut
 
 use Exporter::Declare;
-default_exports qw(permission);
+default_exports qw(new_permission);
 
-sub permission {
+sub new_permission {
   __PACKAGE__->new(
     {
       user_id => shift // '[guest]',
@@ -48,7 +49,8 @@ An unremarkable Moo constructor.
 
   $permission->grant('Anybody can do that!');
 
-Declares that the user has that permission, for the reason given; sets C<granted> and C<denied> and populates the stack trace.
+Declares that the user has that permission, for the reason given; sets
+C<granted> and C<denied> and populates the stack trace.
 
 =cut
 
@@ -67,7 +69,8 @@ sub grant {
 
   $permission->deny('Don\t touch that!');
 
-Declares that the user does not have that permission, for the reason given; sets C<granted> and C<denied> and populates the stack trace.
+Declares that the user does not have that permission, for the reason
+given; sets C<granted> and C<denied> and populates the stack trace.
 
 =cut
 
@@ -98,9 +101,13 @@ has user_id => (
 
 =head3 verb
 
-The action being performed, e.g. C<read>, C<write>, etc. The verbs available are entirely dependant on the application.
+The action being performed, e.g. C<read>, C<write>, etc. The verbs
+available are entirely dependant on the application.
 
-A permission request will be granted or denied by an authorisation rule (see Articulate::Authorisation), who will typically implement verbs that bay be different from but are either a) broader than, or b) equally broad as, the verbs used by the Articulate::Service.
+A permission request will be granted or denied by an authorisation rule
+(see Articulate::Authorisation), who will typically implement verbs
+that bay be different from but are either a) broader than, or b)
+equally broad as, the verbs used by the Articulate::Service.
 
 =cut
 
@@ -122,7 +129,8 @@ has location => (
 
 =head3 granted
 
-Whether or not the permission has been explicitly granted. The value of this is used for overload behaviour.
+Whether or not the permission has been explicitly granted. The value of
+this is used for overload behaviour.
 
 Please do not explicitly set this. Use C<grant> instead.
 

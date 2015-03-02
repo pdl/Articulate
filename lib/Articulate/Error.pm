@@ -29,9 +29,13 @@ These are things like C<Articulate::Error::Forbidden>.
 =cut
 
 sub throw_error {
+  new_error(@_)->throw;
+}
+
+sub new_error {
   my ( $type, $message ) = @_;
   my $class = __PACKAGE__ . ( $type ? '::' . $type : '' );
-  $class->throw( { ( $message ? ( simple_message => $message ) : () ) } );
+  $class->new( { ( $message ? ( simple_message => $message ) : () ) } );
 }
 
 use Moo;
