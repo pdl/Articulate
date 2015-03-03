@@ -42,19 +42,19 @@ Articulate
 
 =head1 FUNCTIONS
 
-=head3 response
+=head3 new_response
 
 See L<Artciulate::Response>.
 
-=head3 articulate_request
+=head3 new_request
 
 See L<Artciulate::Request>.
 
-=head3 credentials
+=head3 new_credentials
 
 See L<Artciulate::Credentials>.
 
-=head3 permission
+=head3 new_permission
 
 See L<Artciulate::Permission>.
 
