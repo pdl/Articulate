@@ -1,14 +1,15 @@
 Revision history for Articulate
 
-v0.005 Unreleased
+v0.005 2014-03-04
  - Functional constructors change their names: response => new_response
  - Explicitly require 5.10.1 - thanks to http://www.cpantesters.org/
+ - Fix to example so it doesn't require Template::Plugin::YAML
  - Improved test coverage, minor bugfixes
  - Documentation fixes
 
 v0.004 2014-02-26
  - Meta and content retrieved from storage is now cached (gh #30)
- - Fix to Dancer2 example config so it doesn't complain about not having a YAML engine
+ - Fix to Dancer2 example config so it doesn't complain about not having a YAML engine (which didn't work)
  - Validation now works on items (gh #34)
  - Documentation fixes
 
