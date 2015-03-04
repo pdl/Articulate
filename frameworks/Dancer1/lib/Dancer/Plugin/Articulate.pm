@@ -4,7 +4,7 @@ use warnings;
 
 use Dancer::Plugin;
 use Articulate;
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 =head1 NAME
 
@@ -25,8 +25,10 @@ Dancer::Plugin::Articulate - use Articulate in your Dancer App
         framework: Articulate::FrameworkAdapter::Dancer1
       # Other Articulate config goes here
 
-Creates an instance of L<Articulate> using your Dancer config, and enables the app, declaring routes, etc.
-See L<Articulate> for how to configure and use it, and L<Articulate::FrameworkAdapter::Dancer1> for details of the integration between Dancer1 and Articulate.
+Creates an instance of L<Articulate> using your Dancer config, and
+enables the app, declaring routes, etc. See L<Articulate> for how to
+configure and use it, and L<Articulate::FrameworkAdapter::Dancer1> for
+details of the integration between Dancer1 and Articulate.
 
 =head1 SEE ALSO
 
@@ -52,11 +54,15 @@ register_plugin();
 
 =head1 BUGS
 
-Bugs should be reported to the L<github issue tracker|https://github.com/pdl/Articulate/issues>. Pull Requests welcome!
+Bugs should be reported to the L<github issue
+tracker|https://github.com/pdl/Articulate/issues>. Pull Requests
+welcome!
 
 =head1 COPYRIGHT
 
-Articulate is Copyright 2014-2015 Daniel Perrett. You are free to use it subject to the same terms as perl: see the LICENSE file included in this distribution for what this means.
+Articulate is Copyright 2014-2015 Daniel Perrett. You are free to use
+it subject to the same terms as perl: see the LICENSE file included in
+this distribution for what this means.
 
 =cut
 

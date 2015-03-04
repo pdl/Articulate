@@ -1,5 +1,8 @@
 Revision history for Dancer::Plugin::Articulate
 
+v0.003 2015-03-04
+ - Minor fixes; requires and works on 5.10.1
+
 v0.002 2015-02-22
  - Documentation fixes
  - skip_all on t/pod-coverage.t unless Test::POD::Coverage is installed
