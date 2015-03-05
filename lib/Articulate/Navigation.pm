@@ -79,8 +79,8 @@ sub valid_location {
   $self->define_locspec('zone/*')
   $self->define_locspec($location_specification)
 
-Adds a new_location_specification to C<locations>, unless it is already
-there
+Adds a location specification to C<locations>, unless it is already
+there.
 
 =cut
 
@@ -100,7 +100,7 @@ sub define_locspec {
   $self->undefine_locspec('zone/*')
   $self->undefine_locspec($location_specification)
 
-Removes a new_location_specification from C<locations>.
+Removes a location specification from C<locations>.
 
 =cut
 
