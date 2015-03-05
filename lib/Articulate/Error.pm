@@ -50,8 +50,11 @@ An ordinary Moo constructor.
 
 =head3 throw
 
-Implements the C<Throwable> role - basically C<< die
-__PACKAGE__->new(@_) >>.
+Implements the C<Throwable> role - which basically amounts to
+
+  sub throw {
+    die __PACKAGE__->new(@_)
+  }
 
 =head1 ATTRIBUTES
 
