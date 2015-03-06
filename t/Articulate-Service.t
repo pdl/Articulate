@@ -18,7 +18,9 @@ ok( grep { $_ eq 'create' } @$verbs );
 
 foreach my $args (
   [ create => { location => 'zone/public/article/hello-world' } ],
-  new_request( create => { location => 'zone/public/article/hello-world', } ),
+  [
+    new_request( create => { location => 'zone/public/article/hello-world', } )
+  ],
   )
 {
   my $why = (
