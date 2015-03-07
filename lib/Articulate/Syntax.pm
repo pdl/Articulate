@@ -11,9 +11,9 @@ default_exports qw(
   new_response    new_request
   new_credentials new_permission
   new_location    new_location_specification
+  new_error       throw_error
   dpath_get   dpath_set
   hash_merge
-  throw_error
   select_from
   is_single_key_hash
 );
@@ -65,6 +65,10 @@ See L<Artciulate::Location>.
 =head3 new_location_specification
 
 See L<Artciulate::LocationSpecification>.
+
+=head3 new_error, throw_error
+
+See L<Artciulate::Error>.
 
 =cut
 
