@@ -14,7 +14,7 @@ use overload '""' =>
   sub { my $self = shift; $self->http_code() . ' ' . $self->simple_message };
 
 use Exporter::Declare;
-default_exports qw(throw_error);
+default_exports qw(new_error throw_error);
 
 =head1 FUNCTIONS
 
@@ -31,6 +31,16 @@ These are things like C<Articulate::Error::Forbidden>.
 sub throw_error {
   new_error(@_)->throw;
 }
+
+=head3 new_error
+
+  new_error 'Forbidden';
+  new_error NotFound => "I don't want to alarm you, but it seems to be missiong";
+
+This creates an error of the type provided - but does not throw it.
+These are things like C<Articulate::Error::Forbidden>.
+
+=cut
 
 sub new_error {
   my ( $type, $message ) = @_;
