@@ -9,9 +9,29 @@ my $class = 'Articulate::LocationSpecification';
 
 my $test_suite = [
   {
+    new_location => '/',
+    spec         => '/',
+    expect       => 1,
+  },
+  {
     new_location => 'zone/public/article/hello-world',
     spec         => 'zone/public/article/hello-world',
     expect       => 1,
+  },
+  {
+    new_location => 'zone/public/article/hello-world',
+    spec         => 'zone/public/article/goodbye',
+    expect       => 0,
+  },
+  {
+    new_location => 'zone/public/article/hello-world',
+    spec         => 'zone/public/article/hello-world/*/*',
+    expect       => 'descendant',
+  },
+  {
+    new_location => 'zone/public/article/hello-world',
+    spec         => 'zone/*/article/goodbye',
+    expect       => 0,
   },
   {
     new_location => 'zone/public/article/hello-world',
@@ -63,13 +83,19 @@ foreach my $case (@$test_suite) {
 
     foreach my $method ( keys %$expect ) {
       if ( $expect->{$method} ) {
-        ok( $spec->$method($location), $method );
+        ok( $spec->$method($location), "$method should be true" );
       }
       else {
-        ok( !$spec->$method($location), $method );
+        ok( !$spec->$method($location), "$method should be false" );
       }
     }
     }
 }
+
+ok new_location_specification( { path => [ 'a', 'b' ] } )
+  ->matches( new_location 'a/b' );
+ok new_location_specification( new_location 'a/b' )
+  ->matches( new_location 'a/b' );
+ok new_location_specification(undef)->matches( new_location '/' );
 
 done_testing();
