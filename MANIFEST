@@ -110,6 +110,7 @@ MYMETA.yml
 README.md
 Stories.md
 t/001_base.t
+t/Articulate-Authentication-Preconfigured.t
 t/Articulate-Authorisation-AlwaysAllow.t
 t/Articulate-Authorisation-OwnerOverride.t
 t/Articulate-Flow-LocationSwitch.t

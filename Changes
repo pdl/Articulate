@@ -1,5 +1,8 @@
 Revision history for Articulate
 
+v0.006 Unreleased
+ - Articulate::Authentication::Preconfigured returns credentials even when user_id or password is undef
+
 v0.005 2014-03-04
  - Functional constructors change their names: response => new_response
  - Explicitly require 5.10.1 - thanks to http://www.cpantesters.org/
