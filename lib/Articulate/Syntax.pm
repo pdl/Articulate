@@ -44,31 +44,31 @@ Articulate
 
 =head3 new_response
 
-See L<Artciulate::Response>.
+See L<Articulate::Response>.
 
 =head3 new_request
 
-See L<Artciulate::Request>.
+See L<Articulate::Request>.
 
 =head3 new_credentials
 
-See L<Artciulate::Credentials>.
+See L<Articulate::Credentials>.
 
 =head3 new_permission
 
-See L<Artciulate::Permission>.
+See L<Articulate::Permission>.
 
 =head3 new_location
 
-See L<Artciulate::Location>.
+See L<Articulate::Location>.
 
 =head3 new_location_specification
 
-See L<Artciulate::LocationSpecification>.
+See L<Articulate::LocationSpecification>.
 
 =head3 new_error, throw_error
 
-See L<Artciulate::Error>.
+See L<Articulate::Error>.
 
 =cut
 
