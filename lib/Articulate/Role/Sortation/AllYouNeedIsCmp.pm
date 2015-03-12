@@ -5,7 +5,8 @@ use Moo::Role;
 
 =head1 NAME
 
-Articulate::Role::Sortation::AllYouNeedIsCmp - provides sortation methods derived from you cmp method
+Articulate::Role::Sortation::AllYouNeedIsCmp - provides sortation
+methods derived from your cmp method
 
 =head1 SYNOPSIS
 
@@ -16,7 +17,9 @@ Articulate::Role::Sortation::AllYouNeedIsCmp - provides sortation methods derive
   sub decorate { ... } # optional
   1;
 
-Provides the C<sort> and C<schwartz> funtions. These call on the C<cmp> method (which you are exected to write) and, optionally, the C<decorate> method (if it exists).
+Provides the C<sort> and C<schwartz> funtions. These call on the C<cmp>
+method (which you are exected to write) and, optionally, the
+C<decorate> method (if it exists).
 
 =cut
 
@@ -24,7 +27,8 @@ Provides the C<sort> and C<schwartz> funtions. These call on the C<cmp> method (
 
 =head3 order
 
-Convenience method which inspects the C<order> value of the C<options> hash and returns it (or returns C<asc>) if undefined).
+Convenience method which inspects the C<order> value of the C<options>
+hash and returns it (or returns C<asc>) if undefined).
 
 =cut
 
@@ -60,7 +64,9 @@ sub sort {
 
   $sorter->schwartz( [items] );
 
-Performs a schwartxian transform using C<decorate>, and sorts the decorated items using C<cmp>, then returns the originals in the sorted order.
+Performs a schwartxian transform using C<decorate>, and sorts the
+decorated items using C<cmp>, then returns the originals in the sorted
+order.
 
 =cut
 

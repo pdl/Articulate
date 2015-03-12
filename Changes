@@ -1,7 +1,10 @@
 Revision history for Articulate
 
 v0.006 Unreleased
+ - Articulate::Syntax now exports new_error
  - Articulate::Authentication::Preconfigured returns credentials even when user_id or password is undef
+ - Improved test coverage, minor bugfixes
+ - Documentation fixes
 
 v0.005 2014-03-04
  - Functional constructors change their names: response => new_response
